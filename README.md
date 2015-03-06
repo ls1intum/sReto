@@ -22,55 +22,55 @@ Reto is designed to be easily extensible to use other networking technologies by
   - RemoteP2PModule: Uses an online server to facilitate communication between peers. This module enables peers to discover each other and communicate over the Internet; however, a RemoteP2P server is required. 
 
 
-
 Installation
 ------------
-
-** Swift / Objective C **
 
 Reto is provided as a standard Xcode project that includes framework targets for Reto on iOS and Mac OS X. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto (using Xcode 6.1).
 
  1. Open the Xcode project in which you want to include Reto. Drag & drop the sReto.xcodeproj into your project.
  2. Select your project and add sReto in as a target dependency and link your project with it in the "Build Phases" tab.
- 3. 
-      a In Swift, import Reto using "import sReto" depending on your target platform.
-      b In Objective-C, import Reto using "@import sReto;"
+ 3. Import the module in your code:
+  1. In Swift, import Reto using "import sReto" depending on your target platform.
+  2. In Objective-C, import Reto using "@import sReto;"
  
 Usage
 -----
 
-** Starting Discovery/Advertisement **
+**Starting Discovery/Advertisement**
 
 Advertisement and discovery is managed by the `LocalPeer` class. A `LocalPeer` requires one or more Reto Modules to function. In this example, we will use the `WlanModule`.
 
 *Swift*
 
-    // 1. Create the WlanModule
-    let wlanModule = WlanModule(type: "ExampleType")
-    // 2. Create the LocalPeer
-    let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
-    // 3. Starting the LocalPeer
-    localPeer.start(
-        onPeerDiscovered: { peer in println("Discovered peer: \(peer)) },
-        onPeerRemoved: { peer in println("Removed peer: \(peer)) },
-        onIncomingConnection: { peer, connection in println("Received incoming connection: \(connection) from peer: \(peer)) }
-    )
-
+```swift
+// 1. Create the WlanModule
+let wlanModule = WlanModule(type: "ExampleType")
+// 2. Create the LocalPeer
+let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
+// 3. Starting the LocalPeer
+localPeer.start(
+  onPeerDiscovered: { peer in println("Discovered peer: \(peer)) },
+  onPeerRemoved: { peer in println("Removed peer: \(peer)) },
+  onIncomingConnection: { peer, connection in println("Received incoming connection: \(connection) from peer: \(peer)) }
+)
+```
 
 *Objective C*
 
-    // 1. Create the WlanModule
-    WlanModule* wlanModule = [[WlanModule alloc] initWithType: "ExampleType"];
-    // 2. Create the LocalPeer
-    LocalPeer* localPeer = [[LocalPeer alloc] initWithModules: @[wlanModule] dispatchQueue: dispatch_get_main_queue())
-    // 3. Starting the LocalPeer
-    [localPeer startOnPeerDiscovered:^(RemotePeer *peer) {
-        NSLog(@"Found peer: %@", peer);
-    } onPeerRemoved:^(RemotePeer *peer) {
-        NSLog(@"Removed peer: %@", peer);
-    } onIncomingConnection:^(RemotePeer *peer, Connection *connection) {
-        NSLog(@"Received incoming connection: %@ from peer: %@", connection, peer);
-    }];
+```objc
+// 1. Create the WlanModule
+WlanModule* wlanModule = [[WlanModule alloc] initWithType: "ExampleType"];
+// 2. Create the LocalPeer
+LocalPeer* localPeer = [[LocalPeer alloc] initWithModules: @[wlanModule] dispatchQueue: dispatch_get_main_queue())
+// 3. Starting the LocalPeer
+[localPeer startOnPeerDiscovered:^(RemotePeer *peer) {
+  NSLog(@"Found peer: %@", peer);
+} onPeerRemoved:^(RemotePeer *peer) {
+  NSLog(@"Removed peer: %@", peer);
+} onIncomingConnection:^(RemotePeer *peer, Connection *connection) {
+  NSLog(@"Received incoming connection: %@ from peer: %@", connection, peer);
+}];
+```
 
 Any two applications that use the same type parameter for the WlanModule will discover each other in a local area network. Therefore, you should choose a unique type parameter.
 
@@ -88,10 +88,11 @@ When starting the `LocalPeer`, three closures are passed as parameters.
 
 The first closure gives you access to `RemotePeer` objects, which can be used to establish connections with those peers.
 
-** Establishing Connections and Sending Data **
+**Establishing Connections and Sending Data**
 
 *Swift*
 
+```swift
     // 1. Establishing a connection
     let connection = someRemotePeer.connect()
     // 2. Registering a callback the onClose event
@@ -100,21 +101,24 @@ The first closure gives you access to `RemotePeer` objects, which can be used to
     connection.onData = { connection, data in println("Received data!") }
     // 4. Sending data
     connection.send(data: someData)
+```
 
 *Objective C*
 
-    // 1. Establishing a connection
-    Connection *connection = [someRemotePeer connect];
-    // 2. Registering a callback the onClose event
-    connection.onClose = ^(Connection* connection) {
-        NSLog(@"Connection closed.");
-    };
-    // 3. Receiving data
-    connection.onData = ^(Connection* connection, NSData* data) {
-         NSLog(@"Received data!");
-    }
-    // 4. Sending data
-    [connection sendData: someData];
+```objc
+// 1. Establishing a connection
+Connection *connection = [someRemotePeer connect];
+// 2. Registering a callback the onClose event
+connection.onClose = ^(Connection* connection) {
+  NSLog(@"Connection closed.");
+};
+// 3. Receiving data
+connection.onData = ^(Connection* connection, NSData* data) {
+  NSLog(@"Received data!");
+}
+// 4. Sending data
+[connection sendData: someData];
+```
 
 A `Connection` can be established by simply calling the `connect` method on a `RemotePeer`. 
 
@@ -123,44 +127,48 @@ It allows you to register a number of callbacks for various events, for example,
 In this example, the `onData` callback is set, which is called when data was received. For more control over data transfers, use the `onTransfer` callback.
 
 
-** Data Transfers ** 
+**Data Transfers** 
 
 While the above techniques can be used to send data, you may want access about more information. The `Transfer` class gives access to more information and tools. The following just gives a short example of how using these features might look; however, the `Transfer` class offers more methods and features. Check the class documentation to learn more.
 
 *Swift*
 
-    // 1. Configuring a connection to receive transfers example
-    someConnection.onTransfer = { 
-        connection, transfer in 
-        // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
-        transfer.onPartialData = { transfer, data in println("Received a chunk of data!") }
-        // 3. Registering for progress updates
-        transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
-    }
-   
-    // 4. Sending a transfer example
-    let transfer = someConnection.send(dataLength: someData.length, dataProvider: { range -> somehowProvideDataForRange(range) })
-    // 5. Registering for progress updates
-    transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
+```swift
+// 1. Configuring a connection to receive transfers example
+someConnection.onTransfer = { 
+  connection, transfer in 
+  // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
+  transfer.onPartialData = { transfer, data in println("Received a chunk of data!") }
+  // 3. Registering for progress updates
+  transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
+}
+ 
+// 4. Sending a transfer example
+let transfer = someConnection.send(dataLength: someData.length, dataProvider: { range -> somehowProvideDataForRange(range) })
+// 5. Registering for progress updates
+transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
+```
 
 *Objective C*
 
-    // 1. Configuring a connection to receive transfers example
-    connection.onTransfer = ^(Connection* connection, InTransfer* transfer) {
-         // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
-        transfer.onPartialData = ^(Transfer* transfer, NSData* data) {
-            NSLog(@"Received a chunk of data!");
-        };
-        // 3. Registering for progress updates
-        transfer.onProgress = ^(Transfer* transfer) {
-            NSLog(@"Current progress: %li of %li", transfer.progress, (long)transfer.length);
-        };
-    };
-    // 4. Sending a transfer example
-    Transfer* transfer = [connection sendWithDataLength: 1 dataProvider:^NSData *(NSRange range) {
-        return somehowProvideDataForRange(range);
-    }];
-    // 5. Registering for progress updates
-    transfer.onProgress = ^(Transfer* transfer) {
-        NSLog(@"Current progress: %li of %li", transfer.progress, transfer.length);
-    };
+```objc
+// 1. Configuring a connection to receive transfers example
+connection.onTransfer = ^(Connection* connection, InTransfer* transfer) {
+  // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
+  transfer.onPartialData = ^(Transfer* transfer, NSData* data) {
+    NSLog(@"Received a chunk of data!");
+  };
+  // 3. Registering for progress updates
+  transfer.onProgress = ^(Transfer* transfer) {
+    NSLog(@"Current progress: %li of %li", transfer.progress, (long)transfer.length);
+  };
+};
+// 4. Sending a transfer example
+Transfer* transfer = [connection sendWithDataLength: 1 dataProvider:^NSData *(NSRange range) {
+  return somehowProvideDataForRange(range);
+}];
+// 5. Registering for progress updates
+transfer.onProgress = ^(Transfer* transfer) {
+  NSLog(@"Current progress: %li of %li", transfer.progress, transfer.length);
+};
+```
