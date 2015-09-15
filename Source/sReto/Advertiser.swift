@@ -9,7 +9,7 @@
 /**
 * The AdvertiserDelegate protocol allows the Advertiser to inform its delegate about various events.
 */
-@objc(RTAdvertiserDelegate) public protocol AdvertiserDelegate {
+public protocol AdvertiserDelegate: class {
     /** Called when the advertiser started advertising. */
     func didStartAdvertising(advertiser: Advertiser)
     /** Called when the advertiser stopped advertising. */
@@ -21,7 +21,7 @@
 /** 
 * An advertiser advertises the local peer, and allows other peers to establish connections to this peer.
 */
-@objc(RTAdvertiser) public protocol Advertiser {
+public protocol Advertiser: class {
     /** Whether the advertiser is currently active. */
     var isAdvertising: Bool { get }
     /** The Advertiser's delegate. */

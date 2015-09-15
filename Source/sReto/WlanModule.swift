@@ -12,24 +12,24 @@ import Foundation
 *
 * If you wish to use it, all you need to do is construct an instance and pass it to the LocalPeer either in the constructor or using the addModule method.
 * */
-@objc(RTWlanModule) public class WlanModule: NSObject, Module {
+public class WlanModule: Module {
     let networkType: String
     let recommendedPacketSize = 32*1024
-    var dispatchQueue: dispatch_queue_t!
+    var m_dispatchQueue: dispatch_queue_t!
     
     public func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
-        self.dispatchQueue = dispatchQueue
+        self.m_dispatchQueue = dispatchQueue
     }
     
     public lazy var advertiser: Advertiser = BonjourAdvertiser(
         networkType: self.networkType,
-        dispatchQueue: self.dispatchQueue,
+        dispatchQueue: self.m_dispatchQueue,
         advertiser: WlanBonjourServiceAdvertiser(),
         recommendedPacketSize: self.recommendedPacketSize
     )
     public lazy var browser: Browser = BonjourBrowser(
         networkType: self.networkType,
-        dispatchQueue: self.dispatchQueue,
+        dispatchQueue: self.m_dispatchQueue,
         browser: WlanBonjourServiceBrowser(),
         recommendedPacketSize: self.recommendedPacketSize
     )
@@ -40,7 +40,6 @@ import Foundation
     * @param dispatchQueue: The dispatch queue used with this module. Use the same one as you used with the LocalPeer.
     */
     public init(type: String) {
-        self.recommendedPacketSize = 32*1024
         self.networkType = "_\(type)wlan._tcp."
     }
 }

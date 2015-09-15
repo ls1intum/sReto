@@ -21,7 +21,7 @@ protocol WeightedEdgeAnnotation {
 * A DefaultEdge is a WeightedEdgeAnnotation that stores a weight only.
 */
 public struct DefaultEdge: WeightedEdgeAnnotation {
-    let weight: Double = 1
+    var weight: Double = 1
 }
 
 /** An Edge stores a start and end vertex, plus an edge annotation. */
@@ -44,7 +44,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /** All vertices contained in this graph. */
     var allVertices: Set<V> { get { return Set(self.adjacencyList.keys) } }
     /** All edges contained in this graph. */
-    var allEdges: [Edge<V,E>] { get { return map(self.allVertices, { self.getEdges(startingAtVertex: $0) ?? [] }).reduce([], +) } }
+    var allEdges: [Edge<V,E>] { get { return self.allVertices.map({ self.getEdges(startingAtVertex: $0) ?? [] }).reduce([], combine: +) } }
     
     /** Constructs a new graph given the list of adjacencies for each node. */
     init(_ adjacencyList: [V: [(vertex: V, annotation: E)]] = [:]) {
@@ -74,9 +74,9 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /**
     * Returns a new graph corresponding to this graph, with the edge annotations mapped to new ones.
     */
-    func mapEdges<F>(mapping: (E) -> F) -> Graph<V, F> {
-        return Graph<V, F>(self.adjacencyList.mapValues {
-            $1.map { (vertex: $0.vertex, edge: mapping($0.annotation)) }
+    func mapEdges<F: WeightedEdgeAnnotation>(mapping: (E) -> F) -> Graph<V, F> {
+        return Graph<V, F>(self.adjacencyList.mapValues { vertex, adjacencies in
+            adjacencies.map { (vertex: $0.vertex, edge: mapping($0.annotation)) }
         })
     }
     /**
@@ -138,14 +138,14 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @return The shortest edge starting and ending at the specified vertices.
     */
     func getShortestEdge(startingAtVertex startVertex: V, endingAtVertex endVertex: V) -> Edge<V,E>? {
-        return minimum(self.getEdges(startingAtVertex: startVertex, endingAtVertex: endVertex) ?? [], comparing { $0.annotation.weight })
+        return minimum(self.getEdges(startingAtVertex: startVertex, endingAtVertex: endVertex) ?? [], comparator: comparing { $0.annotation.weight })
     }
     /** 
     * Tests whether the graph contains a given vertex.
     * @param vertex The vertex in question.
     * @return True if the graph contains that vertex. False otherwise.
     */
-    func contains(#vertex: V) -> Bool {
+    func contains(vertex vertex: V) -> Bool {
         return self.adjacencyList[vertex] != nil
     }
     /**
@@ -236,7 +236,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
                         return result
                     }
                 }
-                .reduce([], +)
+                .reduce([], combine: +)
             
             return [vertex] + recursiveResults
         }
@@ -260,7 +260,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
 
         while !unvisitedVertices.isEmpty {
             if let closestVertex = workingSet.removeMinimum() {
-                if let end = endVertex { if closestVertex == endVertex { break } }
+                if let _ = endVertex { if closestVertex == endVertex { break } }
                 
                 let closestVertexDistance = shortestKnownDistancesByVertex[closestVertex]!
                 unvisitedVertices -= closestVertex
@@ -301,19 +301,19 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
         let (predecessorVertices, distances) = self.shortestPaths(start, endVertex: end)
         
         // The predecessor dictionary allows us to construct the path in reverse order.
-        if let predecessor = predecessorVertices[end] {
+        if let _ = predecessorVertices[end] {
             var current: V? = end
             
             // Essentially, this creates the sequence [predecessorVertices[end], predecessorVertices[predecessorVertices[end]], ...]
-            let reversePathSequence = SequenceOf (
-                GeneratorOf({
+            let reversePathSequence = AnySequence (
+                anyGenerator({
                     () -> V? in
                     current = predecessorVertices[current!]
                     return current
                 })
             )
             
-            return (path: Array(reversePathSequence).reverse() + [end], length: distances[end]!)
+            return (path: Array(Array(reversePathSequence).reverse()) + [end], length: distances[end]!)
         } else {
             if start == end {
                 return (path: [end], length: 0)
@@ -329,13 +329,13 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @return The minimum aborescence
     */
     func getMinimumAborescenceGraph(startVertex: V) -> Graph<V, E> {
-        let (predecessorRelationships, distances) = self.shortestPaths(startVertex)
+        let (predecessorRelationships, _) = self.shortestPaths(startVertex)
         
         var result = Graph<V, E>()
         
         for (node, predecessor) in predecessorRelationships {
             if let edges = self.getEdges(startingAtVertex: predecessor, endingAtVertex: node) {
-                if let edge = minimum(edges, comparing { $0.annotation.weight }) {
+                if let edge = minimum(edges, comparator: comparing { $0.annotation.weight }) {
                     result.addEdge(edge)
                 }
             }
@@ -345,7 +345,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     }
 }
 
-extension Graph: Printable {
+extension Graph: CustomStringConvertible {
     var description: String { get { return adjacencyList.description } }
 }
 

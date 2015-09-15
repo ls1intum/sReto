@@ -12,7 +12,7 @@ import Foundation
 * A MulticastConnection acts like a normal underlying connection, but sends all data written to it using a set of subconnections.
 * Data received from any subconnection is reported to the delegate.
 */
-class MulticastConnection : UnderlyingConnection, UnderlyingConnectionDelegate {
+class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
     /** The subconnections used with this connection */
     var subconnections: [UnderlyingConnection] = []
     
@@ -30,8 +30,8 @@ class MulticastConnection : UnderlyingConnection, UnderlyingConnectionDelegate {
    
     // MARK: UnderlyingConnection protocol
     var delegate: UnderlyingConnectionDelegate?
-    var isConnected: Bool { get { return subconnections.map({ $0.isConnected }).reduce(false, { $0 && $1 }) } }
-    var recommendedPacketSize: Int { get { return minElement(subconnections.map { $0.recommendedPacketSize }) } }
+    var isConnected: Bool { get { return subconnections.map({ $0.isConnected }).reduce(false, combine: { $0 && $1 }) } }
+    var recommendedPacketSize: Int { get { return subconnections.map { $0.recommendedPacketSize }.minElement()! } }
     
     func connect() {
         for connection in self.subconnections { connection.connect() }
@@ -66,7 +66,7 @@ class MulticastConnection : UnderlyingConnection, UnderlyingConnectionDelegate {
     }
     func didSendData(connection: UnderlyingConnection) {
         if self.dataSentCallbacksToBeReceived == 0 {
-            println("Received unexpected didSendData call.")
+            print("Received unexpected didSendData call.")
             return
         }
         

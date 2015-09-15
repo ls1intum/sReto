@@ -8,24 +8,24 @@
 
 import Foundation
 
-@objc(RTBluetoothModule) public class BluetoothModule : Module {
+public class BluetoothModule: Module {
     let networkType: String
     let recommendedPacketSize = 1024
-    var dispatchQueue: dispatch_queue_t!
+    var m_dispatchQueue: dispatch_queue_t!
     
-    public func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
-        self.dispatchQueue = dispatchQueue
+    @objc public func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
+        self.m_dispatchQueue = dispatchQueue
     }
     
     public lazy var advertiser: Advertiser = BonjourAdvertiser(
         networkType: self.networkType,
-        dispatchQueue: self.dispatchQueue,
+        dispatchQueue: self.m_dispatchQueue,
         advertiser: BluetoothBonjourServiceAdvertiser(),
         recommendedPacketSize: self.recommendedPacketSize
     )
     public lazy var browser: Browser = BonjourBrowser(
         networkType: self.networkType,
-        dispatchQueue: self.dispatchQueue,
+        dispatchQueue: self.m_dispatchQueue,
         browser: BluetoothBonjourServiceBrowser(),
         recommendedPacketSize: self.recommendedPacketSize
     )

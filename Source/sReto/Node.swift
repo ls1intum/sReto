@@ -40,7 +40,7 @@ class Node: Hashable, PacketHandler {
         }
     }
     /** Returns the best direct address available to this node, based on the know Addresses' cost heuristic. */
-    var bestAddress: Address? { get { return minimum(self.directAddresses, comparing { $0.cost }) } }
+    var bestAddress: Address? { get { return minimum(self.directAddresses, comparator: comparing { $0.cost }) } }
     /** If a connection should be established to this node, this property stores the next hop in the optimal route, as well as the total cost to the node. */
     var reachableVia: (nextHop: Node, cost: Int)? = nil
     /** The next hop to use when establishing a connection to this node (if the optimal route should be used). */
@@ -58,7 +58,7 @@ class Node: Hashable, PacketHandler {
     }
     /** Removes a direct address from this node */
     func removeAddress(address: Address) {
-        self.directAddresses = self.directAddresses.filter { existingAddress in existingAddress !== address }
+        self.directAddresses = self.directAddresses.filter { $0 !== address }
     }
     
     // MARK: Routing Connections (for routing information exchange)
@@ -82,7 +82,7 @@ class Node: Hashable, PacketHandler {
                 self.router.onNeighborReachable(self)
             },
             onFail: {
-                println("Failed to establish routing connection.")
+                print("Failed to establish routing connection.")
             }
         )
     }

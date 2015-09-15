@@ -85,7 +85,7 @@ class RepeatedExecutor {
     private func resume() {
         if !self.isStarted { return }
         
-        self.timer = Timer.repeat(
+        self.timer = Timer.`repeat`(
             interval: self.regularDelay,
             dispatchQueue: self.dispatchQueue,
             action: {

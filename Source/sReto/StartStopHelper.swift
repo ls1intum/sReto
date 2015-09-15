@@ -50,8 +50,7 @@ class RetryableActionExecutor {
     */
     func start() {
         if self.timer != nil { return }
-        
-        let (initialDelay, backoffFactor, maximumDelay) = self.timerSettings
+
         self.timer = Timer.repeatWithBackoff(
             timerSettings: self.timerSettings,
             dispatchQueue: self.dispatchQueue,

@@ -9,7 +9,7 @@
 /**
 * The BrowserDelegate protocol allows an implementation of the Browser protocol to inform it's delegate about various events.
 */
-@objc(RTBrowserDelegate) public protocol BrowserDelegate {
+public protocol BrowserDelegate: class {
     /** Called when the Browser started to browse. */
     func didStartBrowsing(browser: Browser)
     /** Called when the Browser stopped to browse. */
@@ -21,7 +21,7 @@
 }
 
 /** A Browser attempts to discover other peers; it is the counterpart to the same module's advertiser. */
-@objc(RTBrowser) public protocol Browser {
+public protocol Browser: class {
     /** Whether the Browser is currently active. */
     var isBrowsing: Bool { get }
     /** The Browser's delegate */

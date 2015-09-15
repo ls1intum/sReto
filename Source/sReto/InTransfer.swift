@@ -11,7 +11,7 @@ import Foundation
 /**
 * An InTransfer represents a data transfer from a remote peer to the local peer. The connection class generates InTransfer instances when a remote peer sends data.
 */
-@objc(RTInTransfer) public class InTransfer: Transfer {
+public class InTransfer: Transfer {
     // MARK: Events
     
     // Called when the transfer completes with the full data received. Buffers the data in memory until the transfer is complete. Alternative to onPartialData. If both are set, onPartialData is used.
@@ -23,7 +23,7 @@ import Foundation
     func updateWithReceivedData(data: NSData) {
         if let onPartialData = self.onPartialData {
             onPartialData(self, data)
-        } else if let onCompleteData = self.onCompleteData {
+        } else if self.onCompleteData != nil {
             if self.dataBuffer == nil { self.dataBuffer = NSMutableData(capacity: self.length) }
             dataBuffer?.appendData(data)
         } else {

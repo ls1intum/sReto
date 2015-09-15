@@ -68,15 +68,15 @@ struct MulticastHandshake: Packet {
         let destinationsCount = Int(data.getInteger())
         
         if destinationsCount == 0 {
-            println("Invalid MulticastHandshake: no destinations specified.")
+            print("Invalid MulticastHandshake: no destinations specified.")
             return nil
         }
         if data.checkRemaining(destinationsCount * sizeof(UUID)) == false {
-            println("Invalid MulticastHandshake: not enough data to read destinations.")
+            print("Invalid MulticastHandshake: not enough data to read destinations.")
             return nil
         }
         var destinations: Set<UUID> = []
-        for i in 0..<destinationsCount { destinations += data.getUUID() }
+        for _ in 0..<destinationsCount { destinations += data.getUUID() }
         
         if let nextHopTree = deserializeNextHopTree(data) {
             return MulticastHandshake(sourcePeerIdentifier: sourcePeerIdentifier, destinationIdentifiers: destinations, nextHopTree: nextHopTree)
@@ -99,7 +99,7 @@ struct MulticastHandshake: Packet {
     
     static func deserializeNextHopTree(data: DataReader) -> Tree<UUID>? {
         if !data.checkRemaining(sizeof(UUID) + sizeof(Int32)) {
-            println("Invalid MulticastHandshake: not enough data to read tree.")
+            print("Invalid MulticastHandshake: not enough data to read tree.")
             return nil
         }
         
@@ -107,7 +107,7 @@ struct MulticastHandshake: Packet {
         let subtreeCount = data.getInteger()
         var subtrees: Set<Tree<UUID>> = []
         
-        for i in 0..<subtreeCount {
+        for _ in 0..<subtreeCount {
             if let child = deserializeNextHopTree(data) {
                 subtrees += child
             } else {

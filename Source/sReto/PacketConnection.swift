@@ -205,7 +205,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
                 log(.High, warning: "There was no PacketHandler registered for the type \(packetType) (raw: \(packetType.rawValue)) with the PacketConnection \(self). It will be dismissed.")
             }
         } else {
-            println("Unknown packet type: \(packetType)")
+            print("Unknown packet type: \(packetType)")
         }
     }
     func didSendData(connection: UnderlyingConnection) {

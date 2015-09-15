@@ -20,26 +20,26 @@ func |> <T,U>(lhs : T, rhs : T -> U) -> U {
 
 // Curried adapter function for Swift Standard Library's filter() function
 func filter<S :SequenceType>(includeElement: (S.Generator.Element) -> Bool)(source: S) -> [S.Generator.Element] {
-    let e: [S.Generator.Element] = filter(source, includeElement)
+    let e: [S.Generator.Element] = source.filter(includeElement)
     return e
 }
 
 // Curried adapter function for Swift Standard Library's sorted() function
 func sorted<S : SequenceType>(predicate: (S.Generator.Element, S.Generator.Element) -> Bool)(source: S) -> [S.Generator.Element] {
-    return sorted(source, predicate)
+    return source.sort(predicate)
 }
 
 // Curried adapter function for Swift Standard Library's map() function
 func map<C : SequenceType, T>(transform: (C.Generator.Element) -> T)(source: C) -> [T] {
-    return map(source, transform)
+    return source.map(transform)
 }
 
 // Curried adapter function for Swift Standard Library's reduce() function
 func reduce<S: SequenceType, U>(initial: U, combine: (U, S.Generator.Element) -> U)(sequence: S) -> U {
-    return reduce(sequence, initial, combine)
+    return sequence.reduce(initial, combine: combine)
 }
 
 // version of enumerate that works with forward piping
-func seqEnumerate<S: SequenceType>(sequence: S) -> SequenceOf<(index: Int, element: S.Generator.Element)> {
-    return SequenceOf(enumerate(sequence))
+func seqEnumerate<S: SequenceType>(sequence: S) -> AnySequence<(index: Int, element: S.Generator.Element)> {
+    return AnySequence(sequence.enumerate())
 }

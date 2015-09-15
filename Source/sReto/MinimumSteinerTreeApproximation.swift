@@ -9,15 +9,15 @@
 import Foundation
 
 struct MetricClosureEdgeAnnotation<V>: WeightedEdgeAnnotation {
-    let path: [V] = []
-    let weight: Double
+    var path: [V] = []
+    var weight: Double
     
     static func combine(edge1: MetricClosureEdgeAnnotation<V>, _ edge2: MetricClosureEdgeAnnotation<V>, _ separatingVertex: V) -> MetricClosureEdgeAnnotation<V> {
         return MetricClosureEdgeAnnotation(path: edge1.path + [separatingVertex] + edge2.path, weight: edge1.weight + edge2.weight)
     }
 }
 
-extension MetricClosureEdgeAnnotation: Printable {
+extension MetricClosureEdgeAnnotation: CustomStringConvertible {
     var description: String { return "(\(path): \(weight))" }
 }
 
@@ -28,7 +28,7 @@ extension Graph {
     * @param includedVertices A set of vertices that should be included in the minimum steiner tree.
     * @return A tree representation of the computed tree.
     */
-    func getSteinerTreeApproximation(#rootVertex: V, includedVertices: Set<V>) -> Tree<V> {
+    func getSteinerTreeApproximation(rootVertex rootVertex: V, includedVertices: Set<V>) -> Tree<V> {
         return Graph.reconstruct(
             self.getMetricClosure(includedVertices).getMinimumAborescenceGraph(rootVertex)
         )

@@ -16,9 +16,9 @@ class Tree<T: Hashable> {
     /** The tree's associated value */
     let value: T
     /** The tree's subtrees */
-    let subtrees: Set<Tree<T>> = []
+    var subtrees: Set<Tree<T>> = []
     /** The tree's size */
-    var size: Int { get { return reduce(subtrees.map({ $0.size }), 1, +) } }
+    var size: Int { get { return subtrees.map({ $0.size }).reduce(1, combine: +) } }
     /** Whether the tree is a leaf */
     var isLeaf: Bool { get { return subtrees.count == 0 } }
     
@@ -38,6 +38,6 @@ func ==<T: Equatable>(tree1: Tree<T>, tree2: Tree<T>) -> Bool {
     return tree1.value == tree2.value && tree1.subtrees == tree2.subtrees
 }
 
-extension Tree: Printable {
+extension Tree: CustomStringConvertible {
     var description: String { get { return "{value: \(value), children: \(subtrees)}" } }
 }

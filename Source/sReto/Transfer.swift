@@ -14,7 +14,7 @@ import Foundation
 * OutTransfers are created by calling one of the send methods on the Connection class.
 * InTransfers are created by the Connection class when the connected peer starts a data transfer. At this point, the connection's onTransfer event is invoked. Thus, InTransfers can be obtained by using the onTransfer event exposed by the Connection class.
 */
-@objc(RTTransfer) public class Transfer: NSObject {
+public class Transfer {
     // MARK: Events
     
     // Called when the transfer starts. If this property is set when the transfer is already started, the closure is called immediately.

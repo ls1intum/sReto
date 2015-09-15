@@ -29,12 +29,12 @@ struct RoutingTableChange<T> {
 
 /** Finds the next hop to a given destination node based on the predecessor relationships of the nodes. */
 private func findNextHop<T>(predecessorRelationships: [T: T], destination: T) -> T {
-    let path = Array(
+    let path = Array(Array(
         iterateMapping(
             initialState: destination,
             mapping: { predecessorRelationships[$0] }
         )
-    ).reverse()
+    ).reverse())
     
     return path[1]
 }
@@ -133,7 +133,7 @@ class LinkStateRoutingTable<T: Hashable> {
     }
 
     func nextHop(destination: T) -> T? {
-        if let (path, length) = graph.shortestPath(self.localNode, end: destination) {
+        if let (path, _) = graph.shortestPath(self.localNode, end: destination) {
             return path[1]
         }
         
@@ -160,26 +160,25 @@ class LinkStateRoutingTable<T: Hashable> {
         
         let (updatedPredecessorRelationships, updatedDistances) = graph.shortestPaths(self.localNode)
         
-        let nowReachable = map(
-            Set(updatedPredecessorRelationships.keys) - Set(previousPredecessorRelationships.keys),
+        let nowReachable = (Set(updatedPredecessorRelationships.keys) - Set(previousPredecessorRelationships.keys)).map(
             {
                 (
                     node: $0,
-                    nextHop: findNextHop(updatedPredecessorRelationships, $0),
+                    nextHop: findNextHop(updatedPredecessorRelationships, destination: $0),
                     cost: updatedDistances[$0]!
                 )
             }
         )
         let nowUnreachable = Set(previousPredecessorRelationships.keys) - Set(updatedPredecessorRelationships.keys)
         
-        let changedRoutes = intersect(Set(updatedPredecessorRelationships.keys), Set(previousPredecessorRelationships.keys))
+        let changedRoutes = Set(updatedPredecessorRelationships.keys).intersect(Set(previousPredecessorRelationships.keys))
             |> filter {
                 previousDistances[$0] != updatedDistances[$0] ||
-                    findNextHop(previousPredecessorRelationships, $0) != findNextHop(updatedPredecessorRelationships, $0)
+                    findNextHop(previousPredecessorRelationships, destination: $0) != findNextHop(updatedPredecessorRelationships, destination: $0)
             }
             |> map { (
                 node: $0,
-                nextHop: findNextHop(updatedPredecessorRelationships, $0),
+                nextHop: findNextHop(updatedPredecessorRelationships, destination: $0),
                 oldCost: previousDistances[$0]!,
                 newCost: updatedDistances[$0]!
                 )

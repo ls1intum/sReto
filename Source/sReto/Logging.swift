@@ -57,21 +57,21 @@ func log(type: LogType, priority: LogPriority, message: String) {
     if priority.rawValue > verbositySetting.rawValue { return }
     
     switch type {
-        case .Info: println("Reto[Info] \(NSDate()): \(message)")
-        case .Warning: println("Reto[Warn] \(NSDate()): \(message)")
-        case .Error: println("Reto[Error] \(NSDate()): \(message)")
+        case .Info: print("Reto[Info] \(NSDate()): \(message)")
+        case .Warning: print("Reto[Warn] \(NSDate()): \(message)")
+        case .Error: print("Reto[Error] \(NSDate()): \(message)")
     }
 }
 
 /** Convenice method; prints a information message with a given priority. */
-func log(priority: LogPriority, #info: String) {
-    log(.Info, priority, info)
+func log(priority: LogPriority, info: String) {
+    log(.Info, priority: priority, message: info)
 }
 /** Convenice method; prints a warning message with a given priority. */
-func log(priority: LogPriority, #warning: String) {
-    log(.Warning, priority, warning)
+func log(priority: LogPriority, warning: String) {
+    log(.Warning, priority: priority, message: warning)
 }
 /** Convenice method; prints a error message with a given priority. */
-func log(priority: LogPriority, #error: String) {
-    log(.Error, priority, error)
+func log(priority: LogPriority, error: String) {
+    log(.Error, priority: priority, message: error)
 }

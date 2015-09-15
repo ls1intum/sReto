@@ -55,7 +55,7 @@ class GraphTests: XCTestCase {
     
     func testDijkstraTrivial2() {
         let graph = Graph<String, DefaultEdge>(["A": [("B", DefaultEdge(weight: 1))]])
-        println(graph.allVertices)
+        print(graph.allVertices)
         if let (path, length) = graph.shortestPath("A", end: "B") {
             XCTAssert(length == 1, "Length is not 1")
             XCTAssert(path == ["A", "B"], "Path incorrect")

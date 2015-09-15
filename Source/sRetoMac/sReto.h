@@ -14,8 +14,6 @@ FOUNDATION_EXPORT double sRetoVersionNumber;
 //! Project version string for sRetoMac.
 FOUNDATION_EXPORT const unsigned char sRetoVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <sRetoMac/PublicHeader.h>
-
 // Local Connectivity
 #import "GCDAsyncSocket.h"
 

@@ -51,11 +51,11 @@ class Packets {
     * @param minimumLength The minimum length required for the packet to be valid
     * @return Whether the conditions are met
     */
-    class func check(#data: DataReader, expectedType: PacketType, minimumLength: Int) -> Bool {
-        if !data.checkRemaining(minimumLength) { println("Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining)."); return false }
+    class func check(data data: DataReader, expectedType: PacketType, minimumLength: Int) -> Bool {
+        if !data.checkRemaining(minimumLength) { print("Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining)."); return false }
         let type = data.getInteger()
         if type != expectedType.rawValue {
-            println("Could not parse, invalid packet type: \(type)")
+            print("Could not parse, invalid packet type: \(type)")
             return false
         }
         

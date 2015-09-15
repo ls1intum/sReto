@@ -84,7 +84,7 @@ class ReliabilityManager: NSObject, PacketHandler {
         self.isExpectedToReconnect = isExpectedToReconnect
         self.localIdentifier = localIdentifier
         self.dispatchQueue = dispatchQueue
-        self.destinationIdentifiers = packetConnection.destinations.map { $0.identifier }
+        self.destinationIdentifiers = Set(packetConnection.destinations.map { $0.identifier })
         
         super.init()
         

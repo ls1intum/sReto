@@ -29,16 +29,16 @@ class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NSNetSer
         self.delegate?.didStop()
     }
     
-    func netServiceDidPublish(sender: NSNetService!) {
-        //println("published wlan bonjour address: \(sender.name)")
+    func netServiceDidPublish(sender: NSNetService) {
+        //print("published wlan bonjour address: \(sender.name)")
         self.delegate?.didPublish()
     }
-    func netService(sender: NSNetService!, didNotPublish errorDict: [NSObject : AnyObject]!) {
-        println("failed to publish on wlan: \(errorDict)")
+    func netService(sender: NSNetService, didNotPublish errorDict: [String : NSNumber]) {
+        print("failed to publish on wlan: \(errorDict)")
         self.delegate?.didNotPublish()
     }
-    func netServiceDidStop(sender: NSNetService!) {
-        println("stopped publishing on wlan")
+    func netServiceDidStop(sender: NSNetService){
+        print("stopped publishing on wlan")
         self.delegate?.didStop()
     }
 }

@@ -20,7 +20,9 @@ class CompositeBrowser: NSObject, Browser, BrowserDelegate {
 
         super.init()
         
-        for browser in self.browsers { browser.browserDelegate = self }
+        for browser in self.browsers {
+            browser.browserDelegate = self
+        }
     }
     
     func addBrowser(browser: Browser) {
@@ -44,12 +46,12 @@ class CompositeBrowser: NSObject, Browser, BrowserDelegate {
     }
     
     func didStartBrowsing(browser: Browser) {
-        if self.browsers.map({ !$0.isBrowsing }).reduce(true, { $0 && $1 }) {
+        if self.browsers.map({ !$0.isBrowsing }).reduce(true, combine: { $0 && $1 }) {
             self.browserDelegate?.didStopBrowsing(self)
         }
     }
     func didStopBrowsing(browser: Browser) {
-        if self.browsers.map({ $0.isBrowsing }).reduce(true, { $0 && $1 }) {
+        if self.browsers.map({ $0.isBrowsing }).reduce(true, combine: { $0 && $1 }) {
             self.browserDelegate?.didStopBrowsing(self)
         }
     }

@@ -27,7 +27,7 @@ func second<S: SequenceType, E where E == S.Generator.Element>(sequence: S) -> E
 
 func reduce<S: SequenceType, E where S.Generator.Element == E>(sequence: S, combine: (E, E) -> E) -> E? {
     if let first = first(sequence) {
-        return reduce(sequence, first, combine)
+        return sequence.reduce(first, combine: combine)
     } else {
         return nil
     }
@@ -36,14 +36,14 @@ func reduce<S: SequenceType, E where S.Generator.Element == E>(sequence: S, comb
 func pairwise<T>(elements: [T]) -> [(T, T)] {
     var elementCopy = elements
     elementCopy.removeAtIndex(0)
-    return Array(Zip2(elements, elementCopy))
+    return Array(Zip2Sequence(elements, elementCopy))
 }
 
 func sum<S: SequenceType where S.Generator.Element == Int>(sequence: S) -> Int {
-    return reduce(sequence, 0, +)
+    return sequence.reduce(0, combine: +)
 }
 func sum<S: SequenceType where S.Generator.Element == Float>(sequence: S) -> Float {
-    return reduce(sequence, 0, +)
+    return sequence.reduce(0, combine: +)
 }
 // Takes a key extractor that maps an element to a comparable value, and returns a function that compares to objects of type T via the extracted key.
 func comparing<T, U: Comparable>(withKeyExtractor keyExtractor: (T) -> U) -> ((T, T) -> Bool) {
@@ -51,7 +51,7 @@ func comparing<T, U: Comparable>(withKeyExtractor keyExtractor: (T) -> U) -> ((T
 }
 
 func equal<S: CollectionType, T where S.Generator.Element == T>(comparator: (T, T) -> Bool, s1: S, s2: S) -> Bool {
-    return (countElements(s1) == countElements(s2)) && reduce(Zip2(s1, s2), true, { value, pair in value && comparator( pair.0, pair.1) })
+    return (s1.count == s2.count) && Zip2Sequence(s1, s2).reduce(true, combine: { value, pair in value && comparator( pair.0, pair.1) })
 }
 
 // Returns the non-nil parameter if only one of them is nil, nil if both parameters are nil, otherwise the minimum.
@@ -67,7 +67,7 @@ func min<T: Comparable>(a: T?, b: T?) -> T? {
 func minimum<T>(a: T, b: T, comparator: (T, T) -> Bool) -> T { return comparator(a, b) ? a : b }
 func minimum<T, S: SequenceType where S.Generator.Element == T>(sequence: S, comparator: (T, T) -> Bool) -> T? {
     if let first = first(sequence) {
-        return reduce(sequence, first, { (a, b) -> T in return minimum(a, b, comparator) })
+        return sequence.reduce(first, combine: { (a, b) -> T in return minimum(a, b: b, comparator: comparator) })
     }
     return nil
 }
@@ -76,7 +76,7 @@ func minimum<T, S: SequenceType where S.Generator.Element == T>(sequence: S, com
 // The first non-equal element that exists in both sequences determines the result.
 // If no non-equal element exists (either because one sequence is longer than the other, or they are equal) false is returned.
 func < <S: SequenceType, T: SequenceType where S.Generator.Element: Comparable, S.Generator.Element == T.Generator.Element>(a: S, b: T) -> Bool {
-    if let (a, b) = first(lazy(Zip2(a, b)).filter({ pair in pair.0 != pair.1 })) {
+    if let (a, b) = first((Zip2Sequence(a, b).lazy).filter({ pair in pair.0 != pair.1 })) {
         return a < b
     }
     
@@ -84,7 +84,7 @@ func < <S: SequenceType, T: SequenceType where S.Generator.Element: Comparable, 
 }
 
 extension Dictionary {
-    mutating func getOrDefault(key: Key, defaultValue: @autoclosure() -> Value) -> Value {
+    mutating func getOrDefault(key: Key, @autoclosure defaultValue: () -> Value) -> Value {
         if let value = self[key] {
             return value
         } else {

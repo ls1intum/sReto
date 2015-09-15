@@ -62,14 +62,14 @@ class TransferDataIntegrityTest: XCTestCase {
                 }
             }
             
-            let destinations = configuration.primaryPeer.peers.filter({ configuration.destinationIdentifiers.contains($0.identifier) })
+            let destinations = Set(configuration.primaryPeer.peers.filter({ configuration.destinationIdentifiers.contains($0.identifier) }))
             self.connection = configuration.primaryPeer.connect(destinations)
             let data: NSData = TestData.generate(dataLength)
             self.connection!.send(data: data)
         }
         
         self.waitForExpectationsWithTimeout(60, handler: { (error) -> Void in
-            println("success!")
+            print("success!")
         })
     }
 }

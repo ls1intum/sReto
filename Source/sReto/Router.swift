@@ -135,7 +135,7 @@ class Router {
     * @param onConnection A callback called when the connection is established.
     * @param onFail A closure called when an error occurs.
     */
-    func establishDirectConnection(#destination: Node, purpose: ConnectionPurpose, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+    func establishDirectConnection(destination destination: Node, purpose: ConnectionPurpose, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
         if let underlyingConnection = destination.bestAddress?.createConnection() {
             underlyingConnection.connect()
             
@@ -197,7 +197,7 @@ class Router {
     * @param onConnection A closure that is called when the next hop connections were established.
     * @param onFail A closure that is called when the connection establishement process failed.
     */
-    func establishHopConnections(#destinationIdentifiers: Set<UUID>, nextHopTree: Tree<UUID>, sourcePeerIdentifier: UUID, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+    func establishHopConnections(destinationIdentifiers destinationIdentifiers: Set<UUID>, nextHopTree: Tree<UUID>, sourcePeerIdentifier: UUID, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
         let multicastConnection: MulticastConnection? = (nextHopTree.subtrees.count > 1) ? MulticastConnection() : nil
         var establishmentFailed = false
         
@@ -252,7 +252,7 @@ class Router {
     *
     * @param connection The connection to handle
     */
-    func handleHopConnection(#connection: UnderlyingConnection) {
+    func handleHopConnection(connection connection: UnderlyingConnection) {
         readSinglePacket(
             connection: connection,
             onPacket: {
@@ -286,7 +286,7 @@ class Router {
     * @param nextHopTree A tree rooted at the local peer representing the connections that still need to be established.
     * @param incomingConnection The connection from which data should be forwarded.
     */
-    func establishForwardingConnections(#sourcePeerIdentifier: UUID, destinations: Set<UUID>, nextHopTree: Tree<UUID>, incomingConnection: UnderlyingConnection) {
+    func establishForwardingConnections(sourcePeerIdentifier sourcePeerIdentifier: UUID, destinations: Set<UUID>, nextHopTree: Tree<UUID>, incomingConnection: UnderlyingConnection) {
         self.connectionsAwaitingForwardedConnections.append(incomingConnection)
         
         self.establishHopConnections(destinationIdentifiers: destinations, nextHopTree: nextHopTree, sourcePeerIdentifier: sourcePeerIdentifier,
@@ -332,8 +332,8 @@ class Router {
     * @param onConnection A closure that is called when the connection was fully established.
     * @param onFail A closure that is called when the connection establishment process fails.
     */
-    func establishMulticastConnection(#destinations: Set<Node>, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
-        let destinationIdentifiers = destinations.map { $0.identifier }
+    func establishMulticastConnection(destinations destinations: Set<Node>, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+        let destinationIdentifiers = Set(destinations.map { $0.identifier })
         let nextHopTree = self.routingTable.getHopTree(destinationIdentifiers)
         var receivedConfirmations: Set<UUID> = []
         
@@ -386,7 +386,7 @@ class Router {
     * @param sourcepeerIdentifier The identifier of the peer that originally established the connection.
     * @param connection An underlying connection that should be handled.
     */
-    func handleMulticastConnection(#sourcePeerIdentifier: UUID, connection: UnderlyingConnection) {
+    func handleMulticastConnection(sourcePeerIdentifier sourcePeerIdentifier: UUID, connection: UnderlyingConnection) {
         writeSinglePacket(
             connection: connection,
             packet: RoutedConnectionEstablishedConfirmationPacket(source: self.identifier),
@@ -394,7 +394,7 @@ class Router {
                 readSinglePacket(
                     connection: connection,
                     onPacket: {
-                        if let packet = RoutedConnectionEstablishedConfirmationPacket.deserialize($0) {
+                        if let _ = RoutedConnectionEstablishedConfirmationPacket.deserialize($0) {
                             self.delegate?.handleConnection(self, node: self.provideNode(sourcePeerIdentifier), connection: connection)
                         }
                     },
@@ -419,9 +419,9 @@ class Router {
     func updateNodesWithRoutingTableChange(change: RoutingTableChange<UUID>) {
         if change.isEmpty { return }
         
-        println()
+        print("")
         log(.Low, info: " -- Peer Discovery Information -- ")
-        if change.nowReachable.isEmpty { println(" - No new nodes reachable.") }
+        if change.nowReachable.isEmpty { print(" - No new nodes reachable.") }
         else { log(.Low, info: " - Peers now reachable: ") }
         
         for (discovered, nextHop, cost) in change.nowReachable {
@@ -430,7 +430,7 @@ class Router {
             
             discoveredNode.reachableVia = (nextHop: nextHopNode, cost: Int(cost))
             
-            println("Reto[Info]: \t\(discovered) (via \(nextHop), cost: \(cost))")
+            print("Reto[Info]: \t\(discovered) (via \(nextHop), cost: \(cost))")
             self.delegate?.didFindNode(self, node: discoveredNode)
         }
         
@@ -446,7 +446,7 @@ class Router {
             self.delegate?.didLoseNode(self, node: unreachableNode)
         }
         
-        if change.routeChanged.isEmpty { println("Reto[Info]:  - No routes changed.") }
+        if change.routeChanged.isEmpty { print("Reto[Info]:  - No routes changed.") }
         else { log(.Low, info: "Reto[Info]:  - Peers with changed routes: ") }
         
         for (changedNodeId, nextHop, oldCost, newCost) in change.routeChanged {
@@ -461,7 +461,7 @@ class Router {
             log(.Low, info: "\t\(changedNodeId) (old cost: \(oldCost), new cost: \(newCost), reachable via: \(nextHop)")
         }
         
-        println()
+        print("")
     }
     /**
     * Handles a received link state packet and updates the routing table.

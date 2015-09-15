@@ -141,7 +141,7 @@ class TransferManager: PacketHandler {
             if let packet = CancelledTransferPacket.deserialize(data) { self.handleCancelledTransfer(packet) }
         case .DataPacket:
             if let packet = DataPacket.deserialize(data) { self.handleData(packet) }
-        default: println("Packet of type \(type) cannot be handled by TransferManager.")
+        default: print("Packet of type \(type) cannot be handled by TransferManager.")
         }
     }
 
@@ -154,10 +154,10 @@ class TransferManager: PacketHandler {
                     outTransfer.progress = Int(progressInfo.progress)
                     outTransfer.isInterrupted = false
                 } else {
-                    println("received progress information identifier did not match current transfer identifier")
+                    print("received progress information identifier did not match current transfer identifier")
                 }
             } else {
-                println("received progress information, but there is no current out transfer")
+                print("received progress information, but there is no current out transfer")
             }
         }
         

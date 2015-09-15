@@ -22,7 +22,7 @@ class DummyConnection: NSObject, UnderlyingConnection {
     func connect() {}
     func close() {
         if !self.isConnected {
-            println("called close on disconnected connection.")
+            print("called close on disconnected connection.")
             return
         }
         
@@ -33,7 +33,7 @@ class DummyConnection: NSObject, UnderlyingConnection {
     }
     func internalClose() {
         if !self.isConnected {
-            println("called close on disconnected connection.")
+            print("called close on disconnected connection.")
             return
         }
         
@@ -45,7 +45,7 @@ class DummyConnection: NSObject, UnderlyingConnection {
         let type = DataReader(data).getInteger()
         if let type = PacketType(rawValue: type) {
             if type == PacketType.Unknown {
-                println("Trying to send packet with invalid type.")
+                print("Trying to send packet with invalid type.")
             }
         }
         
@@ -95,6 +95,6 @@ class DummyInConnection: DummyConnection {
         self.advertiser.onConnection(self)
     }
     override func connect() {
-        println("Connect called in incoming connection. Ignored.")
+        print("Connect called in incoming connection. Ignored.")
     }
 }

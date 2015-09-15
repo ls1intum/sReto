@@ -11,7 +11,7 @@
 * Addresses are generated and distributed by an Advertiser. The Advertiser also ensures that the Address is functional by accepting connections.
 * These advertised Addresses can then be discovered by Browsers.
 */
-@objc(RTAddress) public protocol Address {
+public protocol Address: class {
     /** The cost of an address gives an heuristic about which Address should be used if multiple are available. Lower cost is preferred. An WlanAddress uses a cost of 10. */ 
     var cost: Int { get }
     /** 

@@ -22,15 +22,13 @@ let UUID_ZERO: UUID = UUID.fromUUID_T(UUID_T_ZERO)
 * This class represents unique universal identifiers, aka UUIDs.
 * This class' primary purpose is to make the underlying byte array easier to access than the NSUUID class.
 */
-@objc(RTUUID) public class UUID: NSObject, Hashable, Comparable {
+public class UUID: Comparable, Hashable {
     /** Stores the UUID as a 16 byte array */
     let uuid: [UInt8]
-    public override var hashValue: Int {
+    public var hashValue: Int {
         get {
-            return reduce(
-                enumerate(uuid.map { $0.hashValue }),
-                0,
-                { let (index, hash) = $1; return $0 ^ (hash << index * 2) }
+            return uuid.map { $0.hashValue }.enumerate().reduce(0,
+                combine: { let (index, hash) = $1; return $0 ^ (hash << index * 2) }
             )
         }
     }
@@ -47,7 +45,7 @@ let UUID_ZERO: UUID = UUID.fromUUID_T(UUID_T_ZERO)
     }
     /** Returns the string representation of this UUID */
     public var UUIDString: String { get { return NSUUID(uuid: self).UUIDString } }
-    public override var description: String { get { return self.UUIDString } }
+    public var description: String { get { return self.UUIDString } }
     /** Constructs an UUID from a byte array. */
     public init(uuid: [UInt8]) {
         self.uuid = uuid

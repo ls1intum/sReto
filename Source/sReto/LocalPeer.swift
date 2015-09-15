@@ -22,7 +22,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
 *
 * The LocalPeer can also be used to establish multicast connections to multiple other peers.
 */
-@objc(RTLocalPeer) public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
+public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     /** This peer's unique identifier. If not specified in the constructor, it has a random value. */
     public let identifier: UUID
     /** The dispatch queue used to execute all networking operations and callbacks */
@@ -35,7 +35,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     * Note that a LocalPeer is not functional without modules. You can add modules later with the addModule method.
     * The main dispatch queue is used for all networking code.
     */
-    public override convenience init() {
+    public convenience override init() {
         self.init(identifier: UUID.random(), modules: [], dispatchQueue: dispatch_get_main_queue())
     }
     
@@ -81,7 +81,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     * @param onPeerDiscovered Called when a peer is discovered.
     * @param onPeerRemoved Called when a peer is removed.
     */
-    public func start(#onPeerDiscovered: PeerDiscoveredClosure, onPeerRemoved: PeerRemovedClosure) {
+    public func start(onPeerDiscovered onPeerDiscovered: PeerDiscoveredClosure, onPeerRemoved: PeerRemovedClosure) {
         self.onPeerDiscovered = onPeerDiscovered
         self.onPeerRemoved = onPeerRemoved
         
@@ -94,7 +94,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     * @param onIncomingConnection Called when a connection is available. Call accept on the peer to accept the connection.
     */
     public func start(
-        #onPeerDiscovered: PeerDiscoveredClosure,
+        onPeerDiscovered onPeerDiscovered: PeerDiscoveredClosure,
         onPeerRemoved: PeerRemovedClosure,
         onIncomingConnection: ConnectionClosure) {
             
@@ -138,7 +138,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     * @return A Connection object. It can be used to send data immediately (the transfers will be started once the connection was successfully established).
     */
     public func connect(destinations: Set<RemotePeer>) -> Connection {
-        let destinations = destinations.map { $0.node }
+        let destinations = Set(destinations.map { $0.node })
         let identifier = UUID.random()
         let packetConnection = PacketConnection(connection: nil, connectionIdentifier: identifier, destinations: destinations)
         
@@ -187,7 +187,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     * @param connection The connection that was established
     * @param connectionIdentifier The identifier of the connection
     * */
-    private func handleConnection(#node: Node, connection: UnderlyingConnection, connectionIdentifier: UUID) {
+    private func handleConnection(node node: Node, connection: UnderlyingConnection, connectionIdentifier: UUID) {
         let needsToReportPeer = self.knownPeers[node] == nil
         
         let peer = self.providePeer(node)
@@ -203,7 +203,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
     /**
     * Creates a new connection and calls the handling closure.
     */
-    private func createConnection(#peer: RemotePeer, connection: UnderlyingConnection, connectionIdentifier: UUID) {
+    private func createConnection(peer peer: RemotePeer, connection: UnderlyingConnection, connectionIdentifier: UUID) {
         let packetConnection = PacketConnection(
             connection: connection,
             connectionIdentifier: connectionIdentifier,
@@ -262,11 +262,11 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
                 if let packet = ManagedConnectionHandshake.deserialize(data) {
                     self.handleConnection(node: node, connection: connection, connectionIdentifier: packet.connectionIdentifier)
                 } else {
-                    println("Expected ManagedConnectionHandshake.")
+                    print("Expected ManagedConnectionHandshake.")
                 }
             },
             onFail: {
-                println("Connection closed before receiving ManagedConnectionHandshake")
+                print("Connection closed before receiving ManagedConnectionHandshake")
             }
         )
     }
@@ -293,7 +293,7 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
         self.incomingConnections[connection.connectionIdentifier] = nil
     }
     func reconnect(peer: RemotePeer) {
-        for (identifier, packetConnection) in self.establishedConnections {
+        for (_, packetConnection) in self.establishedConnections {
             if packetConnection.destinations.contains(peer.node) {
                 self.establishUnderlyingConnection(packetConnection)
             }

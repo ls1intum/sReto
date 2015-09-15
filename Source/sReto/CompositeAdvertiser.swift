@@ -9,7 +9,7 @@
 import Foundation
 
 /** A CompositeAdvertiser combines multiple Reto Advertisers into a single one. */
-class CompositeAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
+class CompositeAdvertiser: Advertiser, AdvertiserDelegate {
     var advertisers: [Advertiser]
     var localPeerIdentifier: UUID?
     var advertiserDelegate: AdvertiserDelegate?
@@ -17,10 +17,9 @@ class CompositeAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
     
     init(advertisers: [Advertiser]) {
         self.advertisers = advertisers
-
-        super.init()
-        
-        for advertiser in self.advertisers { advertiser.advertiserDelegate = self }
+        for advertiser in self.advertisers {
+            advertiser.advertiserDelegate = self
+        }
     }
     
     func startAdvertising(identifier: UUID) {
@@ -44,13 +43,13 @@ class CompositeAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
     }
     
     func didStartAdvertising(advertiser: Advertiser) {
-        if self.advertisers.map({ $0.isAdvertising }).reduce(true, { $0 && $1 }) {
+        if self.advertisers.map({ $0.isAdvertising }).reduce(true, combine: { $0 && $1 }) {
             self.advertiserDelegate?.didStartAdvertising(self)
         }
     }
     
     func didStopAdvertising(advertiser: Advertiser) {
-        if self.advertisers.map({ !$0.isAdvertising }).reduce(true, { $0 && $1 }) {
+        if self.advertisers.map({ !$0.isAdvertising }).reduce(true, combine: { $0 && $1 }) {
             self.advertiserDelegate?.didStopAdvertising(self)
         }
     }

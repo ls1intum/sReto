@@ -32,7 +32,7 @@ struct LinkStatePacket: Packet {
             return nil
         }
         
-        for index in 0..<neighborCount {
+        for _ in 0..<neighborCount {
             neighbors.append((identifier: data.getUUID(), cost: data.getInteger()))
         }
         

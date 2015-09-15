@@ -16,7 +16,7 @@ import Foundation
 *
 * Events
 * The Connection class gives access to five events, onConnect, onTransfer, onData, onClose, and onError. You can react to the events by simply setting a closure, e.g.
-* connection.onData = { data in println("received \(data.length) bytes") }
+* connection.onData = { data in print("received \(data.length) bytes") }
 * None of these events have to be handled, however, if you wish to receive data, you need to react to either the onTransfer or onData event.
 *
 * Sending Data
@@ -31,7 +31,7 @@ import Foundation
 *    It gives access to a InTransfer object that allows you to respond to events (such as progress updates), and allows you to specify how the transfer should be received. It can also be used to cancel transfers.
 */
 
-@objc(RTConnection) public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
+public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
     /** Whether this connection is currently connected. */
     public var isConnected: Bool = false
     
@@ -69,7 +69,7 @@ import Foundation
     * @param data The data that should be sent.
     * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer. Can be ignored.
     */
-    public func send(#data: NSData) -> Transfer {
+    public func send(data data: NSData) -> Transfer {
         return self.send(dataLength: data.length, dataProvider: { data.subdataWithRange($0) })
     }
     /**
@@ -78,7 +78,7 @@ import Foundation
     * @param dataProvider A closure that returns a subrange of the data that should be sent.
     * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer.
     */
-    public func send(#dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> Transfer {
+    public func send(dataLength dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> Transfer {
         let transfer = self.transferManager.startTransfer(dataLength, dataProvider: dataProvider)
         return transfer
     }
@@ -183,9 +183,9 @@ import Foundation
     
     // MARK: TransferManager delegate
     func notifyTransferStarted(transfer: InTransfer) {
-        if let onTransfer = self.onTransfer {
-            self.onTransfer?(connection: self, transfer: transfer)
-        } else if let onData = self.onData {
+        if (self.onTransfer != nil) {
+            self.onTransfer!(connection: self, transfer: transfer)
+        } else if (self.onData != nil) {
             self.autoreceive(transfer)
         } else {
             log(.High, error: "You need to set either onTransfer or onData on connection \(self).")

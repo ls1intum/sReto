@@ -31,20 +31,20 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
     
     func addAddress(netService: NSNetService) {
         if let addresses = netService.addresses {
-           // println("found address for: \(netService.name), there are \(addresses.count ?? 0) addresses available.")
+           // print("found address for: \(netService.name), there are \(addresses.count ?? 0) addresses available.")
             if let uuid = UUID.fromString(netService.name) {
                 let addressInformation = AddressInformation.AddressAsData(addresses[0] as NSData, netService.port)
                 self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
             }
         }
     }
-    func netServiceBrowserWillSearch(aNetServiceBrowser: NSNetServiceBrowser!) {
+    func netServiceBrowserWillSearch(aNetServiceBrowser: NSNetServiceBrowser) {
         self.delegate?.didStart()
     }
-    func netServiceBrowserDidStopSearch(aNetServiceBrowser: NSNetServiceBrowser!) {
+    func netServiceBrowserDidStopSearch(aNetServiceBrowser: NSNetServiceBrowser) {
         self.delegate?.didStop()
     }
-    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser!, didFindService aNetService: NSNetService!, moreComing: Bool) {
+    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didFindService aNetService: NSNetService, moreComing: Bool) {
         if ((aNetService.addresses?.count ?? 0) != 0) {
             self.addAddress(aNetService)
         } else {
@@ -53,22 +53,22 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
             aNetService.resolveWithTimeout(5)
         }
     }
-    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser!, didRemoveService aNetService: NSNetService!, moreComing: Bool) {
+    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didRemoveService aNetService: NSNetService, moreComing: Bool) {
         aNetService.delegate = nil
         if let uuid = UUID.fromString(aNetService.name) {
             self.delegate?.removedAddress(uuid)
         }
     }
-    func netServiceDidResolveAddress(sender: NSNetService!) {
+    func netServiceDidResolveAddress(sender: NSNetService) {
         if (sender.addresses?.count ?? 0) != 0 {
             sender.delegate = nil
             self.addAddress(sender)
         } else {
-            println("no addresses found.")
+            print("no addresses found.")
         }
     }
-    func netService(sender: NSNetService!, didNotResolve errorDict: [NSObject : AnyObject]!) {
+    func netService(sender: NSNetService, didNotResolve errorDict: [String : NSNumber]) {
         sender.delegate = nil
-        println("Could not resolve net service. (\(errorDict))");
+        print("Could not resolve net service. (\(errorDict))");
     }
 }

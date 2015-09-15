@@ -89,7 +89,7 @@ class MinimumSteinerTreeTests: XCTestCase {
             ])
         ])
         
-        println("result: \(result)")
+        print("result: \(result)")
         
         XCTAssert(result == expectedResult, "Did not compute expected result.")
     }

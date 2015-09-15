@@ -21,13 +21,13 @@ class TestData {
         let reader = DataReader(data)
         
         if data.length != expectedLength {
-            println("Verifying test data failed: Incorrect length.")
+            print("Verifying test data failed: Incorrect length.")
             return false
         }
         
         for i in 0..<data.length {
             if reader.getByte() != UInt8(i % 127) {
-                println("Data incorrect.")
+                print("Data incorrect.")
                 return false
             }
         }

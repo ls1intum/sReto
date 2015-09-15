@@ -15,7 +15,7 @@ import Foundation
 *
 * This class can be used to establish and accept connections to/from those peers.
 * */
-@objc(RTRemotePeer) public class RemotePeer: NSObject {
+public class RemotePeer: NSObject {
     /** This peer's unique identifier. */
     public let identifier: UUID
     /**

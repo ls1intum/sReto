@@ -13,7 +13,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     var isConnected: Bool = false
     var receivedConnectionConfirmation = false
     var recommendedPacketSize: Int = 2048
-    let serverUrl: NSURL?
+    var serverUrl: NSURL?
     let dispatchQueue: dispatch_queue_t
     var selfRetain: RemoteP2PConnection?
     
@@ -25,11 +25,11 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     }
     
     init(serverUrl: NSURL, dispatchQueue: dispatch_queue_t) {
-        self.serverUrl = serverUrl
         self.dispatchQueue = dispatchQueue
         
         super.init()
         
+        self.serverUrl = serverUrl
         self.selfRetain = self
     }
     init(socket: SRWebSocket, dispatchQueue: dispatch_queue_t) {

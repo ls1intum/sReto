@@ -16,4 +16,8 @@ class DummyModule: NSObject, Module {
         self.advertiser = DummyAdvertiser(networkInterface: networkInterface)
         self.browser = DummyBrowser(networkInterface: networkInterface)
     }
+    
+    func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
+        
+    }
 }

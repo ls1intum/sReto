@@ -14,8 +14,8 @@ class PeerConfiguration {
     let reachablePeers: Set<LocalPeer>
     let destinations: Set<LocalPeer>
     
-    var reachablePeerIdentifiers: Set<UUID> { get { return reachablePeers.map { $0.identifier } } }
-    var destinationIdentifiers: Set<UUID> { get { return destinations.map { $0.identifier } } }
+    var reachablePeerIdentifiers: Set<UUID> { get { return Set(reachablePeers.map { $0.identifier }) } }
+    var destinationIdentifiers: Set<UUID> { get { return Set(destinations.map { $0.identifier }) } }
     
     init(primaryPeer: LocalPeer, destinations: Set<LocalPeer>, participatingPeers: Set<LocalPeer>, reachablePeers: Set<LocalPeer>) {
         self.primaryPeer = primaryPeer
@@ -43,9 +43,9 @@ class PeerConfiguration {
                 onPeerDiscovered: {
                     discoveredPeers[peer]! += $0.identifier
                     
-                    let allDiscovered = filter(discoveredPeers, { self.reachablePeers.contains($0.0) })
+                    let allDiscovered = discoveredPeers.filter( { self.reachablePeers.contains($0.0) })
                         .map({ $0.1.count == self.reachablePeers.count-1 })
-                        .reduce(true, { $0 && $1 })
+                        .reduce(true, combine: { $0 && $1 })
                     if allDiscovered { onSuccess() }
                 },
                 onPeerRemoved: {
@@ -96,6 +96,7 @@ class PeerConfiguration {
         
         return PeerConfiguration(primaryPeer: peers[0], destinations: [peers[1], peers[2]], participatingPeers: Set(peers))
     }
+    
     class func twoHopRoutedMulticastConfiguration2() -> PeerConfiguration {
         let interfaces = [("test1", 1), ("test2", 1)].map { DummyNetworkInterface(interfaceName: $0.0, cost: $0.1) }
         let peers = [
@@ -120,6 +121,7 @@ class PeerConfiguration {
         
         return PeerConfiguration(primaryPeer: peers[0], destinations: [peers[4]], participatingPeers: Set(peers))
     }
+    
     class func fourHopRoutedMulticastConfiguration() -> PeerConfiguration {
         let interfaces = [("test1", 1), ("test2", 1), ("test3", 1), ("test4", 1)].map { DummyNetworkInterface(interfaceName: $0.0, cost: $0.1) }
         let peers = [

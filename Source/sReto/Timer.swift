@@ -31,13 +31,13 @@ Examples:
 
 Execute an action after a fixed delay:
 
-    Timer.delay(1, action: { println("Hello 1 second later!") })
+    Timer.delay(1, action: { print("Hello 1 second later!") })
 
 
 Execute an action in a fixed interval and firing prematurely / stopping the timer:
 
     let timer = Timer.repeat(interval: 0.5) { (timer, executionCount) -> () in
-        println("Hello, this is execution #\(executionCount + 1)")
+        print("Hello, this is execution #\(executionCount + 1)")
     }
     
     //...
@@ -48,15 +48,15 @@ Execute an action in a fixed interval and firing prematurely / stopping the time
 Execute an action in fixed intervals for a certain number of times:
 
     Timer.repeat(interval: 0.5, maximumExecutionCount: 5) { (timer, executionCount) -> () in
-        println("Hello, this is execution #\(executionCount + 1)")
+        print("Hello, this is execution #\(executionCount + 1)")
     }
 
 Execute an action an arbitrary number of times, and stop at some point:
 
     Timer.repeat(interval: 0.5) { (timer, executionCount) -> () in
-        println("Hello, this is execution #\(executionCount + 1)")
+        print("Hello, this is execution #\(executionCount + 1)")
         if someCondition {
-            println("Stopping now.");
+            print("Stopping now.");
             timer.stop()
         }
     }
@@ -69,7 +69,7 @@ Execute an action with growing delays. For example, when requesting data from a 
         backOffFactor: 2.0, 
         maximumDelay: 10.0, 
         action: { (timer, executionCount) -> () in
-            println("This action is executed in growing delays.")
+            print("This action is executed in growing delays.")
         }
     )
 
@@ -81,7 +81,7 @@ Execute an action with user-specified delays (you figure out something to do wit
             return digitsOfΠ[executionCount % 10]
         },
         action: { (timer, executionCount) -> () in
-            println("What is this!")
+            print("What is this!")
         }
     )
 */
@@ -102,13 +102,13 @@ public class Timer {
     /**
     Executes a block after a given delay.
     
-    :param: delay The delay in seconds after which the action block is executed
-    :param: dispatchQueue Optional. 
+    - parameter delay: The delay in seconds after which the action block is executed
+    - parameter dispatchQueue: Optional. 
         
         A dispatch queue on which to execute the action.
         
         The main dispatch queue is used by default.
-    :param: action The action to execute.
+    - parameter action: The action to execute.
     */
     public class func delay(
         delay: TimeInterval,
@@ -128,23 +128,23 @@ public class Timer {
     /**
     Executes a block in regular intervals.
     
-    :param: interval The interval in seconds in which the action will be executed.
-    :param: dispatchQueue Optional.
+    - parameter interval: The interval in seconds in which the action will be executed.
+    - parameter dispatchQueue: Optional.
     
         A dispatch queue on which to execute the action. 
     
         The main dispatch queue is used by default.
-    :param: maximumExecutionCount Optional.
+    - parameter maximumExecutionCount: Optional.
         
         The maximum number of times the action will be executed. 
     
         Pass nil to not have a limit. 
     
         Nil by default.
-    :param: action The action to execute.
+    - parameter action: The action to execute.
     */
-    public class func repeat(
-        #interval: TimeInterval,
+    public class func `repeat`(
+        interval interval: TimeInterval,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,
         action: TimerAction) -> Timer {
@@ -160,33 +160,33 @@ public class Timer {
     Executes a block in growing intervals. For example, with an initialDelay of 1 and a backOffFactor of 2, 
     the action will be executed using the following intervals: 1, 2, 4, 8, 16, ...
     
-    :param: initialDelay The delay in seconds after which the action will be executed the first time.
-    :param: backOffFactor Optional. 
+    - parameter initialDelay: The delay in seconds after which the action will be executed the first time.
+    - parameter backOffFactor: Optional. 
     
         The delay will be increased by this factor with each execution of the action.
     
         1.5 by default.
-    :param: maximumDelay Optional. 
+    - parameter maximumDelay: Optional. 
     
         The delay will not increase past this maximum delay (also passed in seconds).
     
         Pass nil to not use a maximum delay.
     
         Nil by default.
-    :param: dispatchQueue Optional. 
+    - parameter dispatchQueue: Optional. 
     
         A dispatch queue on which to execute the action.
     
         The main dispatch queue is used by default.
-    :param: maximumExecutionCount Optional. 
+    - parameter maximumExecutionCount: Optional. 
    
         The maximum number of times the action will be executed. Pass nil to not have a limit.
     
         Nil by default.
-    :param: action The action to execute.
+    - parameter action: The action to execute.
     */
     public class func repeatWithBackoff (
-        #initialDelay: TimeInterval,
+        initialDelay initialDelay: TimeInterval,
         backOffFactor: Double = 1.5,
         maximumDelay: TimeInterval? = nil,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
@@ -208,7 +208,7 @@ public class Timer {
     
     public typealias BackoffTimerSettings = (initialInterval: TimeInterval, backOffFactor: Double, maximumDelay: TimeInterval?)
     public class func repeatWithBackoff (
-        #timerSettings: BackoffTimerSettings,
+        timerSettings timerSettings: BackoffTimerSettings,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,
         action: TimerAction) -> Timer {
@@ -218,23 +218,23 @@ public class Timer {
     /**
     Executes a block with user-specified delays.
     
-    :param: delayBlock Should return the delay in seconds in which the next execution of the action should occur.
-    :param: dispatchQueue Optional. 
+    - parameter delayBlock: Should return the delay in seconds in which the next execution of the action should occur.
+    - parameter dispatchQueue: Optional. 
     
         A dispatch queue on which to execute the action.
     
         The main dispatch queue is used by default.
-    :param: maximumExecutionCount Optional. 
+    - parameter maximumExecutionCount: Optional. 
     
         The maximum number of times the action will be executed.
     
         Pass nil to not have a limit.
     
         Nil by default.
-    :param: action The action to execute.
+    - parameter action: The action to execute.
     */
-    public class func repeat (
-        #delayBlock: DelayBlock,
+    public class func `repeat` (
+        delayBlock delayBlock: DelayBlock,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,
         action: TimerAction) -> Timer {
@@ -285,7 +285,7 @@ public class Timer {
         self.currentExecutionCount++
 
         if let maximum = self.maximumExecutions {
-            if self.currentExecutionCount >= self.maximumExecutions { self.isDone = true }
+            if self.currentExecutionCount >= maximum { self.isDone = true }
         }
         
         if !self.isDone {

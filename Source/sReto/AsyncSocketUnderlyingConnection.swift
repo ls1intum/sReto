@@ -57,10 +57,18 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
             switch addressInformation {
                 case .AddressAsData(let data, let port):
                     log(.Low, info: "connecting with address data: \(data), port: \(port)")
-                    socket.connectToAddress(data, error: &error)
+                    do {
+                        try socket.connectToAddress(data)
+                    } catch let error1 as NSError {
+                        error = error1
+                    }
                 case .HostName(let hostName, let port):
                     log(.Low, info: "connecting to: \(hostName), port: \(port)")
-                    socket.connectToHost(hostName, onPort: UInt16(port), error: &error)
+                    do {
+                        try socket.connectToHost(hostName, onPort: UInt16(port))
+                    } catch let error1 as NSError {
+                        error = error1
+                    }
             }
             
             if let error = error {
@@ -76,7 +84,7 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
     }
     
     func socket(sock: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
-        //println("sock connected.")
+        //print("sock connected.")
         
         self.delegate?.didConnect(self)
         self.readHeader()
@@ -87,7 +95,7 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
     }
     
     func socketDidDisconnect(sock: GCDAsyncSocket!, withError err: NSError!) {
-        //println("disconnect, error: \(err)")
+        //print("disconnect, error: \(err)")
         self.delegate?.didClose(self, error: err) // TODO: Error?
     }
     

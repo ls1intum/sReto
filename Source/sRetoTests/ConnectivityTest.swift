@@ -47,7 +47,7 @@ class ConnectivityTest: XCTestCase {
         }
         
         configuration.executeAfterDiscovery {
-            println("all reachable!")
+            print("all reachable!")
             for peer in configuration.destinations {
                 peer.onConnection = {
                     source, connection in
@@ -62,13 +62,13 @@ class ConnectivityTest: XCTestCase {
                     }
                     connection.onClose = {
                         _ in
-                        println("on close: \(peer.identifier)")
+                        print("on close: \(peer.identifier)")
                         onCloseExpectations[peer.identifier]?.fulfill()
                     }
                 }
             }
             
-            let connection = configuration.primaryPeer.connect(configuration.primaryPeer.peers.filter({ configuration.destinationIdentifiers.contains($0.identifier) }))
+            let connection = configuration.primaryPeer.connect(Set(configuration.primaryPeer.peers.filter({ configuration.destinationIdentifiers.contains($0.identifier) })))
             
             connection.onConnect = {
                 connection in
@@ -86,7 +86,7 @@ class ConnectivityTest: XCTestCase {
         }
         
         self.waitForExpectationsWithTimeout(60, handler: {
-            error in println("success!")
+            error in print("success!")
         })
     }
 }

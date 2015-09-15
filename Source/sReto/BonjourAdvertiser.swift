@@ -46,7 +46,10 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         self.acceptingSocket = acceptingSocket
         
         var error : NSError? = nil
-        if !acceptingSocket.acceptOnPort(0, error: &error) {
+        do {
+            try acceptingSocket.acceptOnPort(0)
+        } catch let error1 as NSError {
+            error = error1
             log(.High, error: "An error occured when trying to listen for incoming connections: \(error)")
             return
         }

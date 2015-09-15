@@ -11,7 +11,7 @@ import Foundation
 /** 
 * The UnderlyingConnectionDelegate allows the UnderlyingConnection to inform its delegate about various events.
 */
-@objc(RTUnderlyingConnectionDelegate) public protocol UnderlyingConnectionDelegate {
+public protocol UnderlyingConnectionDelegate : class {
     /** Called when the connection connected successfully.*/
     func didConnect(connection: UnderlyingConnection)
     /** Called when the connection closes. Has an optional error parameter to indicate issues. (Used to report problems to the user). */
@@ -30,7 +30,7 @@ import Foundation
 * It is called UnderlyingConnection to differentiate it from Reto's high-level Connection class, which offers many additional features.
 * Reto's users don't interact with this class directly.
 */
-@objc(RTUnderlyingConnection) public protocol UnderlyingConnection {
+public protocol UnderlyingConnection : class {
     /** The connection's delegate. */
     weak var delegate : UnderlyingConnectionDelegate? { get set }
     /** Whether this connection is currently connected. */

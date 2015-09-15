@@ -12,7 +12,7 @@ import Foundation
 * The iterateMapping function creates a sequence by applying a mapping to a state an arbitrary number of times.
 * For example, iterateMapping(initialState: 0, { $0 + 1 }) constructs an infinite list of the numbers 0, 1, 2, ...
 */
-func iterateMapping<E>(#initialState: E, #mapping: (E) -> E?) -> MappingSequence<E> {
+func iterateMapping<E>(initialState initialState: E, mapping: (E) -> E?) -> MappingSequence<E> {
     return MappingSequence(initialState: initialState, mapping: mapping)
 }
 struct MappingGenerator<E>: GeneratorType {
