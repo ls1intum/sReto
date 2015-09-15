@@ -39,7 +39,6 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  # s.license      = "MIT"
   s.license      = { :type => "MIT", :file => "LICENSE" }
 
 
@@ -56,7 +55,7 @@ Pod::Spec.new do |s|
   s.author             = { "Chair for Applied Software Engineering" => "ios@in.tum.de" }
   # Or just: s.author    = "Chair for Applied Software Engineering"
   # s.authors            = { "Chair for Applied Software Engineering" => "ios@in.tum.de" }
-  # s.social_media_url   = "http://twitter.com/Chair for Applied Software Engineering"
+  s.social_media_url   = "https://twitter.com/ls1intum"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -69,7 +68,7 @@ Pod::Spec.new do |s|
 
   #  When using multiple platforms
   s.ios.deployment_target = "8.0"
-  s.osx.deployment_target = "10.10"
+  s.osx.deployment_target = "10.9"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
