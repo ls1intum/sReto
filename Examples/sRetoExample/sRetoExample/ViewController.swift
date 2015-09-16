@@ -37,7 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.peerDataSource = PeerDataSource(model: self.model)
         self.connectionDataSource = ConnectionDataSource(model: self.model)
         
@@ -53,7 +53,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         self.connectionTableView.delegate = self
         
         let wlanModule = WlanModule(type: "lowleveldemo")
-        let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!)
+//        let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!)
 
         self.localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
         self.localPeer?.start(
@@ -69,7 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         connections.append(connection)
         
         connection.onConnect = {
-            println("onConnect: got incoming connection from peer: \(peer)")
+            print("onConnect: got incoming connection from peer: \(peer)")
             if let peer = self.model.examplePeer(peer) {
                 peer.addConnection($0)
             }
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         connection.onTransfer = { [unowned self] peer, transfer in self.receive(peer, inTransfer: transfer) }
         connection.onClose = {
             [unowned self] in
-            println("closed")
+            print("closed")
             if let peer = self.model.examplePeer($0) {
                 peer.removeConnection($0)
                 self.updateConnections()
@@ -86,7 +86,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         }
         connection.onError = {
             [unowned self] in
-            println("connection error: \($1)")
+            print("connection error: \($1)")
             if let peer = self.model.examplePeer($0) {
                 peer.removeConnection($0)
                 self.updateConnections()
@@ -122,7 +122,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     @IBAction func closeConnection() {
         if let connection = self.model.selectedPeer?.selectedConnection?.connection {
             connection.close()
-            println("closing")
+            print("closing")
         }
     }
     @IBAction func send500KB(sender: AnyObject) {
@@ -166,7 +166,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (tableView === self.peerTableView) {
             self.model.selectPeer(indexPath.row)
             self.updateConnections()
@@ -182,7 +182,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         self.updatePeers()
     }
     func updateConnections() {
-        if let peer = self.model.selectedPeer {
+        if self.model.selectedPeer != nil {
             self.connectionTableView.reloadData()
             self.noPeerSelectedLabel.hidden = true
             self.connectionsView.hidden = false
@@ -241,14 +241,14 @@ class PeerDataSource: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.peers.count
     }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("peerCell") as UITableViewCell
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("peerCell", forIndexPath: indexPath)
         cell.textLabel?.text = self.model.peers[indexPath.row].peer.identifier.UUIDString
-        
         return cell
     }
 }
+
 class ConnectionDataSource: NSObject, UITableViewDataSource {
     let model: Model
     
@@ -264,7 +264,7 @@ class ConnectionDataSource: NSObject, UITableViewDataSource {
         }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("connectionCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("connectionCell", forIndexPath: indexPath)
         
         if let peer = self.model.selectedPeer {
             cell.textLabel?.text = peer.connections[indexPath.row].description

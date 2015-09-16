@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9DD1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
 		5E20A9DF1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
-		5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9E81BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E20A9EA1BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5E20A9EB1BA9B1300024F19F /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9EB1BA9B1300024F19F /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9EC1BA9B1300024F19F /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5E20A9ED1BA9B1300024F19F /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9ED1BA9B1300024F19F /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E20A9EE1BA9B1300024F19F /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5E20A9EF1BA9B1300024F19F /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E51BA9B1300024F19F /* DNSSDService.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9EF1BA9B1300024F19F /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E51BA9B1300024F19F /* DNSSDService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9F01BA9B1300024F19F /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E51BA9B1300024F19F /* DNSSDService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5E20A9F11BA9B1300024F19F /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9F11BA9B1300024F19F /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E20A9F21BA9B1300024F19F /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD18140F1A784E850027BB09 /* sReto.h in Headers */ = {isa = PBXBuildFile; fileRef = CDBAB9EE199032DD00364D04 /* sReto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD1B7B76199C01D6009CCAB2 /* StartStopHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1B7B74199C01D6009CCAB2 /* StartStopHelper.swift */; };
@@ -675,14 +675,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */,
 				CD6D20AE199263C4004E4381 /* NSData+SRB64Additions.h in Headers */,
 				CDBAB9EF199032DD00364D04 /* sReto.h in Headers */,
+				5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */,
 				5E20A9EB1BA9B1300024F19F /* DNSSDRegistration.h in Headers */,
-				CD6D20B4199263C4004E4381 /* SRWebSocket.h in Headers */,
 				5E20A9EF1BA9B1300024F19F /* DNSSDService.h in Headers */,
-				CD6D20AC199263C4004E4381 /* base64.h in Headers */,
 				5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */,
+				CD6D20B4199263C4004E4381 /* SRWebSocket.h in Headers */,
+				CD6D20AC199263C4004E4381 /* base64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

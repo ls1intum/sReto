@@ -20,7 +20,7 @@ class ChatView : UIView {
 }
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ChatRoomDelegate, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
-    var chatView: ChatView { get { return self.view as ChatView } }
+    var chatView: ChatView { get { return self.view as! ChatView } }
     let previewController = QLPreviewController()
     var previewedItemURL: NSURL? = nil
     
@@ -55,10 +55,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         } else {
             self.navigationItem.title = "Loading display name..."
         }
-        self.chatView.chatText.scrollRangeToVisible(NSMakeRange(countElements(self.chatView.chatText.text) - 1, 0))
+        self.chatView.chatText.scrollRangeToVisible(NSMakeRange(self.chatView.chatText.text.characters.count - 1, 0))
     }
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if (context == &kvoContext) {
             if keyPath == "fileProgress" {
                 self.chatView.progressView.progress = Float(self.chatRoom?.fileProgress ?? 0) / 100.0
@@ -88,12 +88,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let userInfo = notification.userInfo!
         let duration: Double = userInfo[UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey]!.unsignedLongValue
-        let keyboardFrameEnd = self.view.convertRect(userInfo[UIKeyboardFrameEndUserInfoKey]!.CGRectValue(), toView: nil)
+        let keyboardFrameEnd = self.view.convertRect(userInfo[UIKeyboardFrameEndUserInfoKey]!.CGRectValue, toView: nil)
         
         UIView.animateWithDuration(
             duration,
             delay: 0,
-            options:  UIViewAnimationOptions.BeginFromCurrentState | UIViewAnimationOptions(curve),
+            options: [UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions(rawValue: curve)],
             animations: { () -> Void in
                 self.chatView.bottomConstraint.constant = keyboardFrameEnd.size.height
                 self.view.layoutIfNeeded()
@@ -111,7 +111,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         UIView.animateWithDuration(
             duration,
             delay: 0,
-            options: UIViewAnimationOptions.BeginFromCurrentState | UIViewAnimationOptions(curve),
+            options: [UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions(rawValue: curve)],
             animations: {
                 self.chatView.bottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
@@ -125,7 +125,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.chatRoom?.sendMessage(textField.text)
+        self.chatRoom?.sendMessage(textField.text!)
         textField.text = ""
         
         return false
@@ -137,25 +137,27 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         imagePicker.delegate = self
         self.presentViewController(imagePicker, animated: true, completion: {})
     }
+    
     func chatRoom(_: ChatRoom, completedReceivingFileAtPath path: String) {
         self.previewedItemURL = NSURL(fileURLWithPath: path)
         self.previewController.reloadData()
         self.presentViewController(self.previewController, animated: true, completion: {})
     }
-    func chatRoom(_: ChatRoom, pathForSavingFileWithName fileName: String) -> String? {
-        return NSTemporaryDirectory().stringByAppendingPathComponent(fileName)
+    func chatRoom(_: ChatRoom, pathForSavingFileWithName fileName: String) throws -> String? {
+        return try String(contentsOfURL:NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent(fileName))
     }
     
-    func getTempPath() -> String {
-        return NSTemporaryDirectory().stringByAppendingPathComponent(NSUUID().UUIDString)
+    func getTempPath() throws -> String {
+        return try String(contentsOfURL:NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent(NSUUID().UUIDString))
     }
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let let image = (info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]) as? UIImage {
-            let directory = getTempPath()
-            NSFileManager.defaultManager().createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil, error: nil)
-            let path = directory.stringByAppendingPathComponent("image.jpg")
-            UIImageJPEGRepresentation(image, 1).writeToFile(path, atomically: true)
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) throws {
+        if let image = (info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]) as? UIImage {
+            
+            let directory = try getTempPath()
+            try NSFileManager.defaultManager().createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil)
+            let path = try String(contentsOfURL:NSURL(fileURLWithPath: directory).URLByAppendingPathComponent("image.jpg"))
+            UIImageJPEGRepresentation(image, 1)!.writeToFile(path, atomically: true)
             self.chatRoom?.sendFile(path)
         } else if let path = (info[UIImagePickerControllerMediaURL] as? NSURL)?.path {
             self.chatRoom?.sendFile(path)
@@ -164,13 +166,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         picker.dismissViewControllerAnimated(true, completion: {})
     }
     
-    func numberOfPreviewItemsInPreviewController(controller: QLPreviewController!) -> Int {
+    func numberOfPreviewItemsInPreviewController(controller: QLPreviewController) -> Int {
         return previewedItemURL == nil ? 0 : 1
     }
-    func previewController(controller: QLPreviewController!, previewItemAtIndex index: Int) -> QLPreviewItem! {
-        return previewedItemURL
+    func previewController(controller: QLPreviewController, previewItemAtIndex index: Int) -> QLPreviewItem {
+        return previewedItemURL!
     }
-    func previewControllerDidDismiss(controller: QLPreviewController!) {
+    func previewControllerDidDismiss(controller: QLPreviewController) {
         self.previewedItemURL = nil
     }
 }

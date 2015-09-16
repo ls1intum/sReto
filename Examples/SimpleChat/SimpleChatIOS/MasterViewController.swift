@@ -17,10 +17,12 @@ class ChatPeerCell: UITableViewCell {
         self.textLabel?.text = chatPeer.remoteDisplayName ?? "Loading display name..."
         chatPeer.addObserver(self, forKeyPath: "remoteDisplayName", options: .New, context: &kvoContext)
     }
+    
     override func prepareForReuse() {
         self.chatPeer?.removeObserver(self, forKeyPath: "remoteDisplayName")
     }
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &kvoContext {
             self.textLabel?.text = chatPeer?.remoteDisplayName ?? "Loading display name..."
         } else {
@@ -36,19 +38,15 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var displayName: UITextField!
-
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
     
     @IBAction func start(sender: AnyObject) {
         displayName.enabled = false
-        self.localPeer.start(displayName.text)
+        self.localPeer.start(displayName.text!)
         
         self.localPeer.addObserver(self, forKeyPath: "chatRooms", options: .New, context: &kvoContext)
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {        
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &kvoContext {
             self.tableView.reloadData()
         }
@@ -68,12 +66,12 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if let split = self.splitViewController {
             let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
+            self.detailViewController = ((controllers[controllers.count-1] as! UINavigationController).topViewController as! DetailViewController)
         }
     }
     
     override func viewWillAppear(animated: Bool) {
-        if let selectedIndexPath = tableView.indexPathForSelectedRow() {
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
             self.tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true);
         }
     }
@@ -87,9 +85,9 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
                 let object = localPeer.chatRooms[indexPath.row]
-                let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 controller.chatRoom = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -103,12 +101,12 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println("returning \(localPeer.chatRooms.count) elements.")
+        print("returning \(localPeer.chatRooms.count) elements.")
         return localPeer.chatRooms.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as ChatPeerCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! ChatPeerCell
 
         let object = localPeer.chatRooms[indexPath.row]
         cell.configure(object)

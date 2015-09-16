@@ -10,7 +10,7 @@ import Foundation
 import sReto
 
 class LocalChatPeer: NSObject {
-    dynamic var displayName: NSString = "Display Name"
+    dynamic var displayName = "Display Name"
     dynamic var chatRooms: [ChatRoom] = []
     weak var chatRoomDelegate: ChatRoomDelegate?
 

@@ -19,7 +19,7 @@ class Model {
         self.peers.append(ExamplePeer(peer: peer))
     }
     func removePeer(peer: RemotePeer) {
-        println("removing: \(peer), existing: \(peer)")
+        print("removing: \(peer), existing: \(peer)")
         self.peers = self.peers.filter({ existingPeer in existingPeer.peer !== peer})
         if self.selectedPeer === peer { self.selectedPeer = nil }
     }
@@ -27,7 +27,7 @@ class Model {
         self.selectedPeer = peers[index]
     }
     func examplePeer(peer: RemotePeer) -> ExamplePeer? {
-        println("peers here: \(self.peers)")
+        print("peers here: \(self.peers)", terminator: "")
         for epeer in self.peers { if epeer.peer === peer { return epeer } }
         return nil
     }

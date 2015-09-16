@@ -13,8 +13,8 @@ import sReto
  The ChatRoomDelegate protocol is used mostly to ask the delegate for a file path which to write a received file to, and to inform it about a completed transfer.
 */
 protocol ChatRoomDelegate: class {
-    func chatRoom(_: ChatRoom, pathForSavingFileWithName: String) -> String?
-    func chatRoom(_: ChatRoom, completedReceivingFileAtPath: String)
+    func chatRoom(_: ChatRoom, pathForSavingFileWithName: String) throws -> String?
+    func chatRoom(_: ChatRoom, completedReceivingFileAtPath: String) throws
 }
 
 /*
@@ -36,7 +36,7 @@ class ChatRoom: NSObject {
     /** The display name of the remote peer in the chat */
     dynamic var remoteDisplayName: String? = nil
     /** The full text in the chat room; contains all messages. */
-    dynamic var chatText: String = ""
+    dynamic var chatText = ""
     /** The progress of a file if it one is being transmitted. */
     dynamic var fileProgress: Int = 0
     /** Whether a file is currently being transmitted. */
@@ -89,9 +89,9 @@ class ChatRoom: NSObject {
         let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
         // The first message is the remote display name. If we don't know it yet, that means that we received the display name. Otherwise, append the chat message.
         if remoteDisplayName == nil {
-            remoteDisplayName = message
+            remoteDisplayName = message as String
         } else {
-            appendChatMessage(message, displayName: remoteDisplayName!)
+            appendChatMessage(message as String, displayName: remoteDisplayName!)
         }
     }
     func appendChatMessage(message: String, displayName: String) {
@@ -101,14 +101,14 @@ class ChatRoom: NSObject {
     func sendFile(path: String) {
         // Get some properties of the file
         let fileHandle = NSFileHandle(forReadingAtPath: path)!
-        let fileAttributes: NSDictionary = NSFileManager.defaultManager().attributesOfItemAtPath(path, error: nil)!
+        let fileAttributes: NSDictionary = try! NSFileManager.defaultManager().attributesOfItemAtPath(path)
         let fileLength = Int(fileAttributes.fileSize())
         
         // Establish a new connection to transmit the file.
         let connection = self.remotePeer.connect()
         
         // Send the file name
-        let fileName: String = NSURL(fileURLWithPath: path)!.lastPathComponent!
+        let fileName: String = NSURL(fileURLWithPath: path).lastPathComponent!
         connection.send(data: fileName.dataUsingEncoding(NSUTF8StringEncoding)!)
         
         // Send the file itself. Data will be read as the file is being sent.
@@ -143,7 +143,12 @@ class ChatRoom: NSObject {
                 _ in
                 connection.close();
                 self.endTransfer(fileHandle);
-                self.delegate?.chatRoom(self, completedReceivingFileAtPath: filePath)
+                do {
+                    try self.delegate?.chatRoom(self, completedReceivingFileAtPath: filePath)
+                }
+                catch {
+                    print(error)
+                }
                 self.fileProgress = 0
             }
             // Reset the file path.
@@ -153,11 +158,16 @@ class ChatRoom: NSObject {
             transfer.onCompleteData = {
                 t, data in
                 let fileName = NSString(data: data, encoding: NSUTF8StringEncoding)!
-                if let saveFileName = self.delegate?.chatRoom(self, pathForSavingFileWithName: fileName) {
-                    self.filePath = saveFileName
-                } else {
-                    // If the delegate doesn't return a save path (e.g. because the user cancelled the save file dialogue, we close the connection early.
-                    connection.close()
+                do {
+                    if let saveFileName = try self.delegate?.chatRoom(self, pathForSavingFileWithName: fileName as String) {
+                        self.filePath = saveFileName
+                    } else {
+                        // If the delegate doesn't return a save path (e.g. because the user cancelled the save file dialogue, we close the connection early.
+                        connection.close()
+                    }
+                }
+                catch {
+                    print(error)
                 }
             }
         }
