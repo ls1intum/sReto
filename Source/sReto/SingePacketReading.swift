@@ -26,8 +26,8 @@ func readSinglePacket(connection connection: UnderlyingConnection, onPacket pack
 * @param onSuccess A closure to call when the specified number of packets was received.
 * @param failBlock A closure to call when reading the packets failed for any reason.
 */
-func readPackets(connection connection: UnderlyingConnection, packetCount: Int, onPacket packetHandler: (DataReader) -> (), onSuccess successBlock: () -> (), onFail failBlock: () -> ()) {
-    SinglePacketReader(connection: connection, packetCount: packetCount, onPacket: packetHandler, onSuccess: successBlock, onFail: failBlock)
+func readPackets(connection connection: UnderlyingConnection, packetCount: Int, onPacket packetHandler: (DataReader) -> (), onSuccess successBlock: () -> (), onFail failBlock: () -> ()) -> SinglePacketReader{
+    return SinglePacketReader(connection: connection, packetCount: packetCount, onPacket: packetHandler, onSuccess: successBlock, onFail: failBlock)
 }
 class SinglePacketReader: NSObject, UnderlyingConnectionDelegate {
     var underlyingConnection: UnderlyingConnection?
@@ -76,8 +76,8 @@ class SinglePacketReader: NSObject, UnderlyingConnectionDelegate {
 * @param successBlock A closure to call when the packet was written successfully.
 * @param failBlock A closure to call when sending the data failed for any reason.
 */
-func writeSinglePacket(connection connection: UnderlyingConnection, packet: Packet, onSuccess successBlock: () -> (), onFail failBlock: () -> ()) {
-    SinglePacketWriter(connection: connection, packet: packet, successBlock: successBlock, failBlock: failBlock)
+func writeSinglePacket(connection connection: UnderlyingConnection, packet: Packet, onSuccess successBlock: () -> (), onFail failBlock: () -> ()) -> SinglePacketWriter {
+    return SinglePacketWriter(connection: connection, packet: packet, successBlock: successBlock, failBlock: failBlock)
 }
 
 class SinglePacketWriter: NSObject, UnderlyingConnectionDelegate {
