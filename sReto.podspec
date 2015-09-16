@@ -12,6 +12,12 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => 'https://github.com/ls1intum/sReto.git', :tag => s.version }
 
+  s.ios.frameworks     = 'CFNetwork', 'Security'
+  s.osx.frameworks     = 'CoreServices', 'Security'
+  s.libraries          = "icucore"
+  
+  
+  
   s.subspec 'no-arc' do |n|
     n.source_files = 'Source/sReto/DNSSD/*'
     n.requires_arc = false
