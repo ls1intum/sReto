@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'arc' do |a|
-  	a.source_files  = 'Source/**/*'
+  	a.source_files  = 'Source/**/*.{h,c,m,swift}'
   	a.exclude_files = 'Source/sReto/DNSSD/*', 'Source/sRetoTests/*'
   	a.requires_arc = true
   	a.dependency 'sReto/no-arc'
