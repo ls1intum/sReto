@@ -9,11 +9,19 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
-  s.watchos.deployment_target = '2.0'
 
   s.source       = { :git => 'https://github.com/ls1intum/sReto.git', :tag => s.version }
 
-  s.source_files  = 'Source', 'Source/**/*.swift'
+  s.subspec 'no-arc' do |n|
+    n.source_files = 'Source/sReto/DNSSD/*'
+    n.requires_arc = false
+  end
 
-  s.requires_arc = true
+  s.subspec 'arc' do |a|
+  	a.source_files  = 'Source/**/*.{h,m,swift}'
+  	a.exclude_files = 'Source/sReto/DNSSD/*', 'Source/sRetoTests/*'
+  	a.requires_arc = true
+  	a.dependency 'sReto/no-arc'
+  end
+
 end

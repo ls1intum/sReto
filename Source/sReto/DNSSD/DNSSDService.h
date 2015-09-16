@@ -5,7 +5,7 @@
 
     Written by: DTS
 
-//  Copyright (c) 2014 LS1 TUM. All rights reserved.
+    Copyright:  Copyright (c) 2011 Apple Inc. All Rights Reserved.
 
     Disclaimer: IMPORTANT: This Apple software is supplied to you by Apple Inc.
                 ("Apple") in consideration of your agreement to the following

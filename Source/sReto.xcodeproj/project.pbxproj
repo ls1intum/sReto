@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9DD1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9DF1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9E81BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9EA1BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E20A9EB1BA9B1300024F19F /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9EC1BA9B1300024F19F /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E20A9ED1BA9B1300024F19F /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9EE1BA9B1300024F19F /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E20A9EF1BA9B1300024F19F /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E51BA9B1300024F19F /* DNSSDService.h */; settings = {ASSET_TAGS = (); }; };
+		5E20A9F01BA9B1300024F19F /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E51BA9B1300024F19F /* DNSSDService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E20A9F11BA9B1300024F19F /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9F21BA9B1300024F19F /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD18140F1A784E850027BB09 /* sReto.h in Headers */ = {isa = PBXBuildFile; fileRef = CDBAB9EE199032DD00364D04 /* sReto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD1B7B76199C01D6009CCAB2 /* StartStopHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1B7B74199C01D6009CCAB2 /* StartStopHelper.swift */; };
 		CD1B7B77199C1CB8009CCAB2 /* ManagedModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1B7B71199BCE72009CCAB2 /* ManagedModule.swift */; };
@@ -110,7 +126,6 @@
 		CDA6672F19E7E11900EB63D2 /* PipeForward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB8199DBAD100468C30 /* PipeForward.swift */; };
 		CDA6673019E7E11900EB63D2 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = CD6D20A2199263C4004E4381 /* base64.c */; };
 		CDA6673119E7E11900EB63D2 /* RepeatedExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CAF199DAEF300468C30 /* RepeatedExecutor.swift */; };
-		CDA6673219E7E11900EB63D2 /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990321980586300C69036 /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDA6673319E7E11900EB63D2 /* LinkStatePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CC1199DBCB200468C30 /* LinkStatePacket.swift */; };
 		CDA6673419E7E11900EB63D2 /* MulticastConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4D82F619CB8C0B001A5897 /* MulticastConnection.swift */; };
 		CDA6673519E7E11900EB63D2 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE51980583B00C69036 /* WlanModule.swift */; };
@@ -120,11 +135,9 @@
 		CDA6673919E7E11900EB63D2 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB2199DBA7A00468C30 /* UUID.swift */; };
 		CDA6673B19E7E11900EB63D2 /* LocalPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FF01980584400C69036 /* LocalPeer.swift */; };
 		CDA6673C19E7E11900EB63D2 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD64369C19845768004AC981 /* Node.swift */; };
-		CDA6673D19E7E11900EB63D2 /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990301980586300C69036 /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDA6673E19E7E11900EB63D2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990141980585300C69036 /* Data.swift */; };
 		CDA6673F19E7E11900EB63D2 /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003EE1982D2AF00D5E89E /* WlanBonjourServiceAdvertiser.swift */; };
 		CDA6674019E7E11900EB63D2 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE41980583B00C69036 /* Utils.swift */; };
-		CDA6674119E7E11900EB63D2 /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990341980586300C69036 /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDA6674219E7E11900EB63D2 /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703571999A78E002560EE /* Browser.swift */; };
 		CDA6674319E7E11900EB63D2 /* ReliabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FF51980584400C69036 /* ReliabilityManager.swift */; };
 		CDA6674419E7E11900EB63D2 /* TcpIpAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE11980583B00C69036 /* TcpIpAddress.swift */; };
@@ -148,7 +161,6 @@
 		CDA6675819E7E11900EB63D2 /* LinkStateRoutingTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CC4199E946500468C30 /* LinkStateRoutingTable.swift */; };
 		CDA6675919E7E11900EB63D2 /* MinimumSteinerTreeApproximation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DC24C19C7A1DD006ADC24 /* MinimumSteinerTreeApproximation.swift */; };
 		CDA6675A19E7E11900EB63D2 /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990111980585300C69036 /* BluetoothModule.swift */; };
-		CDA6675B19E7E11900EB63D2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD08F1219D3F74D00C78CD5 /* GCDAsyncSocket.m */; };
 		CDA6675C19E7E11900EB63D2 /* DefaultRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703931999BAE5002560EE /* DefaultRouter.swift */; };
 		CDA6675D19E7E11900EB63D2 /* ForwardingConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A079019A8C0CC00EF3515 /* ForwardingConnection.swift */; };
 		CDA6675E19E7E11900EB63D2 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703531999A75A002560EE /* Module.swift */; };
@@ -161,12 +173,8 @@
 		CDA6676819E7E11900EB63D2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20BB199265E4004E4381 /* Security.framework */; };
 		CDA6676919E7E11900EB63D2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B9199265DC004E4381 /* CFNetwork.framework */; };
 		CDA6676A19E7E11900EB63D2 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B7199265D4004E4381 /* libicucore.dylib */; };
-		CDA6676C19E7E11900EB63D2 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD08F1119D3F74D00C78CD5 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDA6676D19E7E11900EB63D2 /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD990311980586300C69036 /* DNSSDRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDA6676F19E7E11900EB63D2 /* NSData+SRB64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D20A4199263C4004E4381 /* NSData+SRB64Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDA6677019E7E11900EB63D2 /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD9902F1980586300C69036 /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDA6677119E7E11900EB63D2 /* SRWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D20A7199263C4004E4381 /* SRWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDA6677219E7E11900EB63D2 /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD990331980586300C69036 /* DNSSDService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDA6677319E7E11900EB63D2 /* base64.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D20A3199263C4004E4381 /* base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDBA245D19A49560005B18EA /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBA245C19A49560005B18EA /* GraphTests.swift */; };
 		CDBAB9EF199032DD00364D04 /* sReto.h in Headers */ = {isa = PBXBuildFile; fileRef = CDBAB9EE199032DD00364D04 /* sReto.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -181,9 +189,6 @@
 		CDBABA1E1990331E00364D04 /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990111980585300C69036 /* BluetoothModule.swift */; };
 		CDBABA1F1990331E00364D04 /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */; };
 		CDBABA201990331E00364D04 /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */; };
-		CDBABA211990331E00364D04 /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990301980586300C69036 /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CDBABA221990331E00364D04 /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990321980586300C69036 /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CDBABA231990331E00364D04 /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD990341980586300C69036 /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDBABA241990331E00364D04 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE51980583B00C69036 /* WlanModule.swift */; };
 		CDBABA251990331E00364D04 /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003EE1982D2AF00D5E89E /* WlanBonjourServiceAdvertiser.swift */; };
 		CDBABA261990331E00364D04 /* WlanBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F01982D2F600D5E89E /* WlanBonjourServiceBrowser.swift */; };
@@ -198,9 +203,6 @@
 		CDBABA311990331E00364D04 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE31980583B00C69036 /* Connection.swift */; };
 		CDBABA331990332C00364D04 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FF81980584400C69036 /* Router.swift */; };
 		CDBABA341990332C00364D04 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD64369C19845768004AC981 /* Node.swift */; };
-		CDBABA371990333900364D04 /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD9902F1980586300C69036 /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDBABA381990333900364D04 /* DNSSDRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD990311980586300C69036 /* DNSSDRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDBABA391990333900364D04 /* DNSSDService.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD990331980586300C69036 /* DNSSDService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDC2218F19CE9AE500EEE479 /* TransferDataIntegrityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2218E19CE9AE500EEE479 /* TransferDataIntegrityTest.swift */; };
 		CDD08EFF19D3DCCC00C78CD5 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98FE51980583B00C69036 /* WlanModule.swift */; };
 		CDD08F0019D3DCCC00C78CD5 /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003EE1982D2AF00D5E89E /* WlanBonjourServiceAdvertiser.swift */; };
@@ -219,9 +221,6 @@
 		CDD08F0E19D3E1BD00C78CD5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20BB199265E4004E4381 /* Security.framework */; };
 		CDD08F0F19D3E1CA00C78CD5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B9199265DC004E4381 /* CFNetwork.framework */; };
 		CDD08F1019D3E1D700C78CD5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B7199265D4004E4381 /* libicucore.dylib */; };
-		CDD08F1419D3F74D00C78CD5 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD08F1119D3F74D00C78CD5 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDD08F1619D3F74D00C78CD5 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD08F1219D3F74D00C78CD5 /* GCDAsyncSocket.m */; };
-		CDD08F1719D3F74D00C78CD5 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD08F1219D3F74D00C78CD5 /* GCDAsyncSocket.m */; };
 		CDD7035D1999A843002560EE /* UnderlyingConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD7035B1999A7CD002560EE /* UnderlyingConnection.swift */; };
 		CDD7035E1999A846002560EE /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703591999A7B7002560EE /* Address.swift */; };
 		CDD7035F1999A849002560EE /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703571999A78E002560EE /* Browser.swift */; };
@@ -235,6 +234,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSDBrowser.h; sourceTree = "<group>"; };
+		5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSDBrowser.m; sourceTree = "<group>"; };
+		5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSDRegistration.h; sourceTree = "<group>"; };
+		5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSDRegistration.m; sourceTree = "<group>"; };
+		5E20A9E51BA9B1300024F19F /* DNSSDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSDService.h; sourceTree = "<group>"; };
+		5E20A9E61BA9B1300024F19F /* DNSSDService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSDService.m; sourceTree = "<group>"; };
 		CD1814121A79B6850027BB09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = sReto/Info.plist; sourceTree = SOURCE_ROOT; };
 		CD1B7B71199BCE72009CCAB2 /* ManagedModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ManagedModule.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD1B7B74199C01D6009CCAB2 /* StartStopHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StartStopHelper.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -297,8 +304,6 @@
 		CDBAB9EA199032DD00364D04 /* sReto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = sReto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDBAB9EE199032DD00364D04 /* sReto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = sReto.h; path = sRetoMac/sReto.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CDC2218E19CE9AE500EEE479 /* TransferDataIntegrityTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TransferDataIntegrityTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		CDD08F1119D3F74D00C78CD5 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		CDD08F1219D3F74D00C78CD5 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		CDD703531999A75A002560EE /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Module.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDD703551999A772002560EE /* Advertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Advertiser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDD703571999A78E002560EE /* Browser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Browser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -324,12 +329,6 @@
 		CDD990121980585300C69036 /* CompositeAdvertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeAdvertiser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDD990131980585300C69036 /* CompositeBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CompositeBrowser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDD990141980585300C69036 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Data.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		CDD9902F1980586300C69036 /* DNSSDBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DNSSDBrowser.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CDD990301980586300C69036 /* DNSSDBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DNSSDBrowser.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		CDD990311980586300C69036 /* DNSSDRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DNSSDRegistration.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CDD990321980586300C69036 /* DNSSDRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DNSSDRegistration.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		CDD990331980586300C69036 /* DNSSDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DNSSDService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CDD990341980586300C69036 /* DNSSDService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DNSSDService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CDFD74BB19A4BFC800F66620 /* RoutingTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RoutingTableTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
@@ -367,6 +366,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E20A9D91BA9B1220024F19F /* GCDAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */,
+				5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */,
+			);
+			path = GCDAsyncSocket;
+			sourceTree = "<group>";
+		};
+		5E20A9E01BA9B1300024F19F /* DNSSD */ = {
+			isa = PBXGroup;
+			children = (
+				5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */,
+				5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */,
+				5E20A9E31BA9B1300024F19F /* DNSSDRegistration.h */,
+				5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */,
+				5E20A9E51BA9B1300024F19F /* DNSSDService.h */,
+				5E20A9E61BA9B1300024F19F /* DNSSDService.m */,
+			);
+			path = DNSSD;
+			sourceTree = "<group>";
+		};
 		CD1B7B73199C0135009CCAB2 /* Timing */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,8 +417,7 @@
 				CDD98FE11980583B00C69036 /* TcpIpAddress.swift */,
 				CD3003E91982D08700D5E89E /* BonjourAdvertiser.swift */,
 				CD3003EB1982D10D00D5E89E /* BonjourBrowser.swift */,
-				CDD08F1119D3F74D00C78CD5 /* GCDAsyncSocket.h */,
-				CDD08F1219D3F74D00C78CD5 /* GCDAsyncSocket.m */,
+				5E20A9D91BA9B1220024F19F /* GCDAsyncSocket */,
 			);
 			name = TcpIP_Bonjour;
 			sourceTree = "<group>";
@@ -418,12 +438,7 @@
 				CDD990111980585300C69036 /* BluetoothModule.swift */,
 				CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */,
 				CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */,
-				CDD9902F1980586300C69036 /* DNSSDBrowser.h */,
-				CDD990301980586300C69036 /* DNSSDBrowser.m */,
-				CDD990311980586300C69036 /* DNSSDRegistration.h */,
-				CDD990321980586300C69036 /* DNSSDRegistration.m */,
-				CDD990331980586300C69036 /* DNSSDService.h */,
-				CDD990341980586300C69036 /* DNSSDService.m */,
+				5E20A9E01BA9B1300024F19F /* DNSSD */,
 			);
 			name = BluetoothModule;
 			sourceTree = "<group>";
@@ -645,13 +660,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA6676C19E7E11900EB63D2 /* GCDAsyncSocket.h in Headers */,
-				CDA6676D19E7E11900EB63D2 /* DNSSDRegistration.h in Headers */,
+				5E20A9DD1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */,
+				5E20A9EC1BA9B1300024F19F /* DNSSDRegistration.h in Headers */,
+				5E20A9F01BA9B1300024F19F /* DNSSDService.h in Headers */,
+				5E20A9E81BA9B1300024F19F /* DNSSDBrowser.h in Headers */,
 				CD18140F1A784E850027BB09 /* sReto.h in Headers */,
 				CDA6676F19E7E11900EB63D2 /* NSData+SRB64Additions.h in Headers */,
-				CDA6677019E7E11900EB63D2 /* DNSSDBrowser.h in Headers */,
 				CDA6677119E7E11900EB63D2 /* SRWebSocket.h in Headers */,
-				CDA6677219E7E11900EB63D2 /* DNSSDService.h in Headers */,
 				CDA6677319E7E11900EB63D2 /* base64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,14 +675,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDBABA391990333900364D04 /* DNSSDService.h in Headers */,
-				CDBABA381990333900364D04 /* DNSSDRegistration.h in Headers */,
-				CDBABA371990333900364D04 /* DNSSDBrowser.h in Headers */,
-				CDD08F1419D3F74D00C78CD5 /* GCDAsyncSocket.h in Headers */,
+				5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */,
 				CD6D20AE199263C4004E4381 /* NSData+SRB64Additions.h in Headers */,
 				CDBAB9EF199032DD00364D04 /* sReto.h in Headers */,
+				5E20A9EB1BA9B1300024F19F /* DNSSDRegistration.h in Headers */,
 				CD6D20B4199263C4004E4381 /* SRWebSocket.h in Headers */,
+				5E20A9EF1BA9B1300024F19F /* DNSSDService.h in Headers */,
 				CD6D20AC199263C4004E4381 /* base64.h in Headers */,
+				5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,12 +819,12 @@
 				CDA6672919E7E11900EB63D2 /* Transfer.swift in Sources */,
 				CDA6672B19E7E11900EB63D2 /* RemoteP2PConnection.swift in Sources */,
 				CDA6672C19E7E11900EB63D2 /* Connection.swift in Sources */,
+				5E20A9EA1BA9B1300024F19F /* DNSSDBrowser.m in Sources */,
 				CDA6672D19E7E11900EB63D2 /* FloodingPacketManager.swift in Sources */,
 				CDA6672E19E7E11900EB63D2 /* WlanBonjourServiceBrowser.swift in Sources */,
 				CDA6672F19E7E11900EB63D2 /* PipeForward.swift in Sources */,
 				CDA6673019E7E11900EB63D2 /* base64.c in Sources */,
 				CDA6673119E7E11900EB63D2 /* RepeatedExecutor.swift in Sources */,
-				CDA6673219E7E11900EB63D2 /* DNSSDRegistration.m in Sources */,
 				CDA6673319E7E11900EB63D2 /* LinkStatePacket.swift in Sources */,
 				CDA6673419E7E11900EB63D2 /* MulticastConnection.swift in Sources */,
 				CDA6673519E7E11900EB63D2 /* WlanModule.swift in Sources */,
@@ -819,14 +834,13 @@
 				CDA6673919E7E11900EB63D2 /* UUID.swift in Sources */,
 				CDA6673B19E7E11900EB63D2 /* LocalPeer.swift in Sources */,
 				CDA6673C19E7E11900EB63D2 /* Node.swift in Sources */,
-				CDA6673D19E7E11900EB63D2 /* DNSSDBrowser.m in Sources */,
 				CDA6673E19E7E11900EB63D2 /* Data.swift in Sources */,
 				CDA6673F19E7E11900EB63D2 /* WlanBonjourServiceAdvertiser.swift in Sources */,
 				CDA6674019E7E11900EB63D2 /* Utils.swift in Sources */,
-				CDA6674119E7E11900EB63D2 /* DNSSDService.m in Sources */,
 				CD3727AD1A1504CF00444304 /* Logging.swift in Sources */,
 				CDA6674219E7E11900EB63D2 /* Browser.swift in Sources */,
 				CDA6674319E7E11900EB63D2 /* ReliabilityManager.swift in Sources */,
+				5E20A9DF1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */,
 				CDA6674419E7E11900EB63D2 /* TcpIpAddress.swift in Sources */,
 				CDA6674519E7E11900EB63D2 /* OutTransfer.swift in Sources */,
 				CDA6674619E7E11900EB63D2 /* BonjourAdvertiser.swift in Sources */,
@@ -848,13 +862,14 @@
 				CDA6675819E7E11900EB63D2 /* LinkStateRoutingTable.swift in Sources */,
 				CDA6675919E7E11900EB63D2 /* MinimumSteinerTreeApproximation.swift in Sources */,
 				CDA6675A19E7E11900EB63D2 /* BluetoothModule.swift in Sources */,
-				CDA6675B19E7E11900EB63D2 /* GCDAsyncSocket.m in Sources */,
 				CDA6675C19E7E11900EB63D2 /* DefaultRouter.swift in Sources */,
 				CDA6675D19E7E11900EB63D2 /* ForwardingConnection.swift in Sources */,
 				CDA6675E19E7E11900EB63D2 /* Module.swift in Sources */,
 				CDA6675F19E7E11900EB63D2 /* TransferManager.swift in Sources */,
 				CDA6676019E7E11900EB63D2 /* Tree.swift in Sources */,
+				5E20A9F21BA9B1300024F19F /* DNSSDService.m in Sources */,
 				CDA6676119E7E11900EB63D2 /* Packets.swift in Sources */,
+				5E20A9EE1BA9B1300024F19F /* DNSSDRegistration.m in Sources */,
 				CDA6676219E7E11900EB63D2 /* RemotePeer.swift in Sources */,
 				CDA6676519E7E11900EB63D2 /* RemoteP2PAddress.swift in Sources */,
 				CDA6676619E7E11900EB63D2 /* ManagedModule.swift in Sources */,
@@ -868,12 +883,11 @@
 				CDF615A519A5F2F600298EF3 /* MappingSequence.swift in Sources */,
 				CDBABA0D1990330B00364D04 /* CompositeAdvertiser.swift in Sources */,
 				CD1B7B77199C1CB8009CCAB2 /* ManagedModule.swift in Sources */,
-				CDBABA221990331E00364D04 /* DNSSDRegistration.m in Sources */,
 				CDBABA201990331E00364D04 /* BluetoothBonjourServiceBrowser.swift in Sources */,
 				CDD703951999BAE6002560EE /* DefaultRouter.swift in Sources */,
 				CD9F4CB1199DAEF300468C30 /* RepeatedExecutor.swift in Sources */,
 				CD9F4CB7199DBAA200468C30 /* SingePacketReading.swift in Sources */,
-				CDBABA231990331E00364D04 /* DNSSDService.m in Sources */,
+				5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */,
 				CDBABA081990330B00364D04 /* PacketConnection.swift in Sources */,
 				CDD703611999A84F002560EE /* Module.swift in Sources */,
 				CDBABA341990332C00364D04 /* Node.swift in Sources */,
@@ -897,6 +911,7 @@
 				CD762D3119A497C300B61AB8 /* PriorityQueue.swift in Sources */,
 				CDBABA271990331E00364D04 /* AsyncSocketUnderlyingConnection.swift in Sources */,
 				CD3915B819CA280D00459AA8 /* RoutingPackets.swift in Sources */,
+				5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */,
 				CD9F4CC3199DBCB200468C30 /* LinkStatePacket.swift in Sources */,
 				CDBABA2D1990331E00364D04 /* Transfer.swift in Sources */,
 				CDBABA241990331E00364D04 /* WlanModule.swift in Sources */,
@@ -904,7 +919,6 @@
 				CD9F4CC6199E946500468C30 /* LinkStateRoutingTable.swift in Sources */,
 				CDBABA281990331E00364D04 /* TcpIpAddress.swift in Sources */,
 				CD278D071993FAAD0080F380 /* RemoteP2PAddress.swift in Sources */,
-				CDD08F1719D3F74D00C78CD5 /* GCDAsyncSocket.m in Sources */,
 				CD9F4CBD199DBAF000468C30 /* Set.swift in Sources */,
 				CDD703601999A84C002560EE /* Advertiser.swift in Sources */,
 				CD762D3619A4981000B61AB8 /* OutTransfer.swift in Sources */,
@@ -922,9 +936,10 @@
 				CD9F4CBA199DBAD100468C30 /* PipeForward.swift in Sources */,
 				CD278D081993FAB00080F380 /* RemoteP2PPacket.swift in Sources */,
 				CDBABA251990331E00364D04 /* WlanBonjourServiceAdvertiser.swift in Sources */,
-				CDBABA211990331E00364D04 /* DNSSDBrowser.m in Sources */,
 				CDD703981999BD66002560EE /* Timer.swift in Sources */,
+				5E20A9F11BA9B1300024F19F /* DNSSDService.m in Sources */,
 				CDBABA0E1990330B00364D04 /* CompositeBrowser.swift in Sources */,
+				5E20A9ED1BA9B1300024F19F /* DNSSDRegistration.m in Sources */,
 				CDBABA071990330B00364D04 /* Utils.swift in Sources */,
 				CDD7035E1999A846002560EE /* Address.swift in Sources */,
 				CDBABA0B1990330B00364D04 /* Packets.swift in Sources */,
@@ -951,7 +966,6 @@
 				CD3915AD19CA27FF00459AA8 /* Address.swift in Sources */,
 				CD3915C419CA2F5F00459AA8 /* DummyConnection.swift in Sources */,
 				CD3915B119CA280B00459AA8 /* Node.swift in Sources */,
-				CDD08F1619D3F74D00C78CD5 /* GCDAsyncSocket.m in Sources */,
 				CD7C68A119A539C500764589 /* UUIDTests.swift in Sources */,
 				CD4D833219CD530F001A5897 /* ConnectivityTest.swift in Sources */,
 				CD39159519CA27EB00459AA8 /* PriorityQueue.swift in Sources */,

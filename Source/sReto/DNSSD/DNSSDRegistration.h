@@ -1,11 +1,11 @@
 /*
-    File:       DNSSDBrowser.h
+    File:       DNSSDRegistration.h
 
-    Contains:   Uses the low-level DNS-SD API to browse for Bonjour services.
+    Contains:   Uses the low-level DNS-SD API to manage a Bonjour service registration.
 
     Written by: DTS
 
-//  Copyright (c) 2014 LS1 TUM. All rights reserved.
+    Copyright:  Copyright (c) 2011 Apple Inc. All Rights Reserved.
 
     Disclaimer: IMPORTANT: This Apple software is supplied to you by Apple Inc.
                 ("Apple") in consideration of your agreement to the following
@@ -53,25 +53,23 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DNSSDService.h"
-
 // forward declarations
 
-@protocol DNSSDBrowserDelegate;
+@protocol DNSSDRegistrationDelegate;
 
-#pragma mark * DNSSDBrowser
+#pragma mark * DNSSDRegistration
 
-// DNSSDBrowser allows you to browse for services on the network, and be informed 
-// of their coming and going.
+// DNSSDRegistration represents a service that you can register on the network.
 
-@interface DNSSDBrowser : NSObject
+@interface DNSSDRegistration : NSObject
 
-- (id)initWithDomain:(NSString *)domain type:(NSString *)type;
-    // domain may be nil or the empty string, to specify browsing in all default 
-    // browsing domains.
+- (id)initWithDomain:(NSString *)domain type:(NSString *)type name:(NSString *)name port:(NSUInteger)port;
+    // domain and name can be nil or the empty string to get default behaviour.
     //
     // type must be of the form "_foo._tcp." or "_foo._udp." (possibly without the 
     // trailing dot, see below).
+    //
+    // port must be in the range 1..65535.
     // 
     // domain and type should include the trailing dot; if they don't, one is added 
     // and that change is reflected in the domain and type properties.
@@ -82,40 +80,45 @@
 
 @property (copy,   readonly ) NSString * domain;
 @property (copy,   readonly ) NSString * type;
+@property (copy,   readonly ) NSString * name;
+@property (assign, readonly ) NSUInteger port;
 
 // properties that you can change any time
 
-@property (assign, readwrite) id <DNSSDBrowserDelegate> delegate;
+@property (assign, readwrite) id<DNSSDRegistrationDelegate> delegate;
 
-- (void)startBrowse;
-    // Starts a browse.  Starting a browse on a browser that is currently browsing 
-    // is a no-op.
+- (void)start;
+    // Starts the registration process.  Does nothing if the registration is currently started.
 
 - (void)stop;
-    // Stops a browse.  Stopping a browse on a browser that is not browsing is a no-op.
+    // Stops a registration, deregistering the service from the network.  Does nothing if the 
+    // registration is not started.
+
+// properties that are set up once the registration is in place
+
+@property (copy,   readonly ) NSString * registeredDomain;
+@property (copy,   readonly ) NSString * registeredName;
 
 @end
 
-@protocol DNSSDBrowserDelegate <NSObject>
+@protocol DNSSDRegistrationDelegate <NSObject>
 
 // All delegate methods are called on the main thread.
 
 @optional
 
-- (void)dnssdBrowserWillBrowse:(DNSSDBrowser *)browser;
-    // Called before the browser starts browsing.
+- (void)dnssdRegistrationWillRegister:(DNSSDRegistration *)sender;
+    // Called before the registration process starts.
 
-- (void)dnssdBrowserDidStopBrowse:(DNSSDBrowser *)browser;
-    // Called when a browser stops browsing (except if you call -stop on it).
+- (void)dnssdRegistrationDidRegister:(DNSSDRegistration *)sender;
+    // Called when the service is successfully registered.  At this point 
+    // registeredName and registeredDomain are valid.
 
-- (void)dnssdBrowser:(DNSSDBrowser *)browser didNotBrowse:(NSError *)error;
-    // Called when the browser fails to start browsing.  The browser will be stopped 
+- (void)dnssdRegistration:(DNSSDRegistration *)sender didNotRegister:(NSError *)error;
+    // Called when the service can't be registered.  The registration will be stopped 
     // immediately after this delegate method returns.
 
-- (void)dnssdBrowser:(DNSSDBrowser *)browser didAddService:(DNSSDService *)service moreComing:(BOOL)moreComing;
-    // Called when the browser finds a new service.
-
-- (void)dnssdBrowser:(DNSSDBrowser *)browser didRemoveService:(DNSSDService *)service moreComing:(BOOL)moreComing;
-    // Called when the browser sees an existing service go away.
+- (void)dnssdRegistrationDidStop:(DNSSDRegistration *)sender;
+    // Called when the registration stops (except if you call -stop on it).
 
 @end
