@@ -29,6 +29,7 @@ func readSinglePacket(connection connection: UnderlyingConnection, onPacket pack
 func readPackets(connection connection: UnderlyingConnection, packetCount: Int, onPacket packetHandler: (DataReader) -> (), onSuccess successBlock: () -> (), onFail failBlock: () -> ()) -> SinglePacketReader{
     return SinglePacketReader(connection: connection, packetCount: packetCount, onPacket: packetHandler, onSuccess: successBlock, onFail: failBlock)
 }
+
 class SinglePacketReader: NSObject, UnderlyingConnectionDelegate {
     var underlyingConnection: UnderlyingConnection?
     let packetCount: Int

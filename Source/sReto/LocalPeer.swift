@@ -76,7 +76,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     
     /**
     * This method starts the local peer. This will advertise the local peer in the network and starts browsing for other peers.
-    * Important: You need to set the incomingConnectionBlock property of any discovered peers, otherwise you will not be able to handle incoming connections.
+    * You need to set the incomingConnectionBlock property of any discovered peers, otherwise you will not be able to handle incoming connections.
     *
     * @param onPeerDiscovered Called when a peer is discovered.
     * @param onPeerRemoved Called when a peer is removed.
