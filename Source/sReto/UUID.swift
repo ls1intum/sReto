@@ -16,13 +16,13 @@ extension NSUUID {
 }
 
 let UUID_T_ZERO: uuid_t = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
-let UUID_ZERO: UUID = UUID.fromUUID_T(UUID_T_ZERO)
+let UUID_ZERO: UUID = fromUUID_T(UUID_T_ZERO)
 
 /** 
 * This class represents unique universal identifiers, aka UUIDs.
 * This class' primary purpose is to make the underlying byte array easier to access than the NSUUID class.
 */
-public class UUID: Comparable, Hashable {
+public struct UUID: Comparable, Hashable {
     /** Stores the UUID as a 16 byte array */
     let uuid: [UInt8]
     public var hashValue: Int {
@@ -50,36 +50,41 @@ public class UUID: Comparable, Hashable {
     public init(uuid: [UInt8]) {
         self.uuid = uuid
     }
-    /** Constructs a random UUID. */
-    public class func random() -> UUID {
-        return fromNSUUID(NSUUID())
-    }
-    /** Converts an NSUUID to a UUID. */
-    public class func fromNSUUID(nsuuid: NSUUID) -> UUID {
-        var uuid: uuid_t = UUID_T_ZERO
-        withUnsafeMutablePointer(&uuid.0, { pointer in nsuuid.getUUIDBytes(pointer)})
-        return fromUUID_T(uuid)
-    }
-    /** Converts an uuid_t to a UUID. */
-    public class func fromUUID_T(uuid: uuid_t) -> UUID {
-        return UUID(
-            uuid: [
-                uuid.0, uuid.1, uuid.2, uuid.3,
-                uuid.4, uuid.5, uuid.6, uuid.7,
-                uuid.8, uuid.9, uuid.10, uuid.11,
-                uuid.12, uuid.13, uuid.14, uuid.15
-            ]
-        )
-    }
-    /** Constructs an UUID from its string representation. */
-    public class func fromString(string: String) -> UUID? {
-        if let uuid = NSUUID(UUIDString: string) {
-            return fromNSUUID(uuid)
-        } else {
-            return nil
-        }
+}
+
+/** Constructs a random UUID. */
+public func randomUUID() -> UUID {
+    return fromNSUUID(NSUUID())
+}
+
+/** Converts an NSUUID to a UUID. */
+public func fromNSUUID(nsuuid: NSUUID) -> UUID {
+    var uuid: uuid_t = UUID_T_ZERO
+    withUnsafeMutablePointer(&uuid.0, { pointer in nsuuid.getUUIDBytes(pointer)})
+    return fromUUID_T(uuid)
+}
+
+/** Converts an uuid_t to a UUID. */
+public func fromUUID_T(uuid: uuid_t) -> UUID {
+    return UUID(
+        uuid: [
+            uuid.0, uuid.1, uuid.2, uuid.3,
+            uuid.4, uuid.5, uuid.6, uuid.7,
+            uuid.8, uuid.9, uuid.10, uuid.11,
+            uuid.12, uuid.13, uuid.14, uuid.15
+        ]
+    )
+}
+
+/** Constructs an UUID from its string representation. */
+public func UUIDfromString(string: String) -> UUID? {
+    if let uuid = NSUUID(UUIDString: string) {
+        return fromNSUUID(uuid)
+    } else {
+        return nil
     }
 }
+
 public func == (id1: UUID, id2: UUID) -> Bool {
     return id1.uuid == id2.uuid
 }

@@ -31,6 +31,14 @@ public class RemotePeer: NSObject {
     public func connect() -> Connection {
         return self.localPeer.connect([self])
     }
+    
+    /**
+    * Returns the UUID identifier as string to bridge to Objective-C Code
+    * @return the UUID identifier as string
+    */
+    public func stringIdentifier() -> String {
+        return self.identifier.UUIDString
+    }
 
     // MARK: Internal
     

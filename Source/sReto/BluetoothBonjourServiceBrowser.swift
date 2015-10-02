@@ -31,7 +31,7 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
     
     func addAddress(service: DNSSDService) {
         log(.Low, info: "found address for: \(service.name)")
-        if let uuid = UUID.fromString(service.name) {
+        if let uuid = UUIDfromString(service.name) {
             let addressInformation = AddressInformation.HostName(service.resolvedHost, Int(service.resolvedPort))
             self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
         }
@@ -53,7 +53,7 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
     }
     func dnssdBrowser(browser: DNSSDBrowser!, didRemoveService service: DNSSDService!, moreComing: Bool) {
         self.services = self.services.filter({ s in s != service })
-        if let uuid = UUID.fromString(service.name) {
+        if let uuid = UUIDfromString(service.name) {
             self.delegate?.removedAddress(uuid)
         }
     }

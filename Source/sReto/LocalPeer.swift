@@ -28,15 +28,17 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     /** The dispatch queue used to execute all networking operations and callbacks */
     public let dispatchQueue: dispatch_queue_t
     /** The set of peers currently reachable */
-    public var peers: Set<RemotePeer> { get { return Set(knownPeers.values) } }
-
+    public var peers: Set<RemotePeer> {
+        return Set(knownPeers.values)
+    }
+    
     /**
     * Constructs a new LocalPeer object. A random identifier will be used for the LocalPeer.
     * Note that a LocalPeer is not functional without modules. You can add modules later with the addModule method.
     * The main dispatch queue is used for all networking code.
     */
     public convenience override init() {
-        self.init(identifier: UUID.random(), modules: [], dispatchQueue: dispatch_get_main_queue())
+        self.init(identifier: randomUUID(), modules: [], dispatchQueue: dispatch_get_main_queue())
     }
     
     /**
@@ -46,7 +48,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
     */
     public convenience init(dispatchQueue: dispatch_queue_t) {
-        self.init(identifier: UUID.random(), modules: [], dispatchQueue: dispatchQueue)
+        self.init(identifier: randomUUID(), modules: [], dispatchQueue: dispatchQueue)
     }
     /**
     * Constructs a new LocalPeer object.
@@ -55,7 +57,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
     */
     public convenience init(modules: [Module], dispatchQueue: dispatch_queue_t) {
-        self.init(identifier: UUID.random(), modules: modules, dispatchQueue: dispatchQueue)
+        self.init(identifier: randomUUID(), modules: modules, dispatchQueue: dispatchQueue)
     }
     /**
     * Constructs a new LocalPeer object. A random identifier will be used for the LocalPeer.
@@ -75,8 +77,16 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     }
     
     /**
+    * Returns the UUID identifier as string to bridge to Objective-C Code
+    * @return the UUID identifier as string
+    */
+    public func stringIdentifier() -> String {
+        return self.identifier.UUIDString
+    }
+    
+    /**
     * This method starts the local peer. This will advertise the local peer in the network and starts browsing for other peers.
-    * Important: You need to set the incomingConnectionBlock property of any discovered peers, otherwise you will not be able to handle incoming connections.
+    * You need to set the incomingConnectionBlock property of any discovered peers, otherwise you will not be able to handle incoming connections.
     *
     * @param onPeerDiscovered Called when a peer is discovered.
     * @param onPeerRemoved Called when a peer is removed.
@@ -139,7 +149,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     */
     public func connect(destinations: Set<RemotePeer>) -> Connection {
         let destinations = Set(destinations.map { $0.node })
-        let identifier = UUID.random()
+        let identifier = randomUUID()
         let packetConnection = PacketConnection(connection: nil, connectionIdentifier: identifier, destinations: destinations)
         
         self.establishedConnections[identifier] = packetConnection

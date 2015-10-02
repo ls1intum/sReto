@@ -156,6 +156,6 @@ public class DataWriter {
     public func add(nsuuid: NSUUID) {
         var uuid: uuid_t = UUID_T_ZERO
         withUnsafeMutablePointer(&uuid.0, { pointer in nsuuid.getUUIDBytes(pointer)})
-        self.add(UUID.fromUUID_T(uuid))
+        self.add(fromUUID_T(uuid))
     }
 }

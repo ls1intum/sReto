@@ -15,24 +15,28 @@ class ModuleTest: XCTestCase {
         let testInterface = DummyNetworkInterface(interfaceName: "test", cost: 1)
         let module1 = DummyModule(networkInterface: testInterface)
         let module2 = DummyModule(networkInterface: testInterface)
-        self.testWithModules(module1, module1Identifier: UUID.random(), module2: module2)
+        self.testWithModules(module1, module1Identifier: randomUUID(), module2: module2)
     }
+    
     // Tests the WlanModule. Wlan needs to be active.
     func testWlanModule() {
-        let module1 = WlanModule(type: "sRetoIntegrationTest")
-        module1.setDispatchQueue(dispatch_get_main_queue())
-        let module2 = WlanModule(type: "sRetoIntegrationTest")
-        module2.setDispatchQueue(dispatch_get_main_queue())
-        self.testWithModules(module1, module1Identifier: UUID.random(), module2: module2)
+        let module1 = WlanModule(type: "sRetoIntegrationTest", dispatchQueue: dispatch_get_main_queue())
+        let module2 = WlanModule(type: "sRetoIntegrationTest", dispatchQueue: dispatch_get_main_queue())
+        self.testWithModules(module1, module1Identifier: randomUUID(), module2: module2)
     }
+    
+    // Tests the BluetoothModule. Bluetooth needs to be active.
+    func testBluetoothModule() {
+        let module1 = BluetoothModule(type: "sRetoIntegrationTest", dispatchQueue: dispatch_get_main_queue())
+        let module2 = BluetoothModule(type: "sRetoIntegrationTest", dispatchQueue: dispatch_get_main_queue())
+        self.testWithModules(module1, module1Identifier: randomUUID(), module2: module2)
+    }
+    
     // For obvious reasons, this test can only succeed when the RemoteP2P server instance is freshly deployed locally (ie. it may not discover any other peers).
     func testRemoteModule() {
-        let module1Identifier = UUID.random()
-        let module1 = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!)
-        module1.setDispatchQueue(dispatch_get_main_queue())
-        let module2 = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!)
-        module2.setDispatchQueue(dispatch_get_main_queue())
-        self.testWithModules(module1, module1Identifier: module1Identifier, module2: module2)
+        let module1 = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!, dispatchQueue: dispatch_get_main_queue())
+        let module2 = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!, dispatchQueue: dispatch_get_main_queue())
+        self.testWithModules(module1, module1Identifier: randomUUID(), module2: module2)
     }
     
     var refs: [AnyObject] = []
@@ -171,7 +175,7 @@ class ModuleTest: XCTestCase {
         
         module1.advertiser.startAdvertising(module1Identifier)
         module1.browser.startBrowsing()
-        module2.advertiser.startAdvertising(UUID.random())
+        module2.advertiser.startAdvertising(randomUUID())
         module2.browser.startBrowsing()
         
         self.waitForExpectationsWithTimeout(20, handler: {

@@ -11,7 +11,7 @@ import Foundation
 /**
 * The TransferManagerDelegate protocol informs the delegate when an incoming transfer starts.
 */
-protocol TransferManagerDelegate: class, NSObjectProtocol {
+protocol TransferManagerDelegate: class {
     /** Called when an incoming transfer starts. */
     func notifyTransferStarted(transfer: InTransfer)
 }
@@ -57,7 +57,7 @@ class TransferManager: PacketHandler {
     * @return An OutTransfer object.
     */
     func startTransfer(dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> OutTransfer {
-        let outTransfer = OutTransfer(manager: self, dataLength: dataLength, dataProvider: dataProvider, identifier: UUID.random())
+        let outTransfer = OutTransfer(manager: self, dataLength: dataLength, dataProvider: dataProvider, identifier: randomUUID())
         self.outTransferQueue.enqueue(outTransfer)
         self.packetConnection.write()
         

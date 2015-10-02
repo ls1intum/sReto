@@ -8,16 +8,11 @@
 
 import Foundation
 
-class DummyModule: NSObject, Module {
-    let advertiser: Advertiser
-    let browser: Browser
+class DummyModule: Module {
     
     init(networkInterface: DummyNetworkInterface) {
-        self.advertiser = DummyAdvertiser(networkInterface: networkInterface)
-        self.browser = DummyBrowser(networkInterface: networkInterface)
-    }
-    
-    func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
-        
+        let advertiser = DummyAdvertiser(networkInterface: networkInterface)
+        let browser = DummyBrowser(networkInterface: networkInterface)
+        super.init(advertiser: advertiser, browser: browser)
     }
 }

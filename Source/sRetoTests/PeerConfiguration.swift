@@ -60,7 +60,7 @@ class PeerConfiguration {
     
     class func createPeer(interfaces: [DummyNetworkInterface]) -> LocalPeer {
         return LocalPeer(
-            identifier: UUID.random(),
+            identifier: randomUUID(),
             modules: interfaces.map({ DummyModule(networkInterface: $0) }),
             dispatchQueue: dispatch_get_main_queue()
         )

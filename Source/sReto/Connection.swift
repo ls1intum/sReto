@@ -31,7 +31,7 @@ import Foundation
 *    It gives access to a InTransfer object that allows you to respond to events (such as progress updates), and allows you to specify how the transfer should be received. It can also be used to cancel transfers.
 */
 
-public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
+@objc public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
     /** Whether this connection is currently connected. */
     public var isConnected: Bool = false
     
@@ -72,6 +72,17 @@ public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDe
     public func send(data data: NSData) -> Transfer {
         return self.send(dataLength: data.length, dataProvider: { data.subdataWithRange($0) })
     }
+    
+    /**
+    * Sends data.
+    * @param data The data that should be sent.
+    * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer. Can be ignored.
+    */
+    public func send(data: NSData) {
+        self.send(dataLength: data.length, dataProvider: { data.subdataWithRange($0) })
+    }
+    
+    
     /**
     * Sends data. Uses a data provider closure that allows to specify data as it is sent.
     * @param dataLength The number of bytes to be sent.

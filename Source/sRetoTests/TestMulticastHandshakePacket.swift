@@ -11,27 +11,27 @@ import XCTest
 
 class TestMulticastHandshakePacket: XCTestCase {
     func testMulticastPacket() {
-        let destinationIds: Set = [UUID.random(), UUID.random()]
+        let destinationIds: Set<UUID> = [randomUUID(), randomUUID()]
         let hopTree: Tree = Tree(
-            value: UUID.random(),
+            value: randomUUID(),
             subtrees: [
                 Tree(
-                    value: UUID.random(),
+                    value: randomUUID(),
                     subtrees: [
                         Tree(
-                            value: UUID.random(),
+                            value: randomUUID(),
                             subtrees: []
                         )
                     ]
                 ),
                 Tree(
-                    value: UUID.random(),
+                    value: randomUUID(),
                     subtrees: []
                 )
             ]
         )
         
-        let packet1 = MulticastHandshake(sourcePeerIdentifier: UUID.random(), destinationIdentifiers: destinationIds, nextHopTree: hopTree)        
+        let packet1 = MulticastHandshake(sourcePeerIdentifier: randomUUID(), destinationIdentifiers: destinationIds, nextHopTree: hopTree)        
         if let packet2 = MulticastHandshake.deserialize(DataReader(packet1.serialize())) {
             XCTAssert(packet1.sourcePeerIdentifier == packet2.sourcePeerIdentifier, "sourcePeerIdentifier doesn't match.")
             XCTAssert(packet1.destinationIdentifiers == packet2.destinationIdentifiers, "Destination ids dont match.")

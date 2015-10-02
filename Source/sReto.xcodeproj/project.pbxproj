@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E085D671BBEA86B001035AC /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990111980585300C69036 /* BluetoothModule.swift */; settings = {ASSET_TAGS = (); }; };
+		5E085D681BBEA87D001035AC /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */; settings = {ASSET_TAGS = (); }; };
+		5E085D691BBEA87F001035AC /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */; settings = {ASSET_TAGS = (); }; };
+		5E085D6A1BBEA893001035AC /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E085D6B1BBEA8B9001035AC /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E085D6C1BBEA8BC001035AC /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E085D6D1BBEA8DC001035AC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; };
 		5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9DD1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
@@ -950,6 +957,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E085D6D1BBEA8DC001035AC /* GCDAsyncSocket.m in Sources */,
+				5E085D681BBEA87D001035AC /* BluetoothBonjourServiceAdvertiser.swift in Sources */,
 				CD3915B019CA280B00459AA8 /* CompositeAdvertiser.swift in Sources */,
 				CD3915BE19CA293700459AA8 /* DummyBrowser.swift in Sources */,
 				CD39159919CA27EB00459AA8 /* UUID.swift in Sources */,
@@ -960,8 +969,10 @@
 				CD3915AF19CA280B00459AA8 /* CompositeBrowser.swift in Sources */,
 				CD3915C219CA2C4900459AA8 /* DummyAddress.swift in Sources */,
 				CDD08F0019D3DCCC00C78CD5 /* WlanBonjourServiceAdvertiser.swift in Sources */,
+				5E085D6C1BBEA8BC001035AC /* DNSSDService.m in Sources */,
 				CDD08F0219D3DCDC00C78CD5 /* AsyncSocketUnderlyingConnection.swift in Sources */,
 				CD3915B319CA280B00459AA8 /* ForwardingConnection.swift in Sources */,
+				5E085D691BBEA87F001035AC /* BluetoothBonjourServiceBrowser.swift in Sources */,
 				CDD08F0519D3DCDC00C78CD5 /* BonjourBrowser.swift in Sources */,
 				CD3915AD19CA27FF00459AA8 /* Address.swift in Sources */,
 				CD3915C419CA2F5F00459AA8 /* DummyConnection.swift in Sources */,
@@ -974,13 +985,16 @@
 				CDD08F0B19D3DF3100C78CD5 /* base64.c in Sources */,
 				CD3915A119CA27EE00459AA8 /* RepeatedExecutor.swift in Sources */,
 				CD39159819CA27EB00459AA8 /* Data.swift in Sources */,
+				5E085D671BBEA86B001035AC /* BluetoothModule.swift in Sources */,
 				CD3915A919CA27F800459AA8 /* Connection.swift in Sources */,
 				CD39159E19CA27EB00459AA8 /* MappingSequence.swift in Sources */,
 				CD4D82F819CB8C0B001A5897 /* MulticastConnection.swift in Sources */,
 				CD6DC24F19C8AE6E006ADC24 /* MinimumSteinerTreeTests.swift in Sources */,
+				5E085D6A1BBEA893001035AC /* DNSSDBrowser.m in Sources */,
 				CD3915B619CA280B00459AA8 /* DefaultRouter.swift in Sources */,
 				CD4D82FF19CD1FFE001A5897 /* DiscoveryTest.swift in Sources */,
 				CD39158919CA25E900459AA8 /* TestMulticastHandshakePacket.swift in Sources */,
+				5E085D6B1BBEA8B9001035AC /* DNSSDRegistration.m in Sources */,
 				CD3915AA19CA27FF00459AA8 /* Module.swift in Sources */,
 				CD39159019CA27E200459AA8 /* RemotePeer.swift in Sources */,
 				CDD08F0819D3DF2600C78CD5 /* RemoteP2PAddress.swift in Sources */,

@@ -11,9 +11,9 @@ import XCTest
 
 class UUIDTests: XCTestCase {
     func testUUIDStringConversion() {
-        let id = UUID.random()
+        let id = randomUUID()
         let string = id.UUIDString
-        let reconstructedId = UUID.fromString(string)
+        let reconstructedId = UUIDfromString(string)
         
         if let reconstructedId = reconstructedId {
             XCTAssert(id == reconstructedId, "Not equal after reconstruction")

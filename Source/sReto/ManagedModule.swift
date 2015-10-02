@@ -11,21 +11,18 @@ import Foundation
 /**
 * A ManagedModule wraps a Modules browser and advertiser in their Managed classes, which automatically restart them if starting fails.
 * */
-class ManagedModule: NSObject, Module {
+class ManagedModule: Module {
     let module: Module
-    let advertiser: Advertiser
-    let browser: Browser
-    override var description: String { get { return "ManagedModule: {\n\tadvertiser: \(self.advertiser), \n\tbrowser: \(self.browser)" } }
+
+    override var description: String { return "ManagedModule: {\n\tadvertiser: \(self.advertiser), \n\tbrowser: \(self.browser)" }
     
     init(module: Module, dispatchQueue: dispatch_queue_t) {
         self.module = module
-        module.setDispatchQueue(dispatchQueue)
-        self.advertiser = ManagedAdvertiser(advertiser: module.advertiser, dispatchQueue: dispatchQueue)
-        self.browser = ManagedBrowser(browser: module.browser, dispatchQueue: dispatchQueue)
-    }
+        let advertiser = ManagedAdvertiser(advertiser: module.advertiser, dispatchQueue: dispatchQueue)
+        let browser = ManagedBrowser(browser: module.browser, dispatchQueue: dispatchQueue)
+        module.dispatchQueue = dispatchQueue
     
-    func setDispatchQueue(dispatchQueue: dispatch_queue_t) {
-        self.module.setDispatchQueue(dispatchQueue)
+        super.init(advertiser: advertiser, browser: browser)
     }
 }
 

@@ -71,7 +71,7 @@ class Node: Hashable, PacketHandler {
             purpose: .RoutingConnection,
             onConnection: {
                 connection in
-                let connectionIdentifier = UUID.random()
+                let connectionIdentifier = randomUUID()
                 let packetConnection = PacketConnection(
                     connection: connection,
                     connectionIdentifier: connectionIdentifier,

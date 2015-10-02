@@ -32,7 +32,7 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
     func addAddress(netService: NSNetService) {
         if let addresses = netService.addresses {
            // print("found address for: \(netService.name), there are \(addresses.count ?? 0) addresses available.")
-            if let uuid = UUID.fromString(netService.name) {
+            if let uuid = UUIDfromString(netService.name) {
                 let addressInformation = AddressInformation.AddressAsData(addresses[0] as NSData, netService.port)
                 self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
             }
@@ -55,7 +55,7 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
     }
     func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didRemoveService aNetService: NSNetService, moreComing: Bool) {
         aNetService.delegate = nil
-        if let uuid = UUID.fromString(aNetService.name) {
+        if let uuid = UUIDfromString(aNetService.name) {
             self.delegate?.removedAddress(uuid)
         }
     }
