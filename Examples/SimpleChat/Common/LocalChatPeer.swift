@@ -20,7 +20,7 @@ class LocalChatPeer: NSObject {
         /**
         * Create a local peer with a WlanModule. To use the RemoteP2PModule, the RemoteP2P server needs to be deployed locally.
         */
-        let wlanModule = WlanModule(type: "SimpleP2PChat")
+        let wlanModule = WlanModule(type: "SimpleP2PChat", dispatchQueue: dispatch_get_main_queue())
         //let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080/")!)
         localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
     }

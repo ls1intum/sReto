@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         self.peerTableView.delegate = self
         self.connectionTableView.delegate = self
         
-        let wlanModule = WlanModule(type: "lowleveldemo")
+        let wlanModule = WlanModule(type: "lowleveldemo", dispatchQueue: dispatch_get_main_queue())
 //        let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080")!)
 
         self.localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
