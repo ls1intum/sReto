@@ -9,11 +9,7 @@ env:
   - LC_CTYPE=en_US.UTF-8
   - LANG=en_US.UTF-8
   matrix:
-    - DESTINATION="OS=8.1,name=iPhone 4S" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
-    - DESTINATION="OS=8.2,name=iPhone 5" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
-    - DESTINATION="OS=8.3,name=iPhone 5S" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
-    - DESTINATION="OS=8.4,name=iPhone 6" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
-    - DESTINATION="OS=9.0,name=iPhone 6S Plus" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
+    - DESTINATION="OS=9.0,name=iPhone 6s" SCHEME="sRetoTests" SDK=iphonesimulator9.0 BUILD_EXAMPLE="YES"
     - DESTINATION="arch=x86_64" SCHEME="sRetoTests" SDK=macosx10.11 BUILD_EXAMPLE="NO"
 before_install:
 #  - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
