@@ -1,6 +1,6 @@
 //
-//  sRetoMac.h
-//  sRetoMac
+//  sReto.h
+//  sReto
 //
 //  Created by Julian Asamer on 04/08/14.
 //  Copyright (c) 2014 LS1 TUM. All rights reserved.

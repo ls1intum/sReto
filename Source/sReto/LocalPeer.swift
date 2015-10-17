@@ -1,9 +1,9 @@
 //
 //  LocalPeer.swift
-//  Pods
+//  sReto
 //
 //  Created by Julian Asamer on 04/07/14.
-//
+//  Copyright (c) 2014 LS1 TUM. All rights reserved.
 //
 
 import Foundation
