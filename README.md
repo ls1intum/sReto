@@ -1,4 +1,9 @@
-sReto 1.0
+[![Build Status](https://travis-ci.org/ls1intum/sReto.svg)](https://travis-ci.org/ls1intum/sReto)
+[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/sReto.svg)](https://img.shields.io/cocoapods/v/sReto.svg)
+[![Platform](https://img.shields.io/cocoapods/p/sReto.svg?style=flat)](http://cocoadocs.org/docsets/sReto)
+[![Twitter](https://img.shields.io/badge/twitter-@ls1tum-blue.svg?style=flat)](http://twitter.com/ls1intum)
+
+
 ========
 Reto: P2P Framework for realtime collaboration in Swift.
 
@@ -38,13 +43,13 @@ Usage
 
 **Starting Discovery/Advertisement**
 
-Advertisement and discovery is managed by the `LocalPeer` class. A `LocalPeer` requires one or more Reto Modules to function. In this example, we will use the `WlanModule`.
+Advertisement and discovery is managed by the `LocalPeer` class. A `LocalPeer` requires one or more Reto Modules to function. In this example, we will use the `WlanModule`.
 
 *Swift*
 
 ```swift
 // 1. Create the WlanModule
-let wlanModule = WlanModule(type: "ExampleType")
+let wlanModule = WlanModule(type: "ExampleType", dispatchQueue: dispatch_get_main_queue())
 // 2. Create the LocalPeer
 let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
 // 3. Starting the LocalPeer
@@ -59,7 +64,7 @@ localPeer.start(
 
 ```objc
 // 1. Create the WlanModule
-WlanModule* wlanModule = [[WlanModule alloc] initWithType: "ExampleType"];
+WlanModule* wlanModule = [[WlanModule alloc] initWithType: "ExampleType" dispatchQueue: dispatch_get_main_queue()];
 // 2. Create the LocalPeer
 LocalPeer* localPeer = [[LocalPeer alloc] initWithModules: @[wlanModule] dispatchQueue: dispatch_get_main_queue())
 // 3. Starting the LocalPeer
