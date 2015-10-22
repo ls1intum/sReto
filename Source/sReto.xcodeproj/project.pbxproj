@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E085D671BBEA86B001035AC /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990111980585300C69036 /* BluetoothModule.swift */; settings = {ASSET_TAGS = (); }; };
-		5E085D681BBEA87D001035AC /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */; settings = {ASSET_TAGS = (); }; };
-		5E085D691BBEA87F001035AC /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */; settings = {ASSET_TAGS = (); }; };
+		5E085D671BBEA86B001035AC /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD990111980585300C69036 /* BluetoothModule.swift */; };
+		5E085D681BBEA87D001035AC /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */; };
+		5E085D691BBEA87F001035AC /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */; };
 		5E085D6A1BBEA893001035AC /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E085D6B1BBEA8B9001035AC /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E41BA9B1300024F19F /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E085D6C1BBEA8BC001035AC /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E61BA9B1300024F19F /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5E085D6D1BBEA8DC001035AC /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; };
 		5E20A9DC1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9DD1BA9B1220024F19F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9DA1BA9B1220024F19F /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
-		5E20A9DF1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; settings = {ASSET_TAGS = (); }; };
+		5E20A9DE1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; };
+		5E20A9DF1BA9B1220024F19F /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9DB1BA9B1220024F19F /* GCDAsyncSocket.m */; };
 		5E20A9E71BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9E81BA9B1300024F19F /* DNSSDBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E20A9E11BA9B1300024F19F /* DNSSDBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E20A9E21BA9B1300024F19F /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
