@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaAsyncSocket
 
 enum AddressInformation {
     case AddressAsData(NSData, String, Int)

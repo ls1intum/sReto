@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaAsyncSocket
 
 protocol BonjourServiceAdvertiserDelegate : class {
     func didPublish()

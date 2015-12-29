@@ -54,9 +54,9 @@ let wlanModule = WlanModule(type: "ExampleType", dispatchQueue: dispatch_get_mai
 let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
 // 3. Starting the LocalPeer
 localPeer.start(
-  onPeerDiscovered: { peer in println("Discovered peer: \(peer)) },
-  onPeerRemoved: { peer in println("Removed peer: \(peer)) },
-  onIncomingConnection: { peer, connection in println("Received incoming connection: \(connection) from peer: \(peer)) },
+  onPeerDiscovered: { peer in print("Discovered peer: \(peer)") },
+  onPeerRemoved: { peer in print("Removed peer: \(peer)") },
+  onIncomingConnection: { peer, connection in print("Received incoming connection: \(connection) from peer: \(peer)"") },
   displayName: "MyLocalPeer"
 )
 ```
@@ -102,9 +102,9 @@ The first closure gives you access to `RemotePeer` objects, which can be used to
 // 1. Establishing a connection
 let connection = someRemotePeer.connect()
 // 2. Registering a callback the onClose event
-connection.onClose = { connection in println("Connection closed.") }
+connection.onClose = { connection in print("Connection closed.") }
 // 3. Receiving data
-connection.onData = { connection, data in println("Received data!") }
+connection.onData = { data in print("Received data!") }
 // 4. Sending data
 connection.send(data: someData)
 ```
@@ -144,15 +144,15 @@ While the above techniques can be used to send data, you may want access about m
 someConnection.onTransfer = { 
   connection, transfer in 
   // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
-  transfer.onPartialData = { transfer, data in println("Received a chunk of data!") }
+  transfer.onPartialData = { transfer, data in print("Received a chunk of data!") }
   // 3. Registering for progress updates
-  transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
+  transfer.onProgress = { transfer in print("Current progress: \(transfer.progress) of \(transfer.length)") }
 }
  
-// 4. Sending a transfer example
-let transfer = someConnection.send(dataLength: someData.length, dataProvider: { range -> somehowProvideDataForRange(range) })
+// 4. Sending a transfer example with a data provider
+let transfer = someConnection.send(dataLength: someData.length, dataProvider: { range in return someData })
 // 5. Registering for progress updates
-transfer.onProgress { transfer in println("Current progress: \(transfer.progress) of \(transfer.length)") }
+transfer.onProgress = { transfer in print("Current progress: \(transfer.progress) of \(transfer.length)") }
 ```
 
 *Objective C*
@@ -169,7 +169,7 @@ connection.onTransfer = ^(Connection* connection, InTransfer* transfer) {
     NSLog(@"Current progress: %li of %li", transfer.progress, (long)transfer.length);
   };
 };
-// 4. Sending a transfer example
+// 4. Sending a transfer example with a data provider
 Transfer* transfer = [connection sendWithDataLength: 1 dataProvider:^NSData *(NSRange range) {
   return somehowProvideDataForRange(range);
 }];

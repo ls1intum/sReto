@@ -117,10 +117,6 @@
 		5EAB33621C331632000A9BD5 /* BonjourAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E31C331632000A9BD5 /* BonjourAdvertiser.swift */; };
 		5EAB33631C331632000A9BD5 /* BonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E41C331632000A9BD5 /* BonjourBrowser.swift */; };
 		5EAB33641C331632000A9BD5 /* BonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E41C331632000A9BD5 /* BonjourBrowser.swift */; };
-		5EAB33651C331632000A9BD5 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32E61C331632000A9BD5 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33661C331632000A9BD5 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32E61C331632000A9BD5 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33671C331632000A9BD5 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E71C331632000A9BD5 /* GCDAsyncSocket.m */; };
-		5EAB33681C331632000A9BD5 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E71C331632000A9BD5 /* GCDAsyncSocket.m */; };
 		5EAB33691C331632000A9BD5 /* TcpIpAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E81C331632000A9BD5 /* TcpIpAddress.swift */; };
 		5EAB336A1C331632000A9BD5 /* TcpIpAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E81C331632000A9BD5 /* TcpIpAddress.swift */; };
 		5EAB336B1C331632000A9BD5 /* RemoteP2PAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EA1C331632000A9BD5 /* RemoteP2PAddress.swift */; };
@@ -131,18 +127,6 @@
 		5EAB33701C331632000A9BD5 /* RemoteP2PModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EC1C331632000A9BD5 /* RemoteP2PModule.swift */; };
 		5EAB33711C331632000A9BD5 /* RemoteP2PPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32ED1C331632000A9BD5 /* RemoteP2PPacket.swift */; };
 		5EAB33721C331632000A9BD5 /* RemoteP2PPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32ED1C331632000A9BD5 /* RemoteP2PPacket.swift */; };
-		5EAB33731C331632000A9BD5 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EF1C331632000A9BD5 /* base64.c */; };
-		5EAB33741C331632000A9BD5 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EF1C331632000A9BD5 /* base64.c */; };
-		5EAB33751C331632000A9BD5 /* base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F01C331632000A9BD5 /* base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33761C331632000A9BD5 /* base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F01C331632000A9BD5 /* base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33771C331632000A9BD5 /* NSData+SRB64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F11C331632000A9BD5 /* NSData+SRB64Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33781C331632000A9BD5 /* NSData+SRB64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F11C331632000A9BD5 /* NSData+SRB64Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB33791C331632000A9BD5 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F21C331632000A9BD5 /* NSData+SRB64Additions.m */; };
-		5EAB337A1C331632000A9BD5 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F21C331632000A9BD5 /* NSData+SRB64Additions.m */; };
-		5EAB337B1C331632000A9BD5 /* SRWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F31C331632000A9BD5 /* SRWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB337C1C331632000A9BD5 /* SRWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32F31C331632000A9BD5 /* SRWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5EAB337D1C331632000A9BD5 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F41C331632000A9BD5 /* SRWebSocket.m */; };
-		5EAB337E1C331632000A9BD5 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F41C331632000A9BD5 /* SRWebSocket.m */; };
 		5EAB337F1C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F61C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift */; };
 		5EAB33801C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F61C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift */; };
 		5EAB33811C331632000A9BD5 /* WlanBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */; };
@@ -233,19 +217,11 @@
 		5EAB32E21C331632000A9BD5 /* AsyncSocketUnderlyingConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncSocketUnderlyingConnection.swift; sourceTree = "<group>"; };
 		5EAB32E31C331632000A9BD5 /* BonjourAdvertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourAdvertiser.swift; sourceTree = "<group>"; };
 		5EAB32E41C331632000A9BD5 /* BonjourBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourBrowser.swift; sourceTree = "<group>"; };
-		5EAB32E61C331632000A9BD5 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		5EAB32E71C331632000A9BD5 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		5EAB32E81C331632000A9BD5 /* TcpIpAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TcpIpAddress.swift; sourceTree = "<group>"; };
 		5EAB32EA1C331632000A9BD5 /* RemoteP2PAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteP2PAddress.swift; sourceTree = "<group>"; };
 		5EAB32EB1C331632000A9BD5 /* RemoteP2PConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteP2PConnection.swift; sourceTree = "<group>"; };
 		5EAB32EC1C331632000A9BD5 /* RemoteP2PModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteP2PModule.swift; sourceTree = "<group>"; };
 		5EAB32ED1C331632000A9BD5 /* RemoteP2PPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteP2PPacket.swift; sourceTree = "<group>"; };
-		5EAB32EF1C331632000A9BD5 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
-		5EAB32F01C331632000A9BD5 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
-		5EAB32F11C331632000A9BD5 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
-		5EAB32F21C331632000A9BD5 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
-		5EAB32F31C331632000A9BD5 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
-		5EAB32F41C331632000A9BD5 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 		5EAB32F61C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanBonjourServiceAdvertiser.swift; sourceTree = "<group>"; };
 		5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanBonjourServiceBrowser.swift; sourceTree = "<group>"; };
 		5EAB32F81C331632000A9BD5 /* WlanModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanModule.swift; sourceTree = "<group>"; };
@@ -315,16 +291,15 @@
 			children = (
 				5EAB32A41C331632000A9BD5 /* Algorithm */,
 				5EAB32A81C331632000A9BD5 /* API */,
-				5EAB32AE1C331632000A9BD5 /* Connection.swift */,
 				5EAB32AF1C331632000A9BD5 /* Connectivity */,
+				5EAB32B91C331632000A9BD5 /* Routing */,
+				5EAB32C71C331632000A9BD5 /* Utils */,
+				5EAB32AE1C331632000A9BD5 /* Connection.swift */,
 				5EAB32B31C331632000A9BD5 /* InTransfer.swift */,
 				5EAB32B41C331632000A9BD5 /* LocalPeer.swift */,
 				5EAB32B51C331632000A9BD5 /* OutTransfer.swift */,
-				5EAB32B61C331632000A9BD5 /* Packets */,
 				5EAB32B81C331632000A9BD5 /* RemotePeer.swift */,
-				5EAB32B91C331632000A9BD5 /* Routing */,
 				5EAB32C61C331632000A9BD5 /* Transfer.swift */,
-				5EAB32C71C331632000A9BD5 /* Utils */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -354,6 +329,7 @@
 		5EAB32AF1C331632000A9BD5 /* Connectivity */ = {
 			isa = PBXGroup;
 			children = (
+				5EAB32B61C331632000A9BD5 /* Packets */,
 				5EAB32B01C331632000A9BD5 /* PacketConnection.swift */,
 				5EAB32B11C331632000A9BD5 /* ReliabilityManager.swift */,
 				5EAB32B21C331632000A9BD5 /* TransferManager.swift */,
@@ -366,7 +342,8 @@
 			children = (
 				5EAB32B71C331632000A9BD5 /* Packets.swift */,
 			);
-			path = Packets;
+			name = Packets;
+			path = ../Packets;
 			sourceTree = "<group>";
 		};
 		5EAB32B91C331632000A9BD5 /* Routing */ = {
@@ -429,10 +406,10 @@
 		5EAB32D61C331632000A9BD5 /* BluetoothModule */ = {
 			isa = PBXGroup;
 			children = (
+				5EAB32DA1C331632000A9BD5 /* DNSSD */,
 				5EAB32D71C331632000A9BD5 /* BluetoothBonjourServiceAdvertiser.swift */,
 				5EAB32D81C331632000A9BD5 /* BluetoothBonjourServiceBrowser.swift */,
 				5EAB32D91C331632000A9BD5 /* BluetoothModule.swift */,
-				5EAB32DA1C331632000A9BD5 /* DNSSD */,
 			);
 			path = BluetoothModule;
 			sourceTree = "<group>";
@@ -456,19 +433,9 @@
 				5EAB32E21C331632000A9BD5 /* AsyncSocketUnderlyingConnection.swift */,
 				5EAB32E31C331632000A9BD5 /* BonjourAdvertiser.swift */,
 				5EAB32E41C331632000A9BD5 /* BonjourBrowser.swift */,
-				5EAB32E51C331632000A9BD5 /* GCDAsyncSocket */,
 				5EAB32E81C331632000A9BD5 /* TcpIpAddress.swift */,
 			);
 			path = Bonjour;
-			sourceTree = "<group>";
-		};
-		5EAB32E51C331632000A9BD5 /* GCDAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				5EAB32E61C331632000A9BD5 /* GCDAsyncSocket.h */,
-				5EAB32E71C331632000A9BD5 /* GCDAsyncSocket.m */,
-			);
-			path = GCDAsyncSocket;
 			sourceTree = "<group>";
 		};
 		5EAB32E91C331632000A9BD5 /* RemoteModule */ = {
@@ -478,22 +445,8 @@
 				5EAB32EB1C331632000A9BD5 /* RemoteP2PConnection.swift */,
 				5EAB32EC1C331632000A9BD5 /* RemoteP2PModule.swift */,
 				5EAB32ED1C331632000A9BD5 /* RemoteP2PPacket.swift */,
-				5EAB32EE1C331632000A9BD5 /* SocketRocket */,
 			);
 			path = RemoteModule;
-			sourceTree = "<group>";
-		};
-		5EAB32EE1C331632000A9BD5 /* SocketRocket */ = {
-			isa = PBXGroup;
-			children = (
-				5EAB32EF1C331632000A9BD5 /* base64.c */,
-				5EAB32F01C331632000A9BD5 /* base64.h */,
-				5EAB32F11C331632000A9BD5 /* NSData+SRB64Additions.h */,
-				5EAB32F21C331632000A9BD5 /* NSData+SRB64Additions.m */,
-				5EAB32F31C331632000A9BD5 /* SRWebSocket.h */,
-				5EAB32F41C331632000A9BD5 /* SRWebSocket.m */,
-			);
-			path = SocketRocket;
 			sourceTree = "<group>";
 		};
 		5EAB32F51C331632000A9BD5 /* WlanModule */ = {
@@ -613,13 +566,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EAB33541C331632000A9BD5 /* DNSSDBrowser.h in Headers */,
-				5EAB33661C331632000A9BD5 /* GCDAsyncSocket.h in Headers */,
 				5EAB335C1C331632000A9BD5 /* DNSSDService.h in Headers */,
 				5EAB32A21C331606000A9BD5 /* sReto.h in Headers */,
-				5EAB33781C331632000A9BD5 /* NSData+SRB64Additions.h in Headers */,
 				5EAB33581C331632000A9BD5 /* DNSSDRegistration.h in Headers */,
-				5EAB33761C331632000A9BD5 /* base64.h in Headers */,
-				5EAB337C1C331632000A9BD5 /* SRWebSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,12 +578,8 @@
 			files = (
 				5EAB32A11C331606000A9BD5 /* sReto.h in Headers */,
 				5EAB33531C331632000A9BD5 /* DNSSDBrowser.h in Headers */,
-				5EAB33651C331632000A9BD5 /* GCDAsyncSocket.h in Headers */,
 				5EAB335B1C331632000A9BD5 /* DNSSDService.h in Headers */,
-				5EAB33771C331632000A9BD5 /* NSData+SRB64Additions.h in Headers */,
 				5EAB33571C331632000A9BD5 /* DNSSDRegistration.h in Headers */,
-				5EAB33751C331632000A9BD5 /* base64.h in Headers */,
-				5EAB337B1C331632000A9BD5 /* SRWebSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,8 +719,6 @@
 				5EAB33181C331632000A9BD5 /* Packets.swift in Sources */,
 				5EAB334C1C331632000A9BD5 /* UUID.swift in Sources */,
 				5EAB32FE1C331632000A9BD5 /* Tree.swift in Sources */,
-				5EAB337A1C331632000A9BD5 /* NSData+SRB64Additions.m in Sources */,
-				5EAB337E1C331632000A9BD5 /* SRWebSocket.m in Sources */,
 				5EAB33621C331632000A9BD5 /* BonjourAdvertiser.swift in Sources */,
 				5EAB33041C331632000A9BD5 /* Browser.swift in Sources */,
 				5EAB33401C331632000A9BD5 /* Set.swift in Sources */,
@@ -811,14 +754,12 @@
 				5EAB33221C331632000A9BD5 /* FloodingPacketManager.swift in Sources */,
 				5EAB33561C331632000A9BD5 /* DNSSDBrowser.m in Sources */,
 				5EAB33821C331632000A9BD5 /* WlanBonjourServiceBrowser.swift in Sources */,
-				5EAB33681C331632000A9BD5 /* GCDAsyncSocket.m in Sources */,
 				5EAB332E1C331632000A9BD5 /* Node.swift in Sources */,
 				5EAB33321C331632000A9BD5 /* RoutingPackets.swift in Sources */,
 				5EAB335A1C331632000A9BD5 /* DNSSDRegistration.m in Sources */,
 				5EAB32FC1C331632000A9BD5 /* MinimumSteinerTreeApproximation.swift in Sources */,
 				5EAB33421C331632000A9BD5 /* SinglePacket.swift in Sources */,
 				5EAB33161C331632000A9BD5 /* OutTransfer.swift in Sources */,
-				5EAB33741C331632000A9BD5 /* base64.c in Sources */,
 				5EAB33301C331632000A9BD5 /* Router.swift in Sources */,
 				5EAB33281C331632000A9BD5 /* LinkStateRoutingTable.swift in Sources */,
 				5EAB333A1C331632000A9BD5 /* MappingSequence.swift in Sources */,
@@ -844,8 +785,6 @@
 				5EAB33171C331632000A9BD5 /* Packets.swift in Sources */,
 				5EAB334B1C331632000A9BD5 /* UUID.swift in Sources */,
 				5EAB32FD1C331632000A9BD5 /* Tree.swift in Sources */,
-				5EAB33791C331632000A9BD5 /* NSData+SRB64Additions.m in Sources */,
-				5EAB337D1C331632000A9BD5 /* SRWebSocket.m in Sources */,
 				5EAB33611C331632000A9BD5 /* BonjourAdvertiser.swift in Sources */,
 				5EAB33031C331632000A9BD5 /* Browser.swift in Sources */,
 				5EAB333F1C331632000A9BD5 /* Set.swift in Sources */,
@@ -881,14 +820,12 @@
 				5EAB33211C331632000A9BD5 /* FloodingPacketManager.swift in Sources */,
 				5EAB33551C331632000A9BD5 /* DNSSDBrowser.m in Sources */,
 				5EAB33811C331632000A9BD5 /* WlanBonjourServiceBrowser.swift in Sources */,
-				5EAB33671C331632000A9BD5 /* GCDAsyncSocket.m in Sources */,
 				5EAB332D1C331632000A9BD5 /* Node.swift in Sources */,
 				5EAB33311C331632000A9BD5 /* RoutingPackets.swift in Sources */,
 				5EAB33591C331632000A9BD5 /* DNSSDRegistration.m in Sources */,
 				5EAB32FB1C331632000A9BD5 /* MinimumSteinerTreeApproximation.swift in Sources */,
 				5EAB33411C331632000A9BD5 /* SinglePacket.swift in Sources */,
 				5EAB33151C331632000A9BD5 /* OutTransfer.swift in Sources */,
-				5EAB33731C331632000A9BD5 /* base64.c in Sources */,
 				5EAB332F1C331632000A9BD5 /* Router.swift in Sources */,
 				5EAB33271C331632000A9BD5 /* LinkStateRoutingTable.swift in Sources */,
 				5EAB33391C331632000A9BD5 /* MappingSequence.swift in Sources */,

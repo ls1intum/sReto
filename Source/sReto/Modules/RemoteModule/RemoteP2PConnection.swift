@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SocketRocket
 
 class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     weak var delegate: UnderlyingConnectionDelegate?

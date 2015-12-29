@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SocketRocket
 
 /**
 * Using a RemoteP2PModule with the LocalPeer allows it to discover and connect with other peers over the internet using a RemoteP2P server.
