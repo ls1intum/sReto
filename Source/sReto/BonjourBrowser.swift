@@ -14,8 +14,9 @@ protocol BonjourServiceBrowserDelegate : class {
     func didStart()
     func didStop()
 }
+
 protocol BonjourServiceBrowser : class {
-    /* weak */ var delegate: BonjourServiceBrowserDelegate? { get set }
+    weak var delegate: BonjourServiceBrowserDelegate? { get set }
     
     func startBrowsing(networkType: String)
     func stopBrowsing()
@@ -26,8 +27,7 @@ class BonjourBrowser: NSObject, Browser, BonjourServiceBrowserDelegate {
     let networkType: String
     let dispatchQueue: dispatch_queue_t
     let recommendedPacketSize: Int
-    var addresses: [UUID: (Address, Int)] = [:] // Todo: WTF-Style fix for Swift-Bug. Storing addresses does not work when not wrapping in a pointless tuple
-
+    var addresses: [UUID: Address] = [:]
     var browserDelegate: BrowserDelegate?
     var isBrowsing: Bool = false
     
@@ -44,6 +44,7 @@ class BonjourBrowser: NSObject, Browser, BonjourServiceBrowserDelegate {
             self.browser.startBrowsing(self.networkType)
         }
     }
+    
     func stopBrowsing() {
         self.isBrowsing = false
         self.browser.stopBrowsing()
@@ -53,25 +54,24 @@ class BonjourBrowser: NSObject, Browser, BonjourServiceBrowserDelegate {
         self.isBrowsing = true
         self.browserDelegate?.didStartBrowsing(self)
     }
+    
     func didStop() {
         self.isBrowsing = false
         self.browserDelegate?.didStopBrowsing(self)
     }
+    
     func foundAddress(identifier: UUID, addressInformation: AddressInformation) {
-        let address = TcpIpAddress(
-            dispatchQueue: self.dispatchQueue,
-            address: addressInformation,
-            recommendedPacketSize: self.recommendedPacketSize
-        )
-        self.addresses[identifier] = (address, 1)
+        let address = TcpIpAddress(dispatchQueue: self.dispatchQueue, address: addressInformation, recommendedPacketSize: self.recommendedPacketSize)
+        self.addresses[identifier] = address
         self.browserDelegate?.didDiscoverAddress(self, address: address, identifier: identifier)
     }
+    
     func removedAddress(identifier: UUID) {
         let addr = self.addresses[identifier]
         self.addresses[identifier] = nil
 
         if let addr = addr {
-            self.browserDelegate?.didRemoveAddress(self, address: addr.0, identifier: identifier)
+            self.browserDelegate?.didRemoveAddress(self, address: addr, identifier: identifier)
         }
     }
 }

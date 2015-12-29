@@ -32,7 +32,7 @@ public protocol UnderlyingConnectionDelegate : class {
 */
 public protocol UnderlyingConnection : class {
     /** The connection's delegate. */
-    weak var delegate : UnderlyingConnectionDelegate? { get set }
+    /*weak */var delegate : UnderlyingConnectionDelegate? { get set }
     /** Whether this connection is currently connected. */
     var isConnected : Bool { get }
     /** Reto sends packets which may vary in size. This property may return an ideal packet size that should be used if possible. */

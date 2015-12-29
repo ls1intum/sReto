@@ -18,30 +18,39 @@ enum ConnectionPurpose: Int32 {
 }
 
 /** 
-* The LinkHandshake packet is the first packet exchanged over a direct connection; it is sent by the establishing peer. It contains that peer's identifier and 
+* The LinkHandshake packet is the first packet exchanged over a direct connection, it is sent by the establishing peer. It contains that peer's identifier and 
 * the purpose of the connection. It is used by the establishDirectConnection and handleDirectConnection methods in the Router class.
 */
 struct LinkHandshake: Packet {
     let peerIdentifier: UUID
+    let peerName: String
     let connectionPurpose: ConnectionPurpose
 
-    static func getType() -> PacketType { return PacketType.LinkHandshake }
-    static func getLength() -> Int { return sizeof(Int32) + sizeof(UUID)*2 + sizeof(ConnectionPurpose) }
+    static func getType() -> PacketType {
+        return PacketType.LinkHandshake
+    }
+    static func getMinimumLength() -> Int {
+        return sizeof(Int32) + sizeof(UUID)*2 + sizeof(ConnectionPurpose)
+    }
     
     static func deserialize(data: DataReader) -> LinkHandshake? {
-        if !Packets.check(data: data, expectedType: getType(), minimumLength: getLength()) { return nil }
+        if !Packets.check(data: data, expectedType: getType(), minimumLength: getMinimumLength()) {
+            return nil
+        }
         
         let peerIdentifier = data.getUUID()
         let connectionPurpose = ConnectionPurpose(rawValue: data.getInteger())
+        let peerName = String(data: data.getData(data.remaining()), encoding: NSUTF8StringEncoding)!
         
-        return connectionPurpose.map { LinkHandshake(peerIdentifier: peerIdentifier, connectionPurpose: $0) }
+        return connectionPurpose.map { LinkHandshake(peerIdentifier: peerIdentifier, peerName: peerName, connectionPurpose: $0) }
     }
     
     func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.getLength())
+        let data = DataWriter(length: self.dynamicType.getMinimumLength())
         data.add(self.dynamicType.getType().rawValue)
         data.add(self.peerIdentifier)
         data.add(self.connectionPurpose.rawValue)
+        data.add(self.peerName.dataUsingEncoding(NSUTF8StringEncoding)!)
         return data.getData()
     }
 }
@@ -68,11 +77,11 @@ struct MulticastHandshake: Packet {
         let destinationsCount = Int(data.getInteger())
         
         if destinationsCount == 0 {
-            print("Invalid MulticastHandshake: no destinations specified.")
+            log(.Medium, error: "Invalid MulticastHandshake: no destinations specified.")
             return nil
         }
         if data.checkRemaining(destinationsCount * sizeof(UUID)) == false {
-            print("Invalid MulticastHandshake: not enough data to read destinations.")
+            log(.Medium, error: "Invalid MulticastHandshake: not enough data to read destinations.")
             return nil
         }
         var destinations: Set<UUID> = []
@@ -99,7 +108,7 @@ struct MulticastHandshake: Packet {
     
     static func deserializeNextHopTree(data: DataReader) -> Tree<UUID>? {
         if !data.checkRemaining(sizeof(UUID) + sizeof(Int32)) {
-            print("Invalid MulticastHandshake: not enough data to read tree.")
+            log(.Medium, error: "Invalid MulticastHandshake: not enough data to read tree.")
             return nil
         }
         

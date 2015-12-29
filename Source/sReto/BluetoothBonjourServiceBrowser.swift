@@ -19,6 +19,7 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
         browser.delegate = self
         browser.startBrowse()
     }
+    
     func stopBrowsing() {
         if let browser = self.browser {
             browser.stop()
@@ -36,12 +37,15 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
             self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
         }
     }
+    
     func dnssdBrowserWillBrowse(browser: DNSSDBrowser!) {
         self.delegate?.didStart()
     }
+    
     func dnssdBrowserDidStopBrowse(browser: DNSSDBrowser!) {
         self.delegate?.didStop()
     }
+    
     func dnssdBrowser(browser: DNSSDBrowser!, didAddService service: DNSSDService!, moreComing: Bool) {
         if (service.resolvedHost != nil) {
             self.addAddress(service)
@@ -51,18 +55,22 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
             service.startResolve()
         }
     }
+    
     func dnssdBrowser(browser: DNSSDBrowser!, didRemoveService service: DNSSDService!, moreComing: Bool) {
         self.services = self.services.filter({ s in s != service })
         if let uuid = UUIDfromString(service.name) {
             self.delegate?.removedAddress(uuid)
         }
     }
+    
     func dnssdServiceDidResolveAddress(service: DNSSDService!) {
         self.addAddress(service)
     }
+    
     func dnssdService(service: DNSSDService!, didNotResolve error: NSError!) {
         log(.Medium, error: "Could not resolve service. \(error)")
     }
+
     func dnssdServiceDidStop(service: DNSSDService!) {
         service.delegate = nil
         self.services = self.services.filter({ s in s != service })

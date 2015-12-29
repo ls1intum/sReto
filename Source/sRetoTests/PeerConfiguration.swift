@@ -53,17 +53,13 @@ class PeerConfiguration {
                 },
                 onIncomingConnection: {
                     (peer: RemotePeer, connection: Connection) -> () in ()
-                }
+                }, displayName: nil
             )
         }
     }
     
     class func createPeer(interfaces: [DummyNetworkInterface]) -> LocalPeer {
-        return LocalPeer(
-            identifier: randomUUID(),
-            modules: interfaces.map({ DummyModule(networkInterface: $0) }),
-            dispatchQueue: dispatch_get_main_queue()
-        )
+        return LocalPeer(name: "Peer", identifier: randomUUID(), modules: interfaces.map({ DummyModule(networkInterface: $0) }), dispatchQueue: dispatch_get_main_queue())
     }
     class func directNeighborConfiguration() -> PeerConfiguration {
         let interfaces = [("test1", 1)].map { DummyNetworkInterface(interfaceName: $0.0, cost: $0.1) }

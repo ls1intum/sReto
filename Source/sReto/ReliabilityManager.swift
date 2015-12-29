@@ -43,7 +43,7 @@ protocol ConnectionManager: class {
 */
 class ReliabilityManager: NSObject, PacketHandler {
     /** The PacketConnection thats reliability is managed. */
-    let packetConnection: PacketConnection
+    private let packetConnection: PacketConnection
     /** The delegate */
     weak var delegate: ReliabilityManagerDelegate?
     /** The connection manager */
@@ -58,7 +58,7 @@ class ReliabilityManager: NSObject, PacketHandler {
     /** Set to true when the underlying connection is expected to close. */
     var isExpectingConnectionToClose = false
     /** Set to true if this ReliabilityManager is expected to attempt to reconnect when a connection fails. */
-    var isExpectedToReconnect: Bool;
+    var isExpectedToReconnect: Bool
     
     /** The executor used to repeat reconnect attempts */
     var repeatedExecutor: RepeatedExecutor!
@@ -100,9 +100,12 @@ class ReliabilityManager: NSObject, PacketHandler {
             self.packetConnection.write(CloseRequest())
         }
     }
+    
     /** Attempts to reconnect a PacketConnection with no or a failed underlying connection. */
     func attemptReconnect() {
-        if self.packetConnection.isConnected { return }
+        if self.packetConnection.isConnected {
+            return
+        }
         
         self.reconnectAttempts++
         
@@ -110,7 +113,8 @@ class ReliabilityManager: NSObject, PacketHandler {
             self.repeatedExecutor.stop()
             self.connectionManager?.notifyConnectionClose(self.packetConnection)
             self.delegate?.connectionClosedUnexpectedly(self.originalError)
-        } else {
+        }
+        else {
             self.repeatedExecutor.start(self.attemptReconnect)
             self.connectionManager?.establishUnderlyingConnection(self.packetConnection)
         }
@@ -120,11 +124,13 @@ class ReliabilityManager: NSObject, PacketHandler {
     private func handleCloseRequest() {
         self.packetConnection.write(CloseAnnounce())
     }
+    
     /** Handles a close announce. */
     private func handleCloseAnnounce() {
         self.isExpectingConnectionToClose = true
         self.packetConnection.write(CloseAcknowledge(source: self.localIdentifier))
     }
+    
     /** Handles a close acknowledge. */
     private func handleCloseAcknowledge(packet: CloseAcknowledge) {
         self.receivedCloseRequestAcknowledges += packet.source
@@ -148,7 +154,10 @@ class ReliabilityManager: NSObject, PacketHandler {
             self.repeatedExecutor.start(self.attemptReconnect)
         }
     }
-    func willSwapUnderlyingConnection() {}
+    
+    func willSwapUnderlyingConnection() {
+    }
+    
     func underlyingConnectionDidConnect() {
         self.originalError = nil
         self.reconnectAttempts = 0
@@ -156,9 +165,12 @@ class ReliabilityManager: NSObject, PacketHandler {
         
         self.delegate?.connectionConnected()
     }
-    func didWriteAllPackets() {}
+    
+    func didWriteAllPackets() {
+    }
     
     let handledPacketTypes = [PacketType.CloseRequest, PacketType.CloseAnnounce, PacketType.CloseAcknowledge]
+    
     func handlePacket(data: DataReader, type: PacketType) {
         switch type {
         case .CloseRequest:

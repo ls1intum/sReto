@@ -20,10 +20,10 @@ import Foundation
 * until it can be sent. 
 *
 * A PacketConnection can have multiple delegates. Amongt other events, the PacketConnection delegates the handling of packets to multiple delegates that implement
-* the PacketHandler protocol. The PacketHandlers may specify the packet types they are able to handler; the packet connection will call the according handler's
+* the PacketHandler protocol. The PacketHandlers may specify the packet types they are able to handler, the packet connection will call the according handler's
 * handlePacket method.
 *
-* The PacketConnection itself is agnostic of the different packet types; the introduction of new packet types and handlers does not require any changes
+* The PacketConnection itself is agnostic of the different packet types, the introduction of new packet types and handlers does not require any changes
 * in the PacketConnection class. This allows Reto to split up different functionality of Connections into different classes, 
 * e.g. the TransferManager and ReliabilityManager, which are both PacketHandlers.
 */
@@ -57,16 +57,16 @@ protocol PacketHandler: PacketConnectionDelegate {
 /**
 * Used to store weak references in an array by introducing an additional indirection since Swift arrays cannot store weak references directly.
 */
-// TODO: Better solution would be to use a generic "Weak" class that stores a weak var reference. Not currently possible due to compiler bugs.
 class WeakPacketConnectionDelegate {
-    weak var delegate: PacketConnectionDelegate? = nil
+    weak var delegate: PacketConnectionDelegate?
     
     init(delegate: PacketConnectionDelegate) {
         self.delegate = delegate
     }
 }
+
 class WeakPacketHandler {
-    weak var handler: PacketHandler? = nil
+    weak var handler: PacketHandler?
     
     init(handler: PacketHandler) {
         self.handler = handler
@@ -81,7 +81,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
     /** The PacketConnection's delegates. */
     var packetHandlers: [PacketType: WeakPacketHandler] = [:]
     /** The underlying connection used by this PacketConnection */
-    var underlyingConnection: UnderlyingConnection?
+    private(set) var underlyingConnection: UnderlyingConnection?
     /** The connection's identifier. This identifier is used to associate new incoming underlying connections with exising packet connections. */
     let connectionIdentifier: UUID
     /** This connection's destinations. */
@@ -91,7 +91,9 @@ class PacketConnection: UnderlyingConnectionDelegate {
     /** Whether a packet is currently being sent. */
     var isSendingPacket: Bool = false
     /** Whether the connection is connected or not. */
-    var isConnected: Bool { get { return self.underlyingConnection?.isConnected ?? false } }
+    var isConnected: Bool {
+        return self.underlyingConnection?.isConnected ?? false
+    }
     
     /** 
     * Initializes a new PacketConnection.
@@ -108,10 +110,12 @@ class PacketConnection: UnderlyingConnectionDelegate {
         if let connection = connection { connection.delegate = self }
         if self.isConnected { self.didConnect() }
     }
+    
     /** Add a PacketConnectionDelegate */
     func addDelegate(delegate: PacketConnectionDelegate) {
         self.delegates.append(WeakPacketConnectionDelegate(delegate: delegate))
     }
+    
     /** Add a PacketHandler */
     func addDelegate(delegate: PacketHandler) {
         self.delegates.append(WeakPacketConnectionDelegate(delegate: delegate))
@@ -124,35 +128,55 @@ class PacketConnection: UnderlyingConnectionDelegate {
             self.packetHandlers[type] = WeakPacketHandler(handler: delegate)
         }
     }
+    
     /** Used internally to simplify notifying all delegates. */
     private func notifyDelegates(closure: (PacketConnectionDelegate) -> ()) {
-        for weakDelegate in self.delegates { if let delegate = weakDelegate.delegate { closure(delegate) } }
+        for weakDelegate in self.delegates {
+            if let delegate = weakDelegate.delegate {
+                closure(delegate)
+            }
+        }
     }
+    
     /**
-    * Swaps this PacketConnection's underlying connection to a new one. The new connection can also be nil; in that case the packet connection will be disconnected.
+    * Swaps this PacketConnection's underlying connection to a new one. The new connection can also be nil, in that case the packet connection will be disconnected.
     */
     func swapUnderlyingConnection(underlyingConnection: UnderlyingConnection?) {
-        if (self.underlyingConnection === underlyingConnection) { return }
+        if (self.underlyingConnection === underlyingConnection) {
+            return
+        }
         
         if self.underlyingConnection != nil {
             self.notifyDelegates { $0.willSwapUnderlyingConnection() }
         }
         let previousConnection = self.underlyingConnection
         self.underlyingConnection = underlyingConnection
-        if let underlyingConnection = self.underlyingConnection { underlyingConnection.delegate = self }
+        if let underlyingConnection = self.underlyingConnection {
+            underlyingConnection.delegate = self
+        }
         
-        if let previousConnection = previousConnection { if previousConnection.isConnected { previousConnection.close() } }
+        if let previousConnection = previousConnection {
+            if previousConnection.isConnected {
+                previousConnection.close()
+            }
+        }
         self.isSendingPacket = false
         self.unsentPackets = []
         
-        if let underlyingConnection = self.underlyingConnection { if underlyingConnection.isConnected { self.didConnect() } }
+        if let underlyingConnection = self.underlyingConnection {
+            if underlyingConnection.isConnected {
+                self.didConnect()
+            }
+        }
     }
+    
     /**
     * Closes the underlying connection
     */
     func disconnectUnderlyingConnection() {
         self.underlyingConnection?.close()
     }
+    
     /**
     * Writes a packet. The packet will be buffered and sent later if the connection is currently disconnected.
     */
@@ -160,22 +184,29 @@ class PacketConnection: UnderlyingConnectionDelegate {
         self.unsentPackets.append(packet)
         self.write()
     }
+    
     /**
     * Attempts to write any buffered packets, or notifies it's delegates that all packes have been written.
     */
     func write() {
-        if self.isSendingPacket { return }
+        if self.isSendingPacket {
+            return
+        }
         if let underlyingConnection = self.underlyingConnection {
-            if !underlyingConnection.isConnected { return }
+            if !underlyingConnection.isConnected {
+                return
+            }
             
             if (self.unsentPackets.count == 0) {
                 self.notifyDelegates { $0.didWriteAllPackets() }
-            } else {
+            }
+            else {
                 self.isSendingPacket = true
                 underlyingConnection.writeData(self.unsentPackets.removeAtIndex(0).serialize())
             }
         }
     }
+    
     func didConnect() {
         self.notifyDelegates { $0.underlyingConnectionDidConnect() }
     }
@@ -205,7 +236,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
                 log(.High, warning: "There was no PacketHandler registered for the type \(packetType) (raw: \(packetType.rawValue)) with the PacketConnection \(self). It will be dismissed.")
             }
         } else {
-            print("Unknown packet type: \(packetType)")
+            log(.High, error: "Unknown packet type: \(packetType)")
         }
     }
     func didSendData(connection: UnderlyingConnection) {

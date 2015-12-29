@@ -36,7 +36,7 @@ Execute an action after a fixed delay:
 
 Execute an action in a fixed interval and firing prematurely / stopping the timer:
 
-    let timer = Timer.repeat(interval: 0.5) { (timer, executionCount) -> () in
+    let timer = Timer.repeatAction(interval: 0.5) { (timer, executionCount) -> () in
         print("Hello, this is execution #\(executionCount + 1)")
     }
     
@@ -47,16 +47,16 @@ Execute an action in a fixed interval and firing prematurely / stopping the time
 
 Execute an action in fixed intervals for a certain number of times:
 
-    Timer.repeat(interval: 0.5, maximumExecutionCount: 5) { (timer, executionCount) -> () in
+    Timer.repeatAction(interval: 0.5, maximumExecutionCount: 5) { (timer, executionCount) -> () in
         print("Hello, this is execution #\(executionCount + 1)")
     }
 
 Execute an action an arbitrary number of times, and stop at some point:
 
-    Timer.repeat(interval: 0.5) { (timer, executionCount) -> () in
+    Timer.repeatAction(interval: 0.5) { (timer, executionCount) -> () in
         print("Hello, this is execution #\(executionCount + 1)")
         if someCondition {
-            print("Stopping now.");
+            print("Stopping now.")
             timer.stop()
         }
     }
@@ -65,7 +65,7 @@ Execute an action with growing delays. For example, when requesting data from a 
 
     In this example, the action is executed with delays of 0.2, 0.4, 0.8, 1.6, ... seconds, but with a maximum of 10 seconds.
 
-    Timer.repeatWithBackoff(initialDelay: 0.2, 
+    Timer.repeatActionWithBackoff(initialDelay: 0.2,
         backOffFactor: 2.0, 
         maximumDelay: 10.0, 
         action: { (timer, executionCount) -> () in
@@ -76,7 +76,7 @@ Execute an action with growing delays. For example, when requesting data from a 
 Execute an action with user-specified delays (you figure out something to do with that).
 
     let digitsOfΠ: [Timer.TimeInterval] = [3,1,4,1,5,9,2,6,5,3]
-    Timer.repeat(
+    Timer.repeatAction(
         delayBlock: { (executionCount) -> Timer.TimeInterval in
             return digitsOfΠ[executionCount % 10]
         },
@@ -143,7 +143,7 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func `repeat`(
+    public class func repeatAction(
         interval interval: TimeInterval,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,
@@ -185,7 +185,7 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func repeatWithBackoff (
+    public class func repeatActionWithBackoff (
         initialDelay initialDelay: TimeInterval,
         backOffFactor: Double = 1.5,
         maximumDelay: TimeInterval? = nil,
@@ -207,13 +207,13 @@ public class Timer {
     }
     
     public typealias BackoffTimerSettings = (initialInterval: TimeInterval, backOffFactor: Double, maximumDelay: TimeInterval?)
-    public class func repeatWithBackoff (
+    public class func repeatActionWithBackoff (
         timerSettings timerSettings: BackoffTimerSettings,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,
         action: TimerAction) -> Timer {
         
-            return repeatWithBackoff(initialDelay: timerSettings.initialInterval, backOffFactor: timerSettings.backOffFactor, maximumDelay: timerSettings.maximumDelay, dispatchQueue: dispatchQueue, maximumExecutionCount: maximumExecutionCount, action: action)
+            return repeatActionWithBackoff(initialDelay: timerSettings.initialInterval, backOffFactor: timerSettings.backOffFactor, maximumDelay: timerSettings.maximumDelay, dispatchQueue: dispatchQueue, maximumExecutionCount: maximumExecutionCount, action: action)
     }
     /**
     Executes a block with user-specified delays.
@@ -233,7 +233,7 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func `repeat` (
+    public class func repeatAction (
         delayBlock delayBlock: DelayBlock,
         dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
         maximumExecutionCount: Int? = nil,

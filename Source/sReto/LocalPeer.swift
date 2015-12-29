@@ -8,6 +8,10 @@
 
 import Foundation
 
+#if os( iOS)
+    import UIKit
+#endif
+
 /** Used to notify about discovered peers. */
 public typealias PeerDiscoveredClosure = (peer: RemotePeer) -> ()
 /** Used to notify about removed peers. */
@@ -23,6 +27,8 @@ public typealias ConnectionClosure = (peer: RemotePeer, connection: Connection) 
 * The LocalPeer can also be used to establish multicast connections to multiple other peers.
 */
 public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
+    /** This peer's name. If not specified in the constructor, it has a the device name. */
+    public let name: String
     /** This peer's unique identifier. If not specified in the constructor, it has a random value. */
     public let identifier: UUID
     /** The dispatch queue used to execute all networking operations and callbacks */
@@ -32,13 +38,21 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
         return Set(knownPeers.values)
     }
     
+    static var deviceName: String {
+        #if os( iOS)
+            return UIDevice.currentDevice().name
+        #else
+            return NSHost.currentHost().localizedName!
+        #endif
+    }
+    
     /**
     * Constructs a new LocalPeer object. A random identifier will be used for the LocalPeer.
     * Note that a LocalPeer is not functional without modules. You can add modules later with the addModule method.
     * The main dispatch queue is used for all networking code.
     */
     public convenience override init() {
-        self.init(identifier: randomUUID(), modules: [], dispatchQueue: dispatch_get_main_queue())
+        self.init(name: LocalPeer.deviceName, identifier: randomUUID(), modules: [], dispatchQueue: dispatch_get_main_queue())
     }
     
     /**
@@ -48,7 +62,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
     */
     public convenience init(dispatchQueue: dispatch_queue_t) {
-        self.init(identifier: randomUUID(), modules: [], dispatchQueue: dispatchQueue)
+        self.init(name: LocalPeer.deviceName, identifier: randomUUID(), modules: [], dispatchQueue: dispatchQueue)
     }
     /**
     * Constructs a new LocalPeer object.
@@ -57,18 +71,32 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
     */
     public convenience init(modules: [Module], dispatchQueue: dispatch_queue_t) {
-        self.init(identifier: randomUUID(), modules: modules, dispatchQueue: dispatchQueue)
+        self.init(name: LocalPeer.deviceName, identifier: randomUUID(), modules: modules, dispatchQueue: dispatchQueue)
     }
+    
     /**
-    * Constructs a new LocalPeer object. A random identifier will be used for the LocalPeer.
-    *
-    * @param localPeerIdentifier The identifier used for the peer
-    * @param modules An array of modules used for the underlying networking functionality. For example: @see WlanModule, @see RemoteP2PModule.
-    * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
-    */
-    public init(identifier: UUID, modules: [Module], dispatchQueue: dispatch_queue_t) {
+     * Constructs a new LocalPeer object.
+     *
+     * @param name The name used for the peer
+     * @param modules An array of modules used for the underlying networking functionality. For example: @see WlanModule, @see RemoteP2PModule.
+     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
+     */
+    public convenience init(name: String, modules: [Module], dispatchQueue: dispatch_queue_t) {
+        self.init(name: name, identifier: randomUUID(), modules: modules, dispatchQueue: dispatchQueue)
+    }
+    
+    /**
+     * Constructs a new LocalPeer object. A random identifier will be used for the LocalPeer.
+     *
+     * @param name The name used for the peer
+     * @param localPeerIdentifier The identifier used for the peer
+     * @param modules An array of modules used for the underlying networking functionality. For example: @see WlanModule, @see RemoteP2PModule.
+     * @param dispatchQueue The dispatchQueue used to run all networking code with. The dispatchQueue can be used to specifiy the thread that should be used.
+     */
+    public init(name: String, identifier: UUID, modules: [Module], dispatchQueue: dispatch_queue_t) {
+        self.name = name
         self.identifier = identifier
-        self.router = DefaultRouter(localIdentifier: identifier, dispatchQueue: dispatchQueue, modules: modules)
+        self.router = DefaultRouter(localIdentifier: identifier, localName: name, dispatchQueue: dispatchQueue, modules: modules)
         self.dispatchQueue = dispatchQueue
         
         super.init()
@@ -103,11 +131,7 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * @param onPeerRemoved Called when a peer is removed.
     * @param onIncomingConnection Called when a connection is available. Call accept on the peer to accept the connection.
     */
-    public func start(
-        onPeerDiscovered onPeerDiscovered: PeerDiscoveredClosure,
-        onPeerRemoved: PeerRemovedClosure,
-        onIncomingConnection: ConnectionClosure) {
-            
+    public func start(onPeerDiscovered onPeerDiscovered: PeerDiscoveredClosure, onPeerRemoved: PeerRemovedClosure, onIncomingConnection: ConnectionClosure, displayName: String?) {
         self.onPeerDiscovered = onPeerDiscovered
         self.onPeerRemoved = onPeerRemoved
         self.onConnection = onIncomingConnection
@@ -160,15 +184,15 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
         return transferConnection
     }
      
-    // MARK: Internal
-    private var onPeerDiscovered: PeerDiscoveredClosure? = nil
-    private var onPeerRemoved: PeerRemovedClosure? = nil
-    var onConnection: ConnectionClosure? = nil
+    // MARK: Internal and Private
+    private var onPeerDiscovered: PeerDiscoveredClosure?
+    private var onPeerRemoved: PeerRemovedClosure?
+    var onConnection: ConnectionClosure?
     
     private let router: DefaultRouter
-    private var knownPeers: [Node: RemotePeer] = [:]
-    private var establishedConnections: [UUID: PacketConnection] = [:]
-    private var incomingConnections: [UUID: PacketConnection] = [:]
+    private var knownPeers = [Node: RemotePeer]()
+    private var establishedConnections = [UUID: PacketConnection]()
+    private var incomingConnections = [UUID: PacketConnection]()
     
     private func startRouter() {
         if self.router.modules.count == 0 {
@@ -177,15 +201,9 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
         
         self.router.start()
     }
+    
     private func providePeer(node: Node) -> RemotePeer {
-        return self.knownPeers.getOrDefault(
-            node,
-            defaultValue: RemotePeer(
-                node: node,
-                localPeer: self,
-                dispatchQueue: self.dispatchQueue
-            )
-        )
+        return self.knownPeers.getOrDefault(node, defaultValue: RemotePeer(node: node, localPeer: self, dispatchQueue: self.dispatchQueue))
     }
     
     /**
@@ -202,23 +220,23 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
         
         let peer = self.providePeer(node)
         
-        if needsToReportPeer { self.onPeerDiscovered?(peer: peer) }
+        if needsToReportPeer {
+            self.onPeerDiscovered?(peer: peer)
+        }
         
         if let packetConnection = peer.connections[connectionIdentifier] {
             packetConnection.swapUnderlyingConnection(connection)
-        } else {
+        }
+        else {
             self.createConnection(peer: peer, connection: connection, connectionIdentifier: connectionIdentifier)
         }
     }
+    
     /**
     * Creates a new connection and calls the handling closure.
     */
     private func createConnection(peer peer: RemotePeer, connection: UnderlyingConnection, connectionIdentifier: UUID) {
-        let packetConnection = PacketConnection(
-            connection: connection,
-            connectionIdentifier: connectionIdentifier,
-            destinations: [peer.node]
-        )
+        let packetConnection = PacketConnection(connection: connection, connectionIdentifier: connectionIdentifier, destinations: [peer.node])
         peer.connections[connectionIdentifier] = packetConnection
         self.incomingConnections[connectionIdentifier] = packetConnection
         
@@ -231,31 +249,38 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
         )
         
         if let connectionClosure = peer.onConnection {
-            connectionClosure(peer: peer,connection:  transferConnection)
-        } else if let connectionClosure = self.onConnection {
-            connectionClosure(peer: peer,connection:  transferConnection)
-        } else {
+            connectionClosure(peer: peer, connection: transferConnection)
+        }
+        else if let connectionClosure = self.onConnection {
+            connectionClosure(peer: peer, connection: transferConnection)
+        }
+        else {
             log(.High, warning: "An incoming connection was received, but onConnection is not set. Set it either in your LocalPeer instance (\(self)), or in the RemotePeer which established the connection (\(peer)).")
         }
     }
     
     // MARK: RouterDelegate
     internal func didFindNode(router: Router, node: Node) {
-        if self.knownPeers[node] != nil { return }
+        if self.knownPeers[node] != nil {
+            return
+        }
         
         let peer = providePeer(node)
         
         self.onPeerDiscovered?(peer: peer)
     }
+    
     internal func didImproveRoute(router: Router, node: Node) {
         self.reconnect(self.providePeer(node))
     }
+    
     internal func didLoseNode(router: Router, node: Node) {
         let peer = providePeer(node)
         self.knownPeers[node] = nil
         peer.onConnection = nil
         self.onPeerRemoved?(peer: peer)
     }
+    
     /**
     * Handles an incoming connection.
     *
@@ -265,43 +290,37 @@ public class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     * */
     internal func handleConnection(router: Router, node: Node, connection: UnderlyingConnection) {
         log(.High, info: "Handling incoming connection...")
-        readSinglePacket(
-            connection: connection,
-            onPacket: {
-                data in
-                if let packet = ManagedConnectionHandshake.deserialize(data) {
-                    self.handleConnection(node: node, connection: connection, connectionIdentifier: packet.connectionIdentifier)
-                } else {
-                    print("Expected ManagedConnectionHandshake.")
-                }
-            },
-            onFail: {
-                print("Connection closed before receiving ManagedConnectionHandshake")
+        readSinglePacket(connection: connection,onPacket: { data in
+            if let packet = ManagedConnectionHandshake.deserialize(data) {
+                self.handleConnection(node: node, connection: connection, connectionIdentifier: packet.connectionIdentifier)
             }
-        )
+            else {
+                log(.Low, info: "Expected ManagedConnectionHandshake.")
+            }
+        }, onFail: {
+            log(.High, info: "Connection closed before receiving ManagedConnectionHandshake")
+        })
     }
     
     // MARK: ConnectionDelegate
     func establishUnderlyingConnection(packetConnection: PacketConnection) {
-        self.router.establishMulticastConnection(
-            destinations: packetConnection.destinations,
-            onConnection: {
-                connection in
-                writeSinglePacket(
-                    connection: connection,
-                    packet: ManagedConnectionHandshake(connectionIdentifier: packetConnection.connectionIdentifier),
-                    onSuccess: { packetConnection.swapUnderlyingConnection(connection) },
-                    onFail: { log(.Medium, error: "Failed to send ManagedConnectionHandshake.") }
-                )
+        self.router.establishMulticastConnection(destinations: packetConnection.destinations, onConnection: { connection in
+            writeSinglePacket(connection: connection, packet: ManagedConnectionHandshake(connectionIdentifier: packetConnection.connectionIdentifier), onSuccess: {
+                packetConnection.swapUnderlyingConnection(connection)
             },
-            onFail: { log(.Medium, error: "Failed to establish connection.") }
-        )
+            onFail: {
+                log(.Medium, error: "Failed to send ManagedConnectionHandshake.")
+            })
+        }, onFail: {
+            log(.Medium, error: "Failed to establish connection.")
+        })
     }
     
     func notifyConnectionClose(connection: PacketConnection) {
         self.establishedConnections[connection.connectionIdentifier] = nil
         self.incomingConnections[connection.connectionIdentifier] = nil
     }
+    
     func reconnect(peer: RemotePeer) {
         for (_, packetConnection) in self.establishedConnections {
             if packetConnection.destinations.contains(peer.node) {

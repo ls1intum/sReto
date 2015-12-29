@@ -35,7 +35,9 @@ class TransferManager: PacketHandler {
     /** A queue of transfers that will be sent next. */
     var outTransferQueue: Queue<OutTransfer> = Queue()
     /** The size of data packets in bytes. */
-    var packetSize: Int { get { return self.packetConnection.underlyingConnection?.recommendedPacketSize ?? 1024 } }
+    var packetSize: Int {
+        return self.packetConnection.underlyingConnection?.recommendedPacketSize ?? 1024
+    }
     
     /** 
     * Constructs a new TransferManager.
@@ -44,9 +46,10 @@ class TransferManager: PacketHandler {
     */
     init(packetConnection: PacketConnection) {
         self.packetConnection = packetConnection
-        
         self.packetConnection.addDelegate(self)
-        if packetConnection.isConnected { packetConnection.write() }
+        if packetConnection.isConnected {
+            packetConnection.write()
+        }
     }
 
     /** 
@@ -71,6 +74,7 @@ class TransferManager: PacketHandler {
         
         self.packetConnection.write()
     }
+    
     /** Cancels an outgoing transfer. */
     func cancel(transfer: OutTransfer) {
         let isCurrentTransfer: (OutTransfer) -> Bool = { queuedTransfer in transfer === queuedTransfer }
@@ -89,14 +93,21 @@ class TransferManager: PacketHandler {
     
     // MARK: PacketHandler protocol
     
-    func underlyingConnectionDidClose(error: AnyObject?) {}
+    func underlyingConnectionDidClose(error: AnyObject?) {
+    }
+    
     func willSwapUnderlyingConnection() {
         if self.isInterrupted { return }
         
         self.isInterrupted = true
-        if let transfer = self.currentInTransfer { transfer.isInterrupted = true }
-        if let transfer = self.currentOutTransfer { transfer.isInterrupted = true }
+        if let transfer = self.currentInTransfer {
+            transfer.isInterrupted = true
+        }
+        if let transfer = self.currentOutTransfer {
+            transfer.isInterrupted = true
+        }
     }
+    
     func underlyingConnectionDidConnect() {
         if self.isInterrupted {
             if let transfer = self.currentInTransfer {
@@ -108,6 +119,7 @@ class TransferManager: PacketHandler {
         }
         self.packetConnection.write()
     }
+    
     func didWriteAllPackets() {
         if self.isInterrupted { return }
         
@@ -125,12 +137,14 @@ class TransferManager: PacketHandler {
             self.packetConnection.write(StartedTransferPacket(transferIdentifier: nextTransfer.identifier, transferLength: Int32(nextTransfer.length)))
         }
     }
+    
     let handledPacketTypes = [
         PacketType.ProgressInformation,
         PacketType.TransferStarted,
         PacketType.CancelledTransfer,
         PacketType.DataPacket
     ]
+    
     func handlePacket(data: DataReader, type: PacketType) {
         switch type {
         case .ProgressInformation:
@@ -141,7 +155,7 @@ class TransferManager: PacketHandler {
             if let packet = CancelledTransferPacket.deserialize(data) { self.handleCancelledTransfer(packet) }
         case .DataPacket:
             if let packet = DataPacket.deserialize(data) { self.handleData(packet) }
-        default: print("Packet of type \(type) cannot be handled by TransferManager.")
+        default: log(.High, error: "Packet of type \(type) cannot be handled by TransferManager.")
         }
     }
 
@@ -154,10 +168,10 @@ class TransferManager: PacketHandler {
                     outTransfer.progress = Int(progressInfo.progress)
                     outTransfer.isInterrupted = false
                 } else {
-                    print("received progress information identifier did not match current transfer identifier")
+                    log(.Medium, error: "received progress information identifier did not match current transfer identifier")
                 }
             } else {
-                print("received progress information, but there is no current out transfer")
+                log(.Medium, error: "received progress information, but there is no current out transfer")
             }
         }
         
@@ -171,6 +185,7 @@ class TransferManager: PacketHandler {
         self.isInterrupted = false
         self.packetConnection.write()
     }
+    
     /** Called when a transfer is started. */
     private func handleStartedTransfer(packet: StartedTransferPacket) {
         assert(self.currentInTransfer == nil, "Received started transfer packet, but there is still an active in tansfer")
@@ -178,16 +193,23 @@ class TransferManager: PacketHandler {
         self.delegate?.notifyTransferStarted(self.currentInTransfer!)
         self.currentInTransfer?.confirmStart()
     }
+    
     /** Handles a cancelled transfer packet. */
     private func handleCancelledTransfer(packet: CancelledTransferPacket) {
         if let transfer = self.currentOutTransfer {
-            if transfer.identifier == packet.transferIdentifier { self.cancel(transfer) }
+            if transfer.identifier == packet.transferIdentifier {
+                self.cancel(transfer)
+            }
         }
         
         if let transfer = self.currentInTransfer {
-            if transfer.identifier == packet.transferIdentifier { transfer.confirmCancel(); self.currentInTransfer = nil }
+            if transfer.identifier == packet.transferIdentifier {
+                transfer.confirmCancel()
+                self.currentInTransfer = nil
+            }
         }
     }
+    
     /** Handles a data packet. */
     private func handleData(packet: DataPacket) {
         assert(self.currentInTransfer != nil, "Received data, but there is no incoming transfer")
@@ -195,7 +217,10 @@ class TransferManager: PacketHandler {
         if let transfer = self.currentInTransfer {
             transfer.updateWithReceivedData(packet.data)
             transfer.confirmProgress()
-            if transfer.isAllDataTransmitted { self.currentInTransfer = nil; transfer.confirmCompletion() }
+            if transfer.isAllDataTransmitted {
+                self.currentInTransfer = nil
+                transfer.confirmCompletion()
+            }
         }
     }
 }

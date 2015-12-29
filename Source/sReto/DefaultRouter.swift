@@ -14,12 +14,12 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
     let browser: CompositeBrowser
     var modules: [ManagedModule]
     
-    init(localIdentifier: UUID, dispatchQueue: dispatch_queue_t, modules: [Module]) {
+    init(localIdentifier: UUID, localName: String, dispatchQueue: dispatch_queue_t, modules: [Module]) {
         self.modules = modules.map { ManagedModule(module: $0, dispatchQueue: dispatchQueue) }
         self.advertiser = CompositeAdvertiser(advertisers: self.modules.map { $0.advertiser })
         self.browser = CompositeBrowser(browsers: self.modules.map { $0.browser })
         
-        super.init(identifier: localIdentifier, dispatchQueue: dispatchQueue)
+        super.init(identifier: localIdentifier, name: localName, dispatchQueue: dispatchQueue)
 
         self.advertiser.advertiserDelegate = self
         self.browser.browserDelegate = self
@@ -29,6 +29,7 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
         self.advertiser.startAdvertising(self.identifier)
         self.browser.startBrowsing()
     }
+    
     func stop() {
         self.advertiser.stopAdvertising()
         self.browser.stopBrowsing()
@@ -41,6 +42,7 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
         self.browser.addBrowser(newModule.browser)
         self.modules.append(newModule)
     }
+    
     func removeModule(module: Module) {
         let removedModules = self.modules.filter { $0.module === module }
         
@@ -60,9 +62,9 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
     func didStartBrowsing(browser: Browser) {}
     func didStopBrowsing(browser: Browser) {}
     func didDiscoverAddress(browser: Browser, address: Address, identifier: UUID) {
-        self.addAddress(identifier, address: address)
+        self.addAddress(identifier, nodeName: address.hostName, address: address)
     }
     func didRemoveAddress(browser: Browser, address: Address, identifier: UUID) {
-        self.removeAddress(identifier, address: address)
+        self.removeAddress(identifier, nodeName: nil, address: address)
     }
 }

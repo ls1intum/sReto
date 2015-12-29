@@ -37,7 +37,7 @@ enum PacketType: Int32 {
 
 /** 
 * The Packet protocol requires packets to implement a serialize function.
-* In general, packets offer a static deserialize method as well; this method is not part of this protocol.
+* In general, packets offer a static deserialize method as well, this method is not part of this protocol.
 */
 protocol Packet {
     func serialize() -> NSData
@@ -52,10 +52,13 @@ class Packets {
     * @return Whether the conditions are met
     */
     class func check(data data: DataReader, expectedType: PacketType, minimumLength: Int) -> Bool {
-        if !data.checkRemaining(minimumLength) { print("Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining)."); return false }
+        if !data.checkRemaining(minimumLength) {
+            log(.High, error: "Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining).")
+            return false
+        }
         let type = data.getInteger()
         if type != expectedType.rawValue {
-            print("Could not parse, invalid packet type: \(type)")
+            log(.High, error: "Could not parse, invalid packet type: \(type)")
             return false
         }
         
@@ -69,13 +72,19 @@ class Packets {
 * with an existing connection (e.g. in the case of a reconnect), or if a new Connection should be created.
 */
 struct ManagedConnectionHandshake: Packet {
-    static var type: PacketType { get { return PacketType.ManagedConnectionHandshake } }
-    static var length: Int { get { return sizeof(Int32) + sizeof(UUID) } }
+    static var type: PacketType {
+        return PacketType.ManagedConnectionHandshake
+    }
+    static var length: Int {
+        return sizeof(Int32) + sizeof(UUID)
+    }
     
     let connectionIdentifier: UUID
     
     static func deserialize(data: DataReader) -> ManagedConnectionHandshake? {
-        if !Packets.check(data: data, expectedType: type, minimumLength: length) { return nil }
+        if !Packets.check(data: data, expectedType: type, minimumLength: length) {
+            return nil
+        }
         return ManagedConnectionHandshake(connectionIdentifier: data.getUUID())
     }
     
@@ -200,6 +209,7 @@ struct ProgressInformation {
     let transferIdentifier: UUID
     let progress: Int32
 }
+
 struct ProgressInformationPacket: Packet {
     static var type: PacketType { get { return PacketType.ProgressInformation } }
     static var minimumLength: Int { get { return sizeof(Int32) } }

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 * Connection objects can be used to send and receive data. They can be established by calling connect on a RemotePeer or the LocalPeer.
 * If necessary, routing will be used automatically if a remote peer is not reachable directly. The Connection object will also automatically attempt to reconnect to a peer, should a route become unavailable. 
@@ -42,7 +41,11 @@ import Foundation
     * Passes the connection that connected as a parameter.
     */
     public var onConnect: ((connection: Connection) -> ())? = nil {
-        didSet { if isConnected { onConnect?(connection: self) } }
+        didSet {
+            if isConnected {
+                onConnect?(connection: self)
+            }
+        }
     }
     /** 
     * Called when an incoming transfer starts. It's possible to specify how the data is received, cancel the transfer, receive progress updates. 
@@ -102,6 +105,7 @@ import Foundation
     public func close() {
         self.reliabilityManager.closeConnection()
     }
+    
     /**
     * If the connection closed for any reason, this method will attempt to reestablish it.
     */
@@ -152,7 +156,9 @@ import Foundation
         self.transferManager.delegate = self
         self.reliabilityManager.delegate = self
         
-        if packetConnection.isConnected { self.connectionConnected() }
+        if packetConnection.isConnected {
+            self.connectionConnected()
+        }
         
         self.retainCycle = self
     }
@@ -179,11 +185,13 @@ import Foundation
             self.onConnect?(connection: self)
         }
     }
+    
     func connectionClosedExpectedly() {
         self.isConnected = false
         self.retainCycle = nil
         self.onClose?(connection: self)
     }
+    
     func connectionClosedUnexpectedly(error: AnyObject?) {
         self.isConnected = false
         self.retainCycle = nil

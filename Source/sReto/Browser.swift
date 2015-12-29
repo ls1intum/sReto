@@ -20,7 +20,7 @@ public protocol BrowserDelegate: class {
     func didRemoveAddress(browser: Browser, address: Address, identifier: UUID)
 }
 
-/** A Browser attempts to discover other peers; it is the counterpart to the same module's advertiser. */
+/** A Browser attempts to discover other peers, it is the counterpart to the same module's advertiser. */
 public protocol Browser: class {
     /** Whether the Browser is currently active. */
     var isBrowsing: Bool { get }

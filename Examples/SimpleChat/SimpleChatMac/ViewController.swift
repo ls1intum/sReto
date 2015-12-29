@@ -12,30 +12,27 @@ class ViewController: NSViewController, ChatRoomDelegate {
     @IBOutlet weak var displayName: NSTextField!
     @IBOutlet weak var messageTextField: NSTextField!
     
-    dynamic let localPeer: LocalChatPeer
+    dynamic var localPeer: LocalChatPeer
     dynamic var selectedPeer: ChatRoom?
     
     override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.localPeer = LocalChatPeer()
-        
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.localPeer.chatRoomDelegate = self
     }
 
     required init?(coder: NSCoder) {
         self.localPeer = LocalChatPeer()
-        
         super.init(coder: coder)
-        
         self.localPeer.chatRoomDelegate = self
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
 
     @IBAction func start(sender: AnyObject) {
+        self.localPeer = LocalChatPeer()
+        self.localPeer.chatRoomDelegate = self        
         self.localPeer.start(displayName.stringValue)
     }
+    
     @IBAction func peerSelected(sender: NSComboBox) {
         if sender.indexOfSelectedItem == -1 {
             self.selectedPeer = nil
@@ -43,9 +40,11 @@ class ViewController: NSViewController, ChatRoomDelegate {
             self.selectedPeer = self.localPeer.chatRooms[sender.indexOfSelectedItem]
         }
     }
+    
     @IBAction func sendMessage(sender: AnyObject) {
         self.selectedPeer?.sendMessage(self.messageTextField.stringValue)
     }
+    
     @IBAction func sendFile(sender: AnyObject) {
         if let path = getExistingFilePath() {
             self.selectedPeer?.sendFile(path)
@@ -54,9 +53,7 @@ class ViewController: NSViewController, ChatRoomDelegate {
     
     func getExistingFilePath() -> String? {
         let dialogue = NSOpenPanel()
-        
         let result = dialogue.runModal()
-        
         if result == NSFileHandlingPanelOKButton {
             let url = dialogue.URL
             return url?.path
@@ -64,6 +61,7 @@ class ViewController: NSViewController, ChatRoomDelegate {
         
         return nil
     }
+    
     func chatRoom(_: ChatRoom, pathForSavingFileWithName fileName: String) -> String? {
         let dialogue = NSSavePanel()
         dialogue.nameFieldStringValue = fileName
@@ -76,6 +74,8 @@ class ViewController: NSViewController, ChatRoomDelegate {
         
         return nil
     }
-    func chatRoom(_: ChatRoom, completedReceivingFileAtPath: String) {}
+    
+    func chatRoom(_: ChatRoom, completedReceivingFileAtPath: String) {
+    }
 }
 

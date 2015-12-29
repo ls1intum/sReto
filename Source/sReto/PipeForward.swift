@@ -15,7 +15,7 @@ import Foundation
 
 infix operator |> { associativity left }
 func |> <T,U>(lhs : T, rhs : T -> U) -> U {
-    return rhs(lhs);
+    return rhs(lhs)
 }
 
 // Curried adapter function for Swift Standard Library's filter() function

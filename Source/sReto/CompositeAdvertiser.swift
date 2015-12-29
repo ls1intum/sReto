@@ -28,6 +28,7 @@ class CompositeAdvertiser: Advertiser, AdvertiserDelegate {
         for advertiser in advertisers { advertiser.startAdvertising(identifier) }
         self.isAdvertising = true
     }
+    
     func stopAdvertising() {
         for advertiser in advertisers { advertiser.stopAdvertising() }
     }

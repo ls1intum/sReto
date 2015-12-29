@@ -37,7 +37,9 @@ class RepeatedExecutor {
     * Starts executing the action in regular delays.
     * */
     func start(action: ()->()) {
-        if self.isStarted { return }
+        if self.isStarted {
+            return
+        }
         
         self.action = action
         self.isStarted = true
@@ -55,7 +57,7 @@ class RepeatedExecutor {
     }
     
     /**
-    * Runs the action immediately. Resets the timer; the next execution of the action will occur after the regular delay.
+    * Runs the action immediately. Resets the timer, the next execution of the action will occur after the regular delay.
     * */
     func runActionNow() {
         self.resetTimer()
@@ -82,10 +84,13 @@ class RepeatedExecutor {
         self.timer?.stop()
         self.timer = nil
     }
+    
     private func resume() {
-        if !self.isStarted { return }
+        if !self.isStarted {
+            return
+        }
         
-        self.timer = Timer.`repeat`(
+        self.timer = Timer.repeatAction(
             interval: self.regularDelay,
             dispatchQueue: self.dispatchQueue,
             action: {
@@ -95,6 +100,7 @@ class RepeatedExecutor {
             }
         )
     }
+    
     private func resetTimer() {
         self.interrupt()
         self.resume()

@@ -26,6 +26,7 @@ enum LogOutputLevel: Int {
     /** Do not print messages */
     case Silent = 1
 }
+
 /** Output priority options */
 enum LogPriority: Int {
     /** Printed only in the "Verbose" setting */
@@ -35,6 +36,7 @@ enum LogPriority: Int {
     /** Printed in all settings except "Silent" */
     case High = 2
 }
+
 /** Available message types */
 enum LogType {
     /** Used for error messages */
@@ -63,15 +65,15 @@ func log(type: LogType, priority: LogPriority, message: String) {
     }
 }
 
-/** Convenice method; prints a information message with a given priority. */
+/** Convenice method, prints a information message with a given priority. */
 func log(priority: LogPriority, info: String) {
     log(.Info, priority: priority, message: info)
 }
-/** Convenice method; prints a warning message with a given priority. */
+/** Convenice method, prints a warning message with a given priority. */
 func log(priority: LogPriority, warning: String) {
     log(.Warning, priority: priority, message: warning)
 }
-/** Convenice method; prints a error message with a given priority. */
+/** Convenice method, prints a error message with a given priority. */
 func log(priority: LogPriority, error: String) {
     log(.Error, priority: priority, message: error)
 }

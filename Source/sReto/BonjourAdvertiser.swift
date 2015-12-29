@@ -15,7 +15,7 @@ protocol BonjourServiceAdvertiserDelegate : class {
 }
 
 protocol BonjourServiceAdvertiser : class {
-    /*weak */ var delegate: BonjourServiceAdvertiserDelegate? { get set }
+    weak var delegate: BonjourServiceAdvertiserDelegate? { get set }
     
     func startAdvertising(name: String, type: String, port: UInt)
     func stopAdvertising()
@@ -25,10 +25,12 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
     var advertiserDelegate: AdvertiserDelegate?
     var isAdvertising: Bool = false
     
-    let networkType: String
-    let dispatchQueue: dispatch_queue_t
-    var advertiser: BonjourServiceAdvertiser
-    let recommendedPacketSize: Int
+    private let networkType: String
+    private let dispatchQueue: dispatch_queue_t
+    private var advertiser: BonjourServiceAdvertiser
+    private let recommendedPacketSize: Int
+    //this array stores connections that would be deinitialized otherwised
+    private var connections = [UnderlyingConnection]()
     
     var acceptingSocket: GCDAsyncSocket?
     
@@ -58,27 +60,35 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         self.advertiser.startAdvertising(identifier.UUIDString, type: self.networkType, port: UInt(acceptingSocket.localPort))
         self.isAdvertising = true
     }
+    
     func stopAdvertising() {
         self.acceptingSocket?.disconnect()
         self.advertiser.stopAdvertising()
         self.isAdvertising = false
+        self.connections.removeAll()
     }
     
     func socket(sock: GCDAsyncSocket!, didAcceptNewSocket newSocket: GCDAsyncSocket!) {
         let connection = AsyncSocketUnderlyingConnection(socket: newSocket, recommendedPacketSize: 32*1024)
+        connections.append(connection)
         if let delegate = self.advertiserDelegate {
             delegate.handleConnection(self, connection: connection)
-        } else { log(.High, error: "Received incoming connection, but there's no delegate set.") }
+        }
+        else {
+            log(.High, error: "Received incoming connection, but there's no delegate set.")
+        }
     }
     
     func didPublish() {
         self.advertiserDelegate?.didStartAdvertising(self)
     }
+    
     func didNotPublish() {
         log(.Medium, error: "failed to publish advertisement.")
         self.isAdvertising = false
         self.advertiser.stopAdvertising()
     }
+    
     func didStop() {
         self.advertiserDelegate?.didStopAdvertising(self)
         self.isAdvertising = false

@@ -14,7 +14,7 @@ class ChatPeerCell: UITableViewCell {
     
     func configure(chatPeer: ChatRoom) {
         self.chatPeer = chatPeer
-        self.textLabel?.text = chatPeer.remoteDisplayName ?? "Loading display name..."
+        self.textLabel?.text = chatPeer.remoteDisplayName ?? "Loading remote name..."
         chatPeer.addObserver(self, forKeyPath: "remoteDisplayName", options: .New, context: &kvoContext)
     }
     
@@ -24,7 +24,7 @@ class ChatPeerCell: UITableViewCell {
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &kvoContext {
-            self.textLabel?.text = chatPeer?.remoteDisplayName ?? "Loading display name..."
+            self.textLabel?.text = chatPeer?.remoteDisplayName ?? "Loading remote name..."
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
@@ -33,7 +33,7 @@ class ChatPeerCell: UITableViewCell {
 
 class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     private var kvoContext = 0
-    var localPeer: LocalChatPeer = LocalChatPeer()
+    var localPeer = LocalChatPeer()
     var detailViewController: DetailViewController? = nil
 
     @IBOutlet weak var tableView: UITableView!
@@ -41,8 +41,8 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func start(sender: AnyObject) {
         displayName.enabled = false
+        self.localPeer = LocalChatPeer()
         self.localPeer.start(displayName.text!)
-        
         self.localPeer.addObserver(self, forKeyPath: "chatRooms", options: .New, context: &kvoContext)
     }
 
@@ -76,13 +76,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Segues
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -101,16 +95,14 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("returning \(localPeer.chatRooms.count) elements.")
+        print("table has \(localPeer.chatRooms.count) rows")
         return localPeer.chatRooms.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! ChatPeerCell
-
-        let object = localPeer.chatRooms[indexPath.row]
-        cell.configure(object)
-        
+        let chatRoom = localPeer.chatRooms[indexPath.row]
+        cell.configure(chatRoom)
         return cell
     }
     

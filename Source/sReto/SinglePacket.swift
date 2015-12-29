@@ -14,8 +14,8 @@ import Foundation
 * @param packetHandler A closure to call when the data was received.
 * @param failBlock A closure to call when reading the packet failed for any reason.
 */
-func readSinglePacket(connection connection: UnderlyingConnection, onPacket packetHandler: (DataReader) -> (), onFail failBlock: () -> ()) {
-    readPackets(connection: connection, packetCount: 1, onPacket: packetHandler, onSuccess: {}, onFail: failBlock)
+func readSinglePacket(connection connection: UnderlyingConnection, onPacket packetHandler: (DataReader) -> (), onFail failBlock: () -> ()) -> SinglePacketReader {
+    return readPackets(connection: connection, packetCount: 1, onPacket: packetHandler, onSuccess: {}, onFail: failBlock)
 }
 
 /**
@@ -26,7 +26,7 @@ func readSinglePacket(connection connection: UnderlyingConnection, onPacket pack
 * @param onSuccess A closure to call when the specified number of packets was received.
 * @param failBlock A closure to call when reading the packets failed for any reason.
 */
-func readPackets(connection connection: UnderlyingConnection, packetCount: Int, onPacket packetHandler: (DataReader) -> (), onSuccess successBlock: () -> (), onFail failBlock: () -> ()) -> SinglePacketReader{
+func readPackets(connection connection: UnderlyingConnection, packetCount: Int, onPacket packetHandler: (DataReader) -> (), onSuccess successBlock: () -> (), onFail failBlock: () -> ()) -> SinglePacketReader {
     return SinglePacketReader(connection: connection, packetCount: packetCount, onPacket: packetHandler, onSuccess: successBlock, onFail: failBlock)
 }
 
@@ -48,16 +48,21 @@ class SinglePacketReader: NSObject, UnderlyingConnectionDelegate {
         connection.delegate = self
     }
     
-    func didConnect(connection: UnderlyingConnection) {}
+    func didConnect(connection: UnderlyingConnection) {
+    }
+    
     func didClose(connection: UnderlyingConnection, error: AnyObject?) {
         self.underlyingConnection?.delegate = nil
         self.underlyingConnection = nil
         self.failBlock()
     }
+    
     func didReceiveData(connection: UnderlyingConnection, data: NSData) {
         self.packetsReceived++
         
-        if self.packetsReceived == self.packetCount { underlyingConnection?.delegate = nil }
+        if self.packetsReceived == self.packetCount {
+            underlyingConnection?.delegate = nil
+        }
         
         self.packetHandler(DataReader(data))
         
@@ -66,7 +71,9 @@ class SinglePacketReader: NSObject, UnderlyingConnectionDelegate {
             self.successBlock()
         }
     }
-    func didSendData(connection: UnderlyingConnection) {}
+    
+    func didSendData(connection: UnderlyingConnection) {
+    }
 }
 
 /**
@@ -96,18 +103,27 @@ class SinglePacketWriter: NSObject, UnderlyingConnectionDelegate {
         super.init()
         
         connection.delegate = self
-        if connection.isConnected { self.underlyingConnection?.writeData(packet.serialize()) }
+        if connection.isConnected {
+            self.underlyingConnection?.writeData(packet.serialize())
+        }
+        else {
+            log(.Low, info: "Attempt to write before connected")
+        }
     }
     
     func didConnect(connection: UnderlyingConnection) {
         self.underlyingConnection?.writeData(packet.serialize())
     }
+    
     func didClose(connection: UnderlyingConnection, error: AnyObject?) {
         self.underlyingConnection?.delegate = nil
         self.underlyingConnection = nil
         self.failBlock()
     }
-    func didReceiveData(connection: UnderlyingConnection, data: NSData) {}
+    
+    func didReceiveData(connection: UnderlyingConnection, data: NSData) {
+    }
+    
     func didSendData(connection: UnderlyingConnection) {
         self.underlyingConnection?.delegate = nil
         self.underlyingConnection = nil

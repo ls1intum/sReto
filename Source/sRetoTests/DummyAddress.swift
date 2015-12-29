@@ -11,7 +11,12 @@ import Foundation
 class DummyAddress: NSObject, Address {
     let networkInterface: DummyNetworkInterface
     let advertiser: DummyAdvertiser
-    var cost: Int { return networkInterface.cost }
+    var cost: Int {
+        return networkInterface.cost
+    }
+    var hostName: String {
+        return "DummyHost"
+    }
     
     init(networkInterface: DummyNetworkInterface, advertiser: DummyAdvertiser) {
         self.networkInterface = networkInterface
@@ -19,8 +24,6 @@ class DummyAddress: NSObject, Address {
     }
     
     func createConnection() -> UnderlyingConnection {
-        //let x: UnderlyingConnection? = nil
-        //return x!
         return DummyOutConnection(networkInterface: networkInterface, advertiser: advertiser)
     }
 }

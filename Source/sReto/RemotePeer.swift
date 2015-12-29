@@ -11,13 +11,17 @@ import Foundation
 /**
 * A RemotePeer represents another peer in the network.
 *
-* You do not construct RemotePeer instances yourself; they are provided to you by the LocalPeer.
+* You do not construct RemotePeer instances yourself, they are provided to you by the LocalPeer.
 *
 * This class can be used to establish and accept connections to/from those peers.
 * */
 public class RemotePeer: NSObject {
     /** This peer's unique identifier. */
     public let identifier: UUID
+    
+    /** This peer's name. */
+    public let name: String?
+     
     /**
     * Set this property if you want to handle incoming connections on a per-peer basis.
     */
@@ -58,5 +62,6 @@ public class RemotePeer: NSObject {
         self.node = node
         self.localPeer = localPeer
         self.identifier = node.identifier
+        self.name = node.name
     }
 }

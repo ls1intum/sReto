@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E7D074B1C319DDE00BF5347 /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5261AA9DE0F00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		5EBF3D5E1C32A25300D7DBEE /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5281AA9DE0F00D84049 /* sReto.framework */; };
+		5EBF3D5F1C32A25300D7DBEE /* sReto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E39C5281AA9DE0F00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD1814161A79B95E0027BB09 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1814151A79B95E0027BB09 /* AssetsLibrary.framework */; };
 		CD1814181A79C0050027BB09 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1814171A79C0050027BB09 /* QuickLook.framework */; };
 		CDE6FDC61A782E1D00CC8B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE6FDC51A782E1D00CC8B6C /* AppDelegate.swift */; };
@@ -61,6 +64,13 @@
 			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
 			remoteInfo = sRetoIOS;
 		};
+		5EBF3D601C32A25300D7DBEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
+			remoteInfo = sRetoIOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5EBF3D5F1C32A25300D7DBEE /* sReto.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EBF3D5E1C32A25300D7DBEE /* sReto.framework in Frameworks */,
 				CD1814181A79C0050027BB09 /* QuickLook.framework in Frameworks */,
 				CD1814161A79B95E0027BB09 /* AssetsLibrary.framework in Frameworks */,
 			);
@@ -111,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E7D074B1C319DDE00BF5347 /* sReto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +229,7 @@
 			);
 			dependencies = (
 				5E39C52C1AA9DE2F00D84049 /* PBXTargetDependency */,
+				5EBF3D611C32A25300D7DBEE /* PBXTargetDependency */,
 			);
 			name = SimpleChatIOS;
 			productName = SimpleChatIOS;
@@ -367,6 +381,11 @@
 			name = sRetoIOS;
 			targetProxy = 5E39C52B1AA9DE2F00D84049 /* PBXContainerItemProxy */;
 		};
+		5EBF3D611C32A25300D7DBEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = sRetoIOS;
+			targetProxy = 5EBF3D601C32A25300D7DBEE /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -403,12 +422,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = SimpleChatIOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -423,8 +443,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SimpleChatIOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -469,8 +490,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -507,8 +528,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

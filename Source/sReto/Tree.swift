@@ -39,5 +39,7 @@ func ==<T: Equatable>(tree1: Tree<T>, tree2: Tree<T>) -> Bool {
 }
 
 extension Tree: CustomStringConvertible {
-    var description: String { get { return "{value: \(value), children: \(subtrees)}" } }
+    var description: String {
+        return "{value: \(value), children: \(subtrees)}"
+    }
 }

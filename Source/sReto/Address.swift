@@ -14,6 +14,8 @@
 public protocol Address: class {
     /** The cost of an address gives an heuristic about which Address should be used if multiple are available. Lower cost is preferred. An WlanAddress uses a cost of 10. */ 
     var cost: Int { get }
+    
+    var hostName: String { get }
     /** 
     * Called to establish a new outgoing connection.
     * @return A new connection to the peer.

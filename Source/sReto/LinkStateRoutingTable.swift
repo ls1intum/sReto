@@ -42,17 +42,17 @@ private func findNextHop<T>(predecessorRelationships: [T: T], destination: T) ->
 /**
 * A LinkStateRoutingTable manages a graph of nodes in the network with type T.
 *
-* Link state routing works by gathering information about the full network topology; i.e. for each node in the network,
+* Link state routing works by gathering information about the full network topology, i.e. for each node in the network,
 * all of its neighbors are known eventually. Based on this information, the next hop to a node can be computed using a shortest path algorithm.
 *
 * Advantages of link state routing (as opposed to distance vector routing) include that link state routing converges rather quickly and
-* is not subject to the count-to-infinity problem; hence, no measures to combat this problem need to be taken. As the full network topology
+* is not subject to the count-to-infinity problem, hence, no measures to combat this problem need to be taken. As the full network topology
 * is known to every node, rather advanced routing techniques can be implemented.
 *
 * Disadvantages include that the link state information needs to be flooded through the network, causing higher overhead than link state protocols.
 * The memory and computational requirements are also higher.
 *
-* The LinkStateRoutingTable class is not responsible for distributing link state information across the network;
+* The LinkStateRoutingTable class is not responsible for distributing link state information across the network,
 * however, it processes received link state information and can provide link state information for the local peer.
 *
 * This routing table is designed to compute all next hops and path costs for all known nodes every time when new

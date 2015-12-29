@@ -7,7 +7,11 @@
 //
 
 import Foundation
-
+/**
+ * Using a BluetoothModule with the LocalPeer allows it to discover and connect with other peers via bluetooth.
+ *
+ * If you wish to use it, all you need to do is construct an instance and pass it to the LocalPeer either in the constructor or using the addModule method.
+ * */
 public class BluetoothModule: Module {
     let networkType: String
     let recommendedPacketSize = 1024

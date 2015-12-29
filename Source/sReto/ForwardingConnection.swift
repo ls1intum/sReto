@@ -36,11 +36,16 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
     }
 
     func counterpartForConnection(connection: UnderlyingConnection) -> UnderlyingConnection {
-        if connection === self.incomingConnection { return self.outgoingConnection }
-        if connection === self.outgoingConnection { return self.incomingConnection }
+        if connection === self.incomingConnection {
+            return self.outgoingConnection
+        }
+        if connection === self.outgoingConnection {
+            return self.incomingConnection
+        }
         
         log(.High, error: "Trying to get counterpart to unknown connection.")
-        let result: UnderlyingConnection? = nil; return result!
+        let result: UnderlyingConnection? = nil
+        return result!
     }
     
     // MARK: UnderlyingConnection protocol

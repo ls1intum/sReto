@@ -29,18 +29,16 @@ class DiscoveryTest: XCTestCase {
         let allPeersDiscoveredExpectation = self.expectationWithDescription("all peers discovered")
         var reachablePeerIdentifiers = configuration.reachablePeerIdentifiers - [configuration.primaryPeer.identifier]
         
-        configuration.primaryPeer.start(
-            onPeerDiscovered: {
-                reachablePeerIdentifiers -= $0.identifier
-                
-                if reachablePeerIdentifiers.count == 0 {
-                    allPeersDiscoveredExpectation.fulfill()
-                }
-            }, onPeerRemoved: { _ in ()}, onIncomingConnection: {_ in ()}
-        )
+        configuration.primaryPeer.start(onPeerDiscovered: {
+            reachablePeerIdentifiers -= $0.identifier
+            
+            if reachablePeerIdentifiers.count == 0 {
+                allPeersDiscoveredExpectation.fulfill()
+            }
+        }, onPeerRemoved: { _ in ()}, onIncomingConnection: {_ in ()}, displayName: nil)
         
         for peer in configuration.participatingPeers - [configuration.primaryPeer] {
-            peer.start(onPeerDiscovered: {_ in ()}, onPeerRemoved: {_ in ()}, onIncomingConnection: {_ in ()})
+            peer.start(onPeerDiscovered: {_ in ()}, onPeerRemoved: {_ in ()}, onIncomingConnection: {_ in ()}, displayName: nil)
         }
         
         self.waitForExpectationsWithTimeout(30, handler: { error in () })

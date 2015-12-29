@@ -11,10 +11,16 @@ import Foundation
 class RemoteP2PAddress: NSObject, Address {
     let serverUrl: NSURL
     let cost = 50
-    override var description: String { get { return "RemoteP2PAddress: {url: \(self.serverUrl)}" } }
+    let hostName: String
+    
+    override var description: String {
+        return "RemoteP2PAddress: {url: \(self.serverUrl)}"
+    }
+    
     let dispatchQueue: dispatch_queue_t
 
     init(serverUrl: NSURL, dispatchQueue: dispatch_queue_t) {
+        self.hostName = serverUrl.absoluteString
         self.serverUrl = serverUrl
         self.dispatchQueue = dispatchQueue
     }

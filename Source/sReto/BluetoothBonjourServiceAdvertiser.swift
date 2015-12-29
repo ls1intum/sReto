@@ -30,7 +30,7 @@ class BluetoothBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, DNS
     }
     
     func dnssdRegistrationDidRegister(sender: DNSSDRegistration!) {
-        //print("published wlan bonjour bluetooth")
+        log(.Low, info: "published wlan bonjour bluetooth")
         self.delegate?.didPublish()
     }
     func dnssdRegistration(sender: DNSSDRegistration!, didNotRegister error: NSError!) {

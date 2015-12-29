@@ -18,10 +18,9 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     var selfRetain: RemoteP2PConnection?
     
     var socket: SRWebSocket?
+    
     override var description: String {
-        get {
-            return "RemoteP2PConnection: {url: \(self.serverUrl), isConnected: \(self.isConnected), webSocket: \(self.socket)}"
-        }
+        return "RemoteP2PConnection: {url: \(self.serverUrl), isConnected: \(self.isConnected), webSocket: \(self.socket)}"
     }
     
     init(serverUrl: NSURL, dispatchQueue: dispatch_queue_t) {
@@ -70,9 +69,9 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     
     func webSocketDidOpen(webSocket: SRWebSocket!) {}
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        log(.Low, info: "closed web socket. Code: \(code); reason: \(reason); wasClean: \(wasClean)")
-        
-        self.delegate?.didClose(self, error: wasClean ? nil : "Code: \(code); reason: \(reason); wasClean: \(wasClean)")
+        log(.Low, info: "closed web socket. Code: \(code), reason: \(reason), wasClean: \(wasClean)")
+    
+        self.delegate?.didClose(self, error: wasClean ? nil : "Code: \(code), reason: \(reason), wasClean: \(wasClean)")
     }
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         log(.Low, info: "closed with error: \(error)")
@@ -86,7 +85,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
                 if !reader.checkRemaining(4) || reader.getInteger() != 1 {
                     log(.High, error: "Expected confirmation, other data received.")
                     self.close()
-                    return;
+                    return
                 } else {
                     self.receivedConnectionConfirmation = true
                     self.isConnected = true

@@ -9,7 +9,7 @@
 import Foundation
 
 class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBrowserDelegate, NSNetServiceDelegate {
-    /*weak*/ var delegate: BonjourServiceBrowserDelegate?
+    weak var delegate: BonjourServiceBrowserDelegate?
     var browser: NSNetServiceBrowser?
     var resolvingServices: [NSNetService] = []
     
@@ -19,6 +19,7 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
         browser.delegate = self
         browser.searchForServicesOfType(networkType, inDomain: "")
     }
+    
     func stopBrowsing() {
         if let browser = self.browser {
             browser.stop()
@@ -31,44 +32,50 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NSNetServiceBr
     
     func addAddress(netService: NSNetService) {
         if let addresses = netService.addresses {
-           // print("found address for: \(netService.name), there are \(addresses.count ?? 0) addresses available.")
+           log(.Low, info: "found address for: \(netService.name), there are \(addresses.count ?? 0) addresses available.")
             if let uuid = UUIDfromString(netService.name) {
-                let addressInformation = AddressInformation.AddressAsData(addresses[0] as NSData, netService.port)
+                let addressInformation = AddressInformation.AddressAsData(addresses[0] as NSData, netService.hostName!, netService.port)
                 self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
             }
         }
     }
-    func netServiceBrowserWillSearch(aNetServiceBrowser: NSNetServiceBrowser) {
+    
+    func netServiceBrowserWillSearch(netServiceBrowser: NSNetServiceBrowser) {
         self.delegate?.didStart()
     }
-    func netServiceBrowserDidStopSearch(aNetServiceBrowser: NSNetServiceBrowser) {
+    
+    func netServiceBrowserDidStopSearch(netServiceBrowser: NSNetServiceBrowser) {
         self.delegate?.didStop()
     }
-    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didFindService aNetService: NSNetService, moreComing: Bool) {
-        if ((aNetService.addresses?.count ?? 0) != 0) {
-            self.addAddress(aNetService)
+    
+    func netServiceBrowser(netServiceBrowser: NSNetServiceBrowser, didFindService netService: NSNetService, moreComing: Bool) {
+        if ((netService.addresses?.count ?? 0) != 0) {
+            self.addAddress(netService)
         } else {
-            aNetService.delegate = self
-            self.resolvingServices.append(aNetService)
-            aNetService.resolveWithTimeout(5)
+            netService.delegate = self
+            self.resolvingServices.append(netService)
+            netService.resolveWithTimeout(5)
         }
     }
-    func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didRemoveService aNetService: NSNetService, moreComing: Bool) {
-        aNetService.delegate = nil
-        if let uuid = UUIDfromString(aNetService.name) {
+    
+    func netServiceBrowser(netServiceBrowser: NSNetServiceBrowser, didRemoveService netService: NSNetService, moreComing: Bool) {
+        netService.delegate = nil
+        if let uuid = UUIDfromString(netService.name) {
             self.delegate?.removedAddress(uuid)
         }
     }
-    func netServiceDidResolveAddress(sender: NSNetService) {
-        if (sender.addresses?.count ?? 0) != 0 {
-            sender.delegate = nil
-            self.addAddress(sender)
+    
+    func netServiceDidResolveAddress(netService: NSNetService) {
+        if (netService.addresses?.count ?? 0) != 0 {
+            netService.delegate = nil
+            self.addAddress(netService)
         } else {
-            print("no addresses found.")
+            log(.Low, info: "no addresses found.")
         }
     }
-    func netService(sender: NSNetService, didNotResolve errorDict: [String : NSNumber]) {
-        sender.delegate = nil
-        print("Could not resolve net service. (\(errorDict))");
+    
+    func netService(netService: NSNetService, didNotResolve errorDict: [String : NSNumber]) {
+        netService.delegate = nil
+        log(.High, error: "Could not resolve net service. (\(errorDict))")
     }
 }

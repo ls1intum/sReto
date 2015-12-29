@@ -20,7 +20,9 @@ class ChatView : UIView {
 }
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ChatRoomDelegate, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
-    var chatView: ChatView { get { return self.view as! ChatView } }
+    var chatView: ChatView {
+        return self.view as! ChatView
+    }
     let previewController = QLPreviewController()
     var previewedItemURL: NSURL? = nil
     
@@ -127,7 +129,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.chatRoom?.sendMessage(textField.text!)
         textField.text = ""
-        
         return false
     }
     

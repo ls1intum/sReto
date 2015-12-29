@@ -135,22 +135,26 @@ public class DataWriter {
     }
     /** Appends a byte */
     public func add(byte: UInt8) {
-        var value = byte;
+        var value = byte
         self.data.appendBytes(&value, length: sizeof(Int8))
     }
     /** Appends a 4 byte integer */
     public func add(integer: Int32) {
-        var value = integer;
+        var value = integer
         self.data.appendBytes(&value, length: sizeof(Int32))
     }
     /** Appends a 8 byte long */
     public func add(long: Int64) {
-        var value = long;
+        var value = long
         self.data.appendBytes(&value, length: sizeof(Int64))
     }
     /** Appends an UUID */
     public func add(uuid: UUID) {
-        for part in 1...2 { for byte in 1...8 { self.add(uuid.uuid[part*8-byte]) } }
+        for part in 1...2 {
+            for byte in 1...8 {
+                self.add(uuid.uuid[part*8-byte])
+            }
+        }
     }
     /** Appends an NSUUID */
     public func add(nsuuid: NSUUID) {

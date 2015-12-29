@@ -35,13 +35,11 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
     var acceptSocketHandlers: Set<AcceptingConnectionSocketDelegate> = []
     
     override public var description: String {
-        get {
-            return "RemoteP2PModule: {" +
-                "isAdvertising: \(self.isAdvertising), " +
-                "isBrowsing: \(self.isBrowsing), " +
-                "discoverySocket: \(self.discoverySocket), " +
-                "addresses: \(self.addresses)}"
-        }
+        return "RemoteP2PModule: {" +
+            "isAdvertising: \(self.isAdvertising), " +
+            "isBrowsing: \(self.isBrowsing), " +
+            "discoverySocket: \(self.discoverySocket), " +
+            "addresses: \(self.addresses)}"
     }
     
     public init(baseUrl: NSURL, dispatchQueue: dispatch_queue_t) {
@@ -72,7 +70,7 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
     func stopDiscoverySocket() {
         if !isBrowsing && !isAdvertising {
             self.isConnected = false
-            self.discoverySocket?.close();
+            self.discoverySocket?.close()
             self.discoverySocket = nil
         }
     }
@@ -159,7 +157,7 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
         let socketHandler = AcceptingConnectionSocketDelegate(
             openBlock: {
                 socketHandler in
-                self.advertiserDelegate?.handleConnection(self, connection: RemoteP2PConnection(socket: socket, dispatchQueue: self.dispatchQueue));
+                self.advertiserDelegate?.handleConnection(self, connection: RemoteP2PConnection(socket: socket, dispatchQueue: self.dispatchQueue))
                 self.acceptSocketHandlers -= socketHandler
                 return ()
             },
@@ -209,7 +207,7 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
                     case .PeerAdded: self.addPeer(packet.identifier)
                     case .PeerRemoved: self.removePeer(packet.identifier)
                     case .ConnectionRequest: self.respondToConnectionRequest(packet.identifier)
-                    default: print("Received unexpected packet type: \(packet.type.rawValue)")
+                    default: log(.High, error: "Received unexpected packet type: \(packet.type.rawValue)")
                 }
             } else {
                 log(.High, error: "discovery packet could not be parsed.")

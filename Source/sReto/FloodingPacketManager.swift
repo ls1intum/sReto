@@ -101,17 +101,13 @@ class FloodingPacketManager: NSObject {
     /** Floods a new packet through the network. Increases the sequence number and sends the packet to all neighbors. */
     func floodPacket(packet: Packet) {
         if let router = self.router {
-            let packet = FloodingPacket(
-                sequenceNumber: self.currentSequenceNumber,
-                originIdentifier: router.identifier,
-                payload: packet.serialize()
-            )
+            let floodingPacket = FloodingPacket(sequenceNumber: self.currentSequenceNumber, originIdentifier: router.identifier, payload: packet.serialize())
             
             self.sequenceNumbers[router.identifier] = self.currentSequenceNumber
             self.currentSequenceNumber++
             
             for neighbor in router.neighbors {
-                neighbor.sendPacket(packet)
+                neighbor.sendPacket(floodingPacket)
             }
         }
     }

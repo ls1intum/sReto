@@ -346,6 +346,8 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
 }
 
 extension Graph: CustomStringConvertible {
-    var description: String { get { return adjacencyList.description } }
+    var description: String {
+        return adjacencyList.description
+    }
 }
 

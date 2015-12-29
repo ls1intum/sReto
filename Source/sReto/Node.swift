@@ -21,35 +21,46 @@ class Node: Hashable, PacketHandler {
     weak var router: Router!
     /** The Node's identifer*/
     let identifier: UUID
+    /** The Node's name*/
+    let name: String?
     /** The local peer's identifier. */
     let localIdentifier: UUID
     /** Addresses that allow to connect to this node directly. */
     var directAddresses: [Address] = []
     /** Whether this node is a neighbor of the local peer. */
-    var isNeighbor: Bool { get { return reachableVia?.nextHop == self } }
+    var isNeighbor: Bool {
+        return reachableVia?.nextHop == self
+    }
     /** Stores the PacketConnection used to transmit routing metadata. */
     var routingConnection: PacketConnection?
-    var hashValue: Int { get { return identifier.hashValue } }
+    var hashValue: Int {
+        return identifier.hashValue
+    }
     /** Whether a route to this node exists or not. */
-    var isReachable: Bool { get { return reachableVia != nil } }
+    var isReachable: Bool {
+        return reachableVia != nil
+    }
     /** Of any pair of nodes that are neighbors, only one of them is responsible to establish the routingConnection, because only one is needed. This property 
     * is true for the node which is responsible for doing so. */
     var isResponsibleForEstablishingRoutingConnection: Bool {
-        get {
-            return self.identifier < self.localIdentifier
-        }
+        return self.identifier < self.localIdentifier
     }
     /** Returns the best direct address available to this node, based on the know Addresses' cost heuristic. */
-    var bestAddress: Address? { get { return minimum(self.directAddresses, comparator: comparing { $0.cost }) } }
+    var bestAddress: Address? {
+        return minimum(self.directAddresses, comparator: comparing { $0.cost })
+    }
     /** If a connection should be established to this node, this property stores the next hop in the optimal route, as well as the total cost to the node. */
     var reachableVia: (nextHop: Node, cost: Int)? = nil
     /** The next hop to use when establishing a connection to this node (if the optimal route should be used). */
-    var nextHop: Node? { get { return reachableVia?.nextHop } }
+    var nextHop: Node? {
+        return reachableVia?.nextHop
+    }
     
     /** Initializes a Node object */
-    init(identifier: UUID, localIdentifier: UUID, linkStatePacketManager: FloodingPacketManager?) {
+    init(identifier: UUID, localIdentifier: UUID, name: String?, linkStatePacketManager: FloodingPacketManager?) {
         self.identifier = identifier
         self.localIdentifier = localIdentifier
+        self.name = name
         self.linkStatePacketManager = linkStatePacketManager
     }
     /** Adds a direct address to this node */
@@ -63,10 +74,14 @@ class Node: Hashable, PacketHandler {
     
     // MARK: Routing Connections (for routing information exchange)
     func establishRoutingConnection() {
-        if !self.isResponsibleForEstablishingRoutingConnection { return }
-        if self.routingConnection?.isConnected ?? false { return }
+        if !self.isResponsibleForEstablishingRoutingConnection {
+            return
+        }
+        if self.routingConnection?.isConnected ?? false {
+            return
+        }
         
-        self.router!.establishDirectConnection(
+        self.router.establishDirectConnection(
             destination: self,
             purpose: .RoutingConnection,
             onConnection: {
@@ -82,20 +97,23 @@ class Node: Hashable, PacketHandler {
                 self.router.onNeighborReachable(self)
             },
             onFail: {
-                print("Failed to establish routing connection.")
+                log(.High, info: "Failed to establish routing connection.")
             }
         )
     }
+    
     func handleRoutingConnection(connection: UnderlyingConnection) {
         let packetConnection = PacketConnection(connection: connection, connectionIdentifier: UUID_ZERO, destinations: [])
         self.setupRoutingConnection(packetConnection)
         self.router.onNeighborReachable(self)
     }
+    
     func setupRoutingConnection(connection: PacketConnection) {
         self.routingConnection = connection
         connection.addDelegate(self)
         if connection.isConnected { self.underlyingConnectionDidConnect() }
     }
+    
     func sendPacket(packet: Packet) {
         self.routingConnection?.write(packet)
     }
@@ -103,7 +121,7 @@ class Node: Hashable, PacketHandler {
     // MARK: PacketConnection delegate
     let handledPacketTypes = [PacketType.FloodPacket]
     func underlyingConnectionDidClose(error: AnyObject?) {
-        self.router?.onNeighborLost(self)
+        self.router.onNeighborLost(self)
     }
     func willSwapUnderlyingConnection() {}
     func underlyingConnectionDidConnect() {}

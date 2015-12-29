@@ -51,7 +51,7 @@
 		CD39159919CA27EB00459AA8 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB2199DBA7A00468C30 /* UUID.swift */; };
 		CD39159A19CA27EB00459AA8 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CBB199DBAF000468C30 /* Set.swift */; };
 		CD39159B19CA27EB00459AA8 /* PipeForward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB8199DBAD100468C30 /* PipeForward.swift */; };
-		CD39159C19CA27EB00459AA8 /* SingePacketReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SingePacketReading.swift */; };
+		CD39159C19CA27EB00459AA8 /* SinglePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SinglePacket.swift */; };
 		CD39159E19CA27EB00459AA8 /* MappingSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C68A219A5E95100764589 /* MappingSequence.swift */; };
 		CD39159F19CA27EE00459AA8 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703961999BD66002560EE /* Timer.swift */; };
 		CD3915A019CA27EE00459AA8 /* StartStopHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1B7B74199C01D6009CCAB2 /* StartStopHelper.swift */; };
@@ -114,7 +114,7 @@
 		CD9F4CAE199D5CC400468C30 /* FloodingPacketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CAC199D5CC400468C30 /* FloodingPacketManager.swift */; };
 		CD9F4CB1199DAEF300468C30 /* RepeatedExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CAF199DAEF300468C30 /* RepeatedExecutor.swift */; };
 		CD9F4CB4199DBA7A00468C30 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB2199DBA7A00468C30 /* UUID.swift */; };
-		CD9F4CB7199DBAA200468C30 /* SingePacketReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SingePacketReading.swift */; };
+		CD9F4CB7199DBAA200468C30 /* SinglePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SinglePacket.swift */; };
 		CD9F4CBA199DBAD100468C30 /* PipeForward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB8199DBAD100468C30 /* PipeForward.swift */; };
 		CD9F4CBD199DBAF000468C30 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CBB199DBAF000468C30 /* Set.swift */; };
 		CD9F4CC3199DBCB200468C30 /* LinkStatePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CC1199DBCB200468C30 /* LinkStatePacket.swift */; };
@@ -156,7 +156,7 @@
 		CDA6674B19E7E11900EB63D2 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703551999A772002560EE /* Advertiser.swift */; };
 		CDA6674C19E7E11900EB63D2 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703961999BD66002560EE /* Timer.swift */; };
 		CDA6674D19E7E11900EB63D2 /* InTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD64369319845338004AC981 /* InTransfer.swift */; };
-		CDA6674E19E7E11900EB63D2 /* SingePacketReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SingePacketReading.swift */; };
+		CDA6674E19E7E11900EB63D2 /* SinglePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F4CB5199DBAA200468C30 /* SinglePacket.swift */; };
 		CDA6674F19E7E11900EB63D2 /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F31982D35F00D5E89E /* BluetoothBonjourServiceAdvertiser.swift */; };
 		CDA6675019E7E11900EB63D2 /* RemoteP2PPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD278D011993FA4D0080F380 /* RemoteP2PPacket.swift */; };
 		CDA6675119E7E11900EB63D2 /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003F51982D36C00D5E89E /* BluetoothBonjourServiceBrowser.swift */; };
@@ -299,7 +299,7 @@
 		CD9F4CAC199D5CC400468C30 /* FloodingPacketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FloodingPacketManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9F4CAF199DAEF300468C30 /* RepeatedExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatedExecutor.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9F4CB2199DBA7A00468C30 /* UUID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UUID.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		CD9F4CB5199DBAA200468C30 /* SingePacketReading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SingePacketReading.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		CD9F4CB5199DBAA200468C30 /* SinglePacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SinglePacket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9F4CB8199DBAD100468C30 /* PipeForward.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PipeForward.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9F4CBB199DBAF000468C30 /* Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Set.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9F4CC1199DBCB200468C30 /* LinkStatePacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LinkStatePacket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -494,7 +494,7 @@
 				CD9F4CB2199DBA7A00468C30 /* UUID.swift */,
 				CD9F4CBB199DBAF000468C30 /* Set.swift */,
 				CD9F4CB8199DBAD100468C30 /* PipeForward.swift */,
-				CD9F4CB5199DBAA200468C30 /* SingePacketReading.swift */,
+				CD9F4CB5199DBAA200468C30 /* SinglePacket.swift */,
 				CD7C68A219A5E95100764589 /* MappingSequence.swift */,
 				CD1B7B73199C0135009CCAB2 /* Timing */,
 			);
@@ -857,7 +857,7 @@
 				CDA6674B19E7E11900EB63D2 /* Advertiser.swift in Sources */,
 				CDA6674C19E7E11900EB63D2 /* Timer.swift in Sources */,
 				CDA6674D19E7E11900EB63D2 /* InTransfer.swift in Sources */,
-				CDA6674E19E7E11900EB63D2 /* SingePacketReading.swift in Sources */,
+				CDA6674E19E7E11900EB63D2 /* SinglePacket.swift in Sources */,
 				CDA6674F19E7E11900EB63D2 /* BluetoothBonjourServiceAdvertiser.swift in Sources */,
 				CDA6675019E7E11900EB63D2 /* RemoteP2PPacket.swift in Sources */,
 				CDA6675119E7E11900EB63D2 /* BluetoothBonjourServiceBrowser.swift in Sources */,
@@ -893,7 +893,7 @@
 				CDBABA201990331E00364D04 /* BluetoothBonjourServiceBrowser.swift in Sources */,
 				CDD703951999BAE6002560EE /* DefaultRouter.swift in Sources */,
 				CD9F4CB1199DAEF300468C30 /* RepeatedExecutor.swift in Sources */,
-				CD9F4CB7199DBAA200468C30 /* SingePacketReading.swift in Sources */,
+				CD9F4CB7199DBAA200468C30 /* SinglePacket.swift in Sources */,
 				5E20A9E91BA9B1300024F19F /* DNSSDBrowser.m in Sources */,
 				CDBABA081990330B00364D04 /* PacketConnection.swift in Sources */,
 				CDD703611999A84F002560EE /* Module.swift in Sources */,
@@ -998,7 +998,7 @@
 				CD3915AA19CA27FF00459AA8 /* Module.swift in Sources */,
 				CD39159019CA27E200459AA8 /* RemotePeer.swift in Sources */,
 				CDD08F0819D3DF2600C78CD5 /* RemoteP2PAddress.swift in Sources */,
-				CD39159C19CA27EB00459AA8 /* SingePacketReading.swift in Sources */,
+				CD39159C19CA27EB00459AA8 /* SinglePacket.swift in Sources */,
 				CD3915AE19CA27FF00459AA8 /* UnderlyingConnection.swift in Sources */,
 				CD3915BC19CA28A700459AA8 /* DummyNetworkInterface.swift in Sources */,
 				CD3915AB19CA27FF00459AA8 /* Advertiser.swift in Sources */,
@@ -1056,7 +1056,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = sReto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sReto;
@@ -1078,7 +1078,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = sReto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sReto;
@@ -1104,7 +1104,7 @@
 				INFOPLIST_FILE = sReto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sReto;
 				SDKROOT = macosx;
@@ -1127,7 +1127,7 @@
 				INFOPLIST_FILE = sReto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sReto;
 				SDKROOT = macosx;
@@ -1171,8 +1171,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1212,8 +1212,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

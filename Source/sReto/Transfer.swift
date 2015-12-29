@@ -102,7 +102,7 @@ public class Transfer {
     }
     /** Call to change thet transfer's state to completed and dispatch the associated events. */
     internal func confirmCompletion() {
-        self.isCompleted = true;
+        self.isCompleted = true
         self.onComplete?(self)
         self.confirmEnd()
     }

@@ -16,7 +16,6 @@ public class OutTransfer: Transfer {
     
     init(manager: TransferManager, dataLength: Int, dataProvider: (range: NSRange) -> NSData, identifier: UUID) {
         self.dataProvider = dataProvider
-        
         super.init(manager: manager, length: dataLength, identifier: identifier)
     }
     
@@ -24,9 +23,10 @@ public class OutTransfer: Transfer {
         let dataLength = min(self.length - self.progress, length - 4)
         let packet = DataPacket(data: self.dataProvider(range: NSMakeRange(self.progress, dataLength)))
         self.progress += dataLength
-        
         return packet
     }
     
-    public override func cancel() { self.manager?.cancel(self) }
+    public override func cancel() {
+        self.manager?.cancel(self)
+    }
 }

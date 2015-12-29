@@ -34,11 +34,17 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
     var recommendedPacketSize: Int { get { return subconnections.map { $0.recommendedPacketSize }.minElement()! } }
     
     func connect() {
-        for connection in self.subconnections { connection.connect() }
+        for connection in self.subconnections {
+            connection.connect()
+        }
     }
+    
     func close() {
-        for connection in self.subconnections { connection.close() }
+        for connection in self.subconnections {
+            connection.close()
+        }
     }
+    
     func writeData(data: NSData) {
         if self.dataSentCallbacksToBeReceived != 0 {
             self.dataPacketsSent++
@@ -46,7 +52,9 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
             self.dataSentCallbacksToBeReceived = self.subconnections.count
         }
         
-        for connection in self.subconnections { connection.writeData(data) }
+        for connection in self.subconnections {
+            connection.writeData(data)
+        }
     }
     
 
@@ -54,6 +62,7 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
     func didConnect(connection: UnderlyingConnection) {
         if self.isConnected { self.delegate?.didConnect(self) }
     }
+    
     func didClose(closedConnection: UnderlyingConnection, error: AnyObject?) {
         for connection in self.subconnections {
             if connection !== closedConnection { connection.close() }
@@ -61,12 +70,14 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
         
         self.delegate?.didClose(self, error: error )
     }
+    
     func didReceiveData(connection: UnderlyingConnection, data: NSData) {
         self.delegate?.didReceiveData(self, data: data)
     }
+    
     func didSendData(connection: UnderlyingConnection) {
         if self.dataSentCallbacksToBeReceived == 0 {
-            print("Received unexpected didSendData call.")
+            log(.Medium, info: "Received unexpected didSendData call.")
             return
         }
         

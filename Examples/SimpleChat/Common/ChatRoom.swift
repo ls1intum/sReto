@@ -34,13 +34,17 @@ class ChatRoom: NSObject {
     /** The display name of the local peer in the chat */
     dynamic var localDisplayName: String
     /** The display name of the remote peer in the chat */
-    dynamic var remoteDisplayName: String? = nil
+    dynamic var remoteDisplayName: String?
+    /** The initial display name of the remote peer in the chat */
+    dynamic var initialRemoteDisplayName: String?
     /** The full text in the chat room; contains all messages. */
     dynamic var chatText = ""
     /** The progress of a file if it one is being transmitted. */
     dynamic var fileProgress: Int = 0
     /** Whether a file is currently being transmitted. */
-    dynamic var isFileTransferActive: Bool { get { return self.fileProgress != 0 } }
+    var isFileTransferActive: Bool {
+        return self.fileProgress != 0
+    }
     
     /** The remotePeer object representing the other peer in the chat room (besides the local peer) */
     let remotePeer: RemotePeer
@@ -54,6 +58,8 @@ class ChatRoom: NSObject {
     init(localDisplayName: String, remotePeer: RemotePeer) {
         self.localDisplayName = localDisplayName
         self.remotePeer = remotePeer
+        //TODO: use this information properly
+        self.initialRemoteDisplayName = remotePeer.name
         // Create a connection to the remote peer
         self.outgoingConnection = remotePeer.connect()
         
@@ -77,6 +83,7 @@ class ChatRoom: NSObject {
             connection.onTransfer = self.receiveFile
         }
     }
+    
     func sendMessage(message: String) {
         // Append the message to the local chatText
         appendChatMessage(message, displayName: localDisplayName)
@@ -85,15 +92,18 @@ class ChatRoom: NSObject {
         let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
         self.outgoingConnection.send(data: data)
     }
+    
     func handleChatMessageData(data: NSData) {
-        let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
-        // The first message is the remote display name. If we don't know it yet, that means that we received the display name. Otherwise, append the chat message.
-        if remoteDisplayName == nil {
-            remoteDisplayName = message as String
-        } else {
-            appendChatMessage(message as String, displayName: remoteDisplayName!)
+        if let message = String(data: data, encoding: NSUTF8StringEncoding) {
+            // The first message is the remote display name. If we don't know it yet, that means that we received the display name. Otherwise, append the chat message.
+            if remoteDisplayName == nil {
+                remoteDisplayName = message
+            } else {
+                appendChatMessage(message, displayName: remoteDisplayName!)
+            }
         }
     }
+    
     func appendChatMessage(message: String, displayName: String) {
         chatText = "\(chatText)\(displayName): \(message)\n"
     }
@@ -172,16 +182,20 @@ class ChatRoom: NSObject {
             }
         }
     }
+    
     func readData(fileHandle: NSFileHandle)(range: NSRange) -> NSData {
         fileHandle.seekToFileOffset(UInt64(range.location))
         return fileHandle.readDataOfLength(range.length)
     }
+    
     func writeData(fileHandle: NSFileHandle)(data: NSData) {
         fileHandle.writeData(data)
     }
+    
     func updateProgress(transfer: Transfer) {
         self.fileProgress = (transfer.progress * 100)/transfer.length
     }
+    
     func endTransfer(fileHandle: NSFileHandle) {
         fileHandle.closeFile()
     }

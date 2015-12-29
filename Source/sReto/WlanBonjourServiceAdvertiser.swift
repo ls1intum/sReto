@@ -19,6 +19,7 @@ class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NSNetSer
         netService.delegate = self
         netService.publish()
     }
+    
     func stopAdvertising() {
         if let netService = self.netService {
             netService.stop()
@@ -30,15 +31,17 @@ class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NSNetSer
     }
     
     func netServiceDidPublish(sender: NSNetService) {
-        //print("published wlan bonjour address: \(sender.name)")
+        log(.Low, info: "published wlan bonjour address: \(sender.name)")
         self.delegate?.didPublish()
     }
+    
     func netService(sender: NSNetService, didNotPublish errorDict: [String : NSNumber]) {
-        print("failed to publish on wlan: \(errorDict)")
+        log(.Medium, error: "failed to publish on wlan: \(errorDict)")
         self.delegate?.didNotPublish()
     }
+    
     func netServiceDidStop(sender: NSNetService){
-        print("stopped publishing on wlan")
+        log(.Medium, info: "stopped publishing on wlan")
         self.delegate?.didStop()
     }
 }

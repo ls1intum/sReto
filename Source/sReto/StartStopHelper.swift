@@ -51,7 +51,7 @@ class RetryableActionExecutor {
     func start() {
         if self.timer != nil { return }
 
-        self.timer = Timer.repeatWithBackoff(
+        self.timer = Timer.repeatActionWithBackoff(
             timerSettings: self.timerSettings,
             dispatchQueue: self.dispatchQueue,
             action: {
@@ -68,12 +68,14 @@ class RetryableActionExecutor {
     func stop() {
         self.timer?.stop()
     }
+    
     /**
     * Call this method when the RetryableAction succeeds. This method causes the executor to stop calling the action.
     */
     func onSuccess() {
         self.stop()
     }
+    
     /**
     * Call this method when the RetryableAction succeeds. This method causes the executor to stop calling the action.
     */
@@ -111,7 +113,9 @@ class StartStopHelper {
     /**
     * Whether the StartStopHelper is currently trying to reach or has reached the Started state.
     */
-    var isStarted: Bool { get { return self.desiredState == .Started } }
+    var isStarted: Bool {
+        return self.desiredState == .Started
+    }
     
     /**
     * Creates a new StartStopHelper.
@@ -125,7 +129,6 @@ class StartStopHelper {
         self.starter = RetryableActionExecutor(action: startBlock, timerSettings: timerSettings, dispatchQueue: dispatchQueue)
         self.stopper = RetryableActionExecutor(action: stopBlock, timerSettings: timerSettings, dispatchQueue: dispatchQueue)
     }
-    
     
     /**
     * Runs the startAction in delays until onStart is called.
@@ -151,13 +154,17 @@ class StartStopHelper {
     * */
     func confirmStartOccured() {
         self.starter.stop()
-        if self.desiredState == .Stopped { self.stopper.start() }
+        if self.desiredState == .Stopped {
+            self.stopper.start()
+        }
     }
     /**
     * Call this method when the stopAction succeeds, or a start occurs for another reason. Stops calling the stop action. Starts calling the start action if the start() was called last (as opposed to stop()).
     * */
     func confirmStopOccured() {
         self.stopper.stop()
-        if self.desiredState == .Started { self.starter.start() }
+        if self.desiredState == .Started {
+            self.starter.start()
+        }
     }
 }

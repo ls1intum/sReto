@@ -18,7 +18,9 @@ struct MetricClosureEdgeAnnotation<V>: WeightedEdgeAnnotation {
 }
 
 extension MetricClosureEdgeAnnotation: CustomStringConvertible {
-    var description: String { return "(\(path): \(weight))" }
+    var description: String {
+        return "(\(path): \(weight))"
+    }
 }
 
 extension Graph {

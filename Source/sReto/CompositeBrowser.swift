@@ -29,6 +29,7 @@ class CompositeBrowser: NSObject, Browser, BrowserDelegate {
         self.browsers.append(browser)
         if self.isBrowsing { browser.startBrowsing() }
     }
+    
     func removeBrowser(browser: Browser) {
         self.browsers = self.browsers.filter({ $0 === browser} )
         browser.stopBrowsing()
@@ -36,13 +37,16 @@ class CompositeBrowser: NSObject, Browser, BrowserDelegate {
     
     func startBrowsing() {
         self.isBrowsing = true
-        
-        for browser in self.browsers { browser.startBrowsing() }
+        for browser in self.browsers {
+            browser.startBrowsing()
+        }
     }
+    
     func stopBrowsing() {
         self.isBrowsing = false
-        
-        for browser in self.browsers { browser.stopBrowsing() }
+        for browser in self.browsers {
+            browser.stopBrowsing()
+        }
     }
     
     func didStartBrowsing(browser: Browser) {
@@ -50,14 +54,17 @@ class CompositeBrowser: NSObject, Browser, BrowserDelegate {
             self.browserDelegate?.didStopBrowsing(self)
         }
     }
+    
     func didStopBrowsing(browser: Browser) {
         if self.browsers.map({ $0.isBrowsing }).reduce(true, combine: { $0 && $1 }) {
             self.browserDelegate?.didStopBrowsing(self)
         }
     }
+    
     func didDiscoverAddress(browser: Browser, address: Address, identifier: UUID) {
         self.browserDelegate?.didDiscoverAddress(self, address: address, identifier: identifier)
     }
+    
     func didRemoveAddress(browser: Browser, address: Address, identifier: UUID) {
         self.browserDelegate?.didRemoveAddress(self, address: address, identifier: identifier)
     }
