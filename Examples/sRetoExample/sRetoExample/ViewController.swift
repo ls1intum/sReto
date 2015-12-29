@@ -34,13 +34,12 @@ class ViewController: UIViewController, UITableViewDelegate {
     override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
         self.peerDataSource = PeerDataSource(model: self.model)
         self.connectionDataSource = ConnectionDataSource(model: self.model)
-        
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
+    
     required init?(coder aDecoder: NSCoder) {
         self.peerDataSource = PeerDataSource(model: self.model)
         self.connectionDataSource = ConnectionDataSource(model: self.model)
-        
         super.init(coder: aDecoder)
     }
     
@@ -59,7 +58,8 @@ class ViewController: UIViewController, UITableViewDelegate {
         self.localPeer?.start(
             onPeerDiscovered: {[unowned self] in self.model.addPeer($0); self.peerTableView.reloadData() },
             onPeerRemoved: {[unowned self] in self.model.removePeer($0); self.peerTableView.reloadData() },
-            onIncomingConnection: {[unowned self] peer, connection in self.configureConnection(peer, connection: connection) }
+            onIncomingConnection: {[unowned self] peer, connection in self.configureConnection(peer, connection: connection) },
+            displayName: "MyLocalPeer"
         )
         
         self.peerIdentifierLabel.text = "Local Peer UUID: \(localPeer!.identifier)"
@@ -119,21 +119,26 @@ class ViewController: UIViewController, UITableViewDelegate {
             self.configureConnection(peer, connection: connection)
         }
     }
+    
     @IBAction func closeConnection() {
         if let connection = self.model.selectedPeer?.selectedConnection?.connection {
             connection.close()
             print("closing")
         }
     }
+    
     @IBAction func send500KB(sender: AnyObject) {
         self.send(500*1024)
     }
+    
     @IBAction func send1MB(sender: AnyObject) {
         self.send(1024*1024)
     }
+    
     @IBAction func send5MB(sender: AnyObject) {
         self.send(5*1024*1024)
     }
+    
     func send(bytes: Int) {
         if let exampleConnection = self.model.selectedPeer?.selectedConnection {
             let retoConnection = exampleConnection.connection
@@ -155,11 +160,13 @@ class ViewController: UIViewController, UITableViewDelegate {
             }
         }
     }
+    
     @IBAction func cancelIncomingTransfer(sender: AnyObject) {
         if let transfer = self.model.selectedPeer?.selectedConnection?.inTransfer {
             transfer.cancel()
         }
     }
+    
     @IBAction func cancelOutgoingTransfer(sender: AnyObject) {
         if let transfer = self.model.selectedPeer?.selectedConnection?.outTransfer {
             transfer.cancel()
@@ -181,6 +188,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         
         self.updatePeers()
     }
+    
     func updateConnections() {
         if self.model.selectedPeer != nil {
             self.connectionTableView.reloadData()
@@ -193,6 +201,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         
         self.updateTransfers()
     }
+    
     func updateTransfers() {
         if let connection = self.model.selectedPeer?.selectedConnection {
             if let transfer = connection.inTransfer {
@@ -216,7 +225,8 @@ class ViewController: UIViewController, UITableViewDelegate {
             
             self.noConnectionSelectedLabel.hidden = true
             self.transfersView.hidden = false
-        } else {
+        }
+        else {
             self.noConnectionSelectedLabel.hidden = false
             self.transfersView.hidden = true
         }
@@ -263,6 +273,7 @@ class ConnectionDataSource: NSObject, UITableViewDataSource {
             return 0
         }
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("connectionCell", forIndexPath: indexPath)
         

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E8879C51C3310CA00971822 /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5381AA9DE7E00D84049 /* sReto.framework */; };
+		5E8879C61C3310CA00971822 /* sReto.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 5E39C5381AA9DE7E00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD3003E619815EE800D5E89E /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003E519815EE800D5E89E /* Model.swift */; };
 		CDD98F5F1980538200C69036 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98F5E1980538200C69036 /* AppDelegate.swift */; };
 		CDD98F611980538200C69036 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98F601980538200C69036 /* ViewController.swift */; };
@@ -43,6 +45,13 @@
 			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
 			remoteInfo = sRetoIOS;
 		};
+		5E8879C71C3310CA00971822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
+			remoteInfo = sRetoIOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +61,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5E8879C61C3310CA00971822 /* sReto.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E8879C51C3310CA00971822 /* sReto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +155,7 @@
 			);
 			dependencies = (
 				5E39C53A1AA9DE8A00D84049 /* PBXTargetDependency */,
+				5E8879C81C3310CA00971822 /* PBXTargetDependency */,
 			);
 			name = sRetoExample;
 			productName = sRetoExample;
@@ -244,6 +256,11 @@
 			isa = PBXTargetDependency;
 			name = sRetoIOS;
 			targetProxy = 5E39C5391AA9DE8A00D84049 /* PBXContainerItemProxy */;
+		};
+		5E8879C81C3310CA00971822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = sRetoIOS;
+			targetProxy = 5E8879C71C3310CA00971822 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -347,6 +364,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = sRetoExample/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -364,6 +382,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = sRetoExample/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
