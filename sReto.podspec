@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'sReto'
-  s.version      = '1.2.0'
+  s.version      = '1.3.0'
   s.summary      = 'P2P Framework for realtime collaboration in Swift'
   s.homepage     = 'https://github.com/ls1intum/sReto'
   s.license      = 'MIT'
@@ -15,8 +15,6 @@ Pod::Spec.new do |s|
   s.ios.frameworks     = 'CFNetwork', 'Security'
   s.osx.frameworks     = 'CoreServices', 'Security'
   s.libraries          = "icucore"
-  
-  
   
   s.subspec 'no-arc' do |n|
     n.source_files = 'Source/sReto/DNSSD/*'
