@@ -56,7 +56,8 @@ let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_mai
 localPeer.start(
   onPeerDiscovered: { peer in println("Discovered peer: \(peer)) },
   onPeerRemoved: { peer in println("Removed peer: \(peer)) },
-  onIncomingConnection: { peer, connection in println("Received incoming connection: \(connection) from peer: \(peer)) }
+  onIncomingConnection: { peer, connection in println("Received incoming connection: \(connection) from peer: \(peer)) },
+  displayName: "MyLocalPeer"
 )
 ```
 
@@ -74,7 +75,7 @@ LocalPeer* localPeer = [[LocalPeer alloc] initWithModules: @[wlanModule] dispatc
   NSLog(@"Removed peer: %@", peer);
 } onIncomingConnection:^(RemotePeer *peer, Connection *connection) {
   NSLog(@"Received incoming connection: %@ from peer: %@", connection, peer);
-}];
+} displayName: @"MyLocalPeer"];
 ```
 
 Any two applications that use the same type parameter for the WlanModule will discover each other in a local area network. Therefore, you should choose a unique type parameter.
@@ -98,14 +99,14 @@ The first closure gives you access to `RemotePeer` objects, which can be used to
 *Swift*
 
 ```swift
-    // 1. Establishing a connection
-    let connection = someRemotePeer.connect()
-    // 2. Registering a callback the onClose event
-    connection.onClose = { connection in println("Connection closed.") }
-    // 3. Receiving data
-    connection.onData = { connection, data in println("Received data!") }
-    // 4. Sending data
-    connection.send(data: someData)
+// 1. Establishing a connection
+let connection = someRemotePeer.connect()
+// 2. Registering a callback the onClose event
+connection.onClose = { connection in println("Connection closed.") }
+// 3. Receiving data
+connection.onData = { connection, data in println("Received data!") }
+// 4. Sending data
+connection.send(data: someData)
 ```
 
 *Objective C*
