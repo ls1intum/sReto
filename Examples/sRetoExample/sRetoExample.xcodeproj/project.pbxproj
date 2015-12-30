@@ -7,52 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E8879C51C3310CA00971822 /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5381AA9DE7E00D84049 /* sReto.framework */; };
-		5E8879C61C3310CA00971822 /* sReto.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 5E39C5381AA9DE7E00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD3003E619815EE800D5E89E /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3003E519815EE800D5E89E /* Model.swift */; };
 		CDD98F5F1980538200C69036 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98F5E1980538200C69036 /* AppDelegate.swift */; };
 		CDD98F611980538200C69036 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD98F601980538200C69036 /* ViewController.swift */; };
 		CDD98F641980538200C69036 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDD98F621980538200C69036 /* Main.storyboard */; };
 		CDD98F661980538200C69036 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDD98F651980538200C69036 /* Images.xcassets */; };
+		F891226521FCFB7E152075C7 /* Pods_sRetoExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5926503EBCDAEF6E5C5D350D /* Pods_sRetoExample.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5E39C5331AA9DE7E00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDD98EE31980510600C69036;
-			remoteInfo = sRetoTests;
-		};
-		5E39C5351AA9DE7E00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDBAB9EA199032DD00364D04;
-			remoteInfo = sRetoMac;
-		};
-		5E39C5371AA9DE7E00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDA6677819E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-		5E39C5391AA9DE8A00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-		5E8879C71C3310CA00971822 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		CDEFA30B199161F2001E4716 /* Copy Files */ = {
@@ -61,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5E8879C61C3310CA00971822 /* sReto.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,8 +29,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5926503EBCDAEF6E5C5D350D /* Pods_sRetoExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DD1D7C3F40BA2EA2051EF31 /* Pods-sRetoExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoExample/Pods-sRetoExample.release.xcconfig"; sourceTree = "<group>"; };
+		AB94B052DC5D3BCDAC6F514F /* Pods-sRetoExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoExample/Pods-sRetoExample.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3003E519815EE800D5E89E /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Model.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		CDD1A3351A763AF700678440 /* sReto.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sReto.xcodeproj; path = ../../Source/sReto.xcodeproj; sourceTree = "<group>"; };
 		CDD98F591980538200C69036 /* sRetoExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sRetoExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD98F5D1980538200C69036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDD98F5E1980538200C69036 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -84,29 +46,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E8879C51C3310CA00971822 /* sReto.framework in Frameworks */,
+				F891226521FCFB7E152075C7 /* Pods_sRetoExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5E39C52E1AA9DE7E00D84049 /* Products */ = {
+		093EDFF959A76F97CA47B591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5E39C5341AA9DE7E00D84049 /* sRetoTests.xctest */,
-				5E39C5361AA9DE7E00D84049 /* sReto.framework */,
-				5E39C5381AA9DE7E00D84049 /* sReto.framework */,
+				5926503EBCDAEF6E5C5D350D /* Pods_sRetoExample.framework */,
 			);
-			name = Products;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CDD98F501980538200C69036 = {
 			isa = PBXGroup;
 			children = (
-				CDD1A3351A763AF700678440 /* sReto.xcodeproj */,
 				CDD98F5B1980538200C69036 /* sRetoExample */,
 				CDD98F5A1980538200C69036 /* Products */,
+				D94002DFC745406A14ED9EFC /* Pods */,
+				093EDFF959A76F97CA47B591 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +100,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D94002DFC745406A14ED9EFC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AB94B052DC5D3BCDAC6F514F /* Pods-sRetoExample.debug.xcconfig */,
+				6DD1D7C3F40BA2EA2051EF31 /* Pods-sRetoExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,16 +116,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDD98F751980538300C69036 /* Build configuration list for PBXNativeTarget "sRetoExample" */;
 			buildPhases = (
+				8E17007E0B2EA7CDEA5F1ED0 /* Check Pods Manifest.lock */,
 				CDD98F551980538200C69036 /* Sources */,
 				CDD98F561980538200C69036 /* Frameworks */,
 				CDD98F571980538200C69036 /* Resources */,
 				CDEFA30B199161F2001E4716 /* Copy Files */,
+				DB7A917241960345FEFD8F94 /* Embed Pods Frameworks */,
+				807ED92F4D691B37618C0215 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5E39C53A1AA9DE8A00D84049 /* PBXTargetDependency */,
-				5E8879C81C3310CA00971822 /* PBXTargetDependency */,
 			);
 			name = sRetoExample;
 			productName = sRetoExample;
@@ -189,42 +160,12 @@
 			mainGroup = CDD98F501980538200C69036;
 			productRefGroup = CDD98F5A1980538200C69036 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 5E39C52E1AA9DE7E00D84049 /* Products */;
-					ProjectRef = CDD1A3351A763AF700678440 /* sReto.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				CDD98F581980538200C69036 /* sRetoExample */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		5E39C5341AA9DE7E00D84049 /* sRetoTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = sRetoTests.xctest;
-			remoteRef = 5E39C5331AA9DE7E00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5E39C5361AA9DE7E00D84049 /* sReto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = sReto.framework;
-			remoteRef = 5E39C5351AA9DE7E00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5E39C5381AA9DE7E00D84049 /* sReto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = sReto.framework;
-			remoteRef = 5E39C5371AA9DE7E00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CDD98F571980538200C69036 /* Resources */ = {
@@ -238,6 +179,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		807ED92F4D691B37618C0215 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoExample/Pods-sRetoExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E17007E0B2EA7CDEA5F1ED0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DB7A917241960345FEFD8F94 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoExample/Pods-sRetoExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CDD98F551980538200C69036 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -250,19 +239,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5E39C53A1AA9DE8A00D84049 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sRetoIOS;
-			targetProxy = 5E39C5391AA9DE8A00D84049 /* PBXContainerItemProxy */;
-		};
-		5E8879C81C3310CA00971822 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sRetoIOS;
-			targetProxy = 5E8879C71C3310CA00971822 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CDD98F621980538200C69036 /* Main.storyboard */ = {
@@ -360,6 +336,7 @@
 		};
 		CDD98F761980538300C69036 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB94B052DC5D3BCDAC6F514F /* Pods-sRetoExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -378,6 +355,7 @@
 		};
 		CDD98F771980538300C69036 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DD1D7C3F40BA2EA2051EF31 /* Pods-sRetoExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

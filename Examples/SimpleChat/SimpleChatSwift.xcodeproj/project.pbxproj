@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E7D074B1C319DDE00BF5347 /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5261AA9DE0F00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		5EBF3D5E1C32A25300D7DBEE /* sReto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E39C5281AA9DE0F00D84049 /* sReto.framework */; };
-		5EBF3D5F1C32A25300D7DBEE /* sReto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E39C5281AA9DE0F00D84049 /* sReto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		15819A2F9707A6FEDCCEAD4D /* Pods_SimpleChatIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD700E3779FFEF78D90F90D1 /* Pods_SimpleChatIOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2BCF8F3033EA895AB7A49EF4 /* Pods_SimpleChatMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3A9ED97857DD483E532457 /* Pods_SimpleChatMac.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CD1814161A79B95E0027BB09 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1814151A79B95E0027BB09 /* AssetsLibrary.framework */; };
 		CD1814181A79C0050027BB09 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1814171A79C0050027BB09 /* QuickLook.framework */; };
 		CDE6FDC61A782E1D00CC8B6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE6FDC51A782E1D00CC8B6C /* AppDelegate.swift */; };
@@ -28,51 +27,6 @@
 		CDE70F3219FA50430080AAE4 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE70F3119FA50430080AAE4 /* ChatRoom.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5E39C5231AA9DE0F00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDD98EE31980510600C69036;
-			remoteInfo = sRetoTests;
-		};
-		5E39C5251AA9DE0F00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDBAB9EA199032DD00364D04;
-			remoteInfo = sRetoMac;
-		};
-		5E39C5271AA9DE0F00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDA6677819E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-		5E39C5291AA9DE2700D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CDBAB9E9199032DD00364D04;
-			remoteInfo = sRetoMac;
-		};
-		5E39C52B1AA9DE2F00D84049 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-		5EBF3D601C32A25300D7DBEE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CDA6672119E7E11900EB63D2;
-			remoteInfo = sRetoIOS;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		CDE6FDEC1A78396000CC8B6C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -80,16 +34,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5EBF3D5F1C32A25300D7DBEE /* sReto.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		17589819198D3FCBE161038E /* Pods-SimpleChatIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleChatIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleChatIOS/Pods-SimpleChatIOS.release.xcconfig"; sourceTree = "<group>"; };
+		5390CD45AEE7F5B9B147CC23 /* Pods-SimpleChatMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleChatMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleChatMac/Pods-SimpleChatMac.debug.xcconfig"; sourceTree = "<group>"; };
+		6F3A9ED97857DD483E532457 /* Pods_SimpleChatMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleChatMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1F81C6D9C1299A90156CE55 /* Pods-SimpleChatMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleChatMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleChatMac/Pods-SimpleChatMac.release.xcconfig"; sourceTree = "<group>"; };
 		CD1814151A79B95E0027BB09 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
 		CD1814171A79C0050027BB09 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/QuickLook.framework; sourceTree = DEVELOPER_DIR; };
-		CDD1A3461A76425400678440 /* sReto.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sReto.xcodeproj; path = ../../Source/sReto.xcodeproj; sourceTree = "<group>"; };
 		CDE6FDC11A782E1D00CC8B6C /* SimpleChatIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleChatIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDE6FDC41A782E1D00CC8B6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDE6FDC51A782E1D00CC8B6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -106,6 +62,8 @@
 		CDE70F1919FA44A30080AAE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CDE70F2F19FA50370080AAE4 /* LocalChatPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = LocalChatPeer.swift; path = Common/LocalChatPeer.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDE70F3119FA50430080AAE4 /* ChatRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = ChatRoom.swift; path = Common/ChatRoom.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		DD700E3779FFEF78D90F90D1 /* Pods_SimpleChatIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleChatIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3C9CF6618DBB183077B0568 /* Pods-SimpleChatIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleChatIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleChatIOS/Pods-SimpleChatIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,9 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EBF3D5E1C32A25300D7DBEE /* sReto.framework in Frameworks */,
 				CD1814181A79C0050027BB09 /* QuickLook.framework in Frameworks */,
 				CD1814161A79B95E0027BB09 /* AssetsLibrary.framework in Frameworks */,
+				15819A2F9707A6FEDCCEAD4D /* Pods_SimpleChatIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,21 +81,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E7D074B1C319DDE00BF5347 /* sReto.framework in Frameworks */,
+				2BCF8F3033EA895AB7A49EF4 /* Pods_SimpleChatMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5E39C51E1AA9DE0F00D84049 /* Products */ = {
+		3D13BB4F051B8E2AD2C02E38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5E39C5241AA9DE0F00D84049 /* sRetoTests.xctest */,
-				5E39C5261AA9DE0F00D84049 /* sReto.framework */,
-				5E39C5281AA9DE0F00D84049 /* sReto.framework */,
+				DD700E3779FFEF78D90F90D1 /* Pods_SimpleChatIOS.framework */,
+				6F3A9ED97857DD483E532457 /* Pods_SimpleChatMac.framework */,
 			);
-			name = Products;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E11CE4167A4027CA4D8BD60 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F3C9CF6618DBB183077B0568 /* Pods-SimpleChatIOS.debug.xcconfig */,
+				17589819198D3FCBE161038E /* Pods-SimpleChatIOS.release.xcconfig */,
+				5390CD45AEE7F5B9B147CC23 /* Pods-SimpleChatMac.debug.xcconfig */,
+				B1F81C6D9C1299A90156CE55 /* Pods-SimpleChatMac.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		CDE6FDC21A782E1D00CC8B6C /* SimpleChatIOS */ = {
@@ -176,11 +144,12 @@
 		CDE70F0419FA44A30080AAE4 = {
 			isa = PBXGroup;
 			children = (
-				CDD1A3461A76425400678440 /* sReto.xcodeproj */,
 				CDE6FDEE1A78398300CC8B6C /* Common */,
 				CDE70F0F19FA44A30080AAE4 /* SimpleChatMac */,
 				CDE6FDC21A782E1D00CC8B6C /* SimpleChatIOS */,
 				CDE70F0E19FA44A30080AAE4 /* Products */,
+				6E11CE4167A4027CA4D8BD60 /* Pods */,
+				3D13BB4F051B8E2AD2C02E38 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,16 +189,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDE6FDE51A782E1D00CC8B6C /* Build configuration list for PBXNativeTarget "SimpleChatIOS" */;
 			buildPhases = (
+				51BCEBB6DCA01FF4477D3BB0 /* Check Pods Manifest.lock */,
 				CDE6FDBD1A782E1D00CC8B6C /* Sources */,
 				CDE6FDBE1A782E1D00CC8B6C /* Frameworks */,
 				CDE6FDBF1A782E1D00CC8B6C /* Resources */,
 				CDE6FDEC1A78396000CC8B6C /* CopyFiles */,
+				78B5FFDC733CABAA5FC82015 /* Embed Pods Frameworks */,
+				5A5C6AC886116567E721538C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5E39C52C1AA9DE2F00D84049 /* PBXTargetDependency */,
-				5EBF3D611C32A25300D7DBEE /* PBXTargetDependency */,
 			);
 			name = SimpleChatIOS;
 			productName = SimpleChatIOS;
@@ -240,14 +210,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDE70F2919FA44A30080AAE4 /* Build configuration list for PBXNativeTarget "SimpleChatMac" */;
 			buildPhases = (
+				B4C0AF9F2EB462BCCB87C129 /* Check Pods Manifest.lock */,
 				CDE70F0919FA44A30080AAE4 /* Sources */,
 				CDE70F0A19FA44A30080AAE4 /* Frameworks */,
 				CDE70F0B19FA44A30080AAE4 /* Resources */,
+				84C4CDCBFF6682641C326E6D /* Embed Pods Frameworks */,
+				D5D0D9A05F83ED0D5D33393D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5E39C52A1AA9DE2700D84049 /* PBXTargetDependency */,
 			);
 			name = SimpleChatMac;
 			productName = SimpleChatMac;
@@ -284,12 +256,6 @@
 			mainGroup = CDE70F0419FA44A30080AAE4;
 			productRefGroup = CDE70F0E19FA44A30080AAE4 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 5E39C51E1AA9DE0F00D84049 /* Products */;
-					ProjectRef = CDD1A3461A76425400678440 /* sReto.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				CDE70F0C19FA44A30080AAE4 /* SimpleChatMac */,
@@ -297,30 +263,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		5E39C5241AA9DE0F00D84049 /* sRetoTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = sRetoTests.xctest;
-			remoteRef = 5E39C5231AA9DE0F00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5E39C5261AA9DE0F00D84049 /* sReto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = sReto.framework;
-			remoteRef = 5E39C5251AA9DE0F00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5E39C5281AA9DE0F00D84049 /* sReto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = sReto.framework;
-			remoteRef = 5E39C5271AA9DE0F00D84049 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CDE6FDBF1A782E1D00CC8B6C /* Resources */ = {
@@ -343,6 +285,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		51BCEBB6DCA01FF4477D3BB0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5A5C6AC886116567E721538C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleChatIOS/Pods-SimpleChatIOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		78B5FFDC733CABAA5FC82015 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleChatIOS/Pods-SimpleChatIOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84C4CDCBFF6682641C326E6D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleChatMac/Pods-SimpleChatMac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4C0AF9F2EB462BCCB87C129 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D5D0D9A05F83ED0D5D33393D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleChatMac/Pods-SimpleChatMac-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CDE6FDBD1A782E1D00CC8B6C /* Sources */ = {
@@ -369,24 +404,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5E39C52A1AA9DE2700D84049 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sRetoMac;
-			targetProxy = 5E39C5291AA9DE2700D84049 /* PBXContainerItemProxy */;
-		};
-		5E39C52C1AA9DE2F00D84049 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sRetoIOS;
-			targetProxy = 5E39C52B1AA9DE2F00D84049 /* PBXContainerItemProxy */;
-		};
-		5EBF3D611C32A25300D7DBEE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sRetoIOS;
-			targetProxy = 5EBF3D601C32A25300D7DBEE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CDE6FDCB1A782E1D00CC8B6C /* Main.storyboard */ = {
@@ -418,6 +435,7 @@
 /* Begin XCBuildConfiguration section */
 		CDE6FDDF1A782E1D00CC8B6C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3C9CF6618DBB183077B0568 /* Pods-SimpleChatIOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -439,6 +457,7 @@
 		};
 		CDE6FDE01A782E1D00CC8B6C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17589819198D3FCBE161038E /* Pods-SimpleChatIOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -537,6 +556,7 @@
 		};
 		CDE70F2A19FA44A30080AAE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5390CD45AEE7F5B9B147CC23 /* Pods-SimpleChatMac.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -551,6 +571,7 @@
 		};
 		CDE70F2B19FA44A30080AAE4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1F81C6D9C1299A90156CE55 /* Pods-SimpleChatMac.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;

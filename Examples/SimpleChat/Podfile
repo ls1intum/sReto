@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'SimpleChatIOS' do
+  platform :ios, '8.0'
+  pod 'sReto/AllModules', :path => '../../'
+end
+
+target 'SimpleChatMac' do
+  platform :osx, '10.9'
+  pod 'sReto/AllModules', :path => '../../'
+end
+
