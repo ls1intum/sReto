@@ -13,25 +13,31 @@ import XCTest
 * Note: These tests are currently very slow to Swift Dictionary's terrible performance when using debug settings.
 */
 class TransferDataIntegrityTest: XCTestCase {
+    
     override func setUp() {
         super.setUp()
         broadcastDelaySettings = (0.01, 0.05)
         reliabilityManagerDelays = (50, 50)
     }
+    
     var connection: Connection? = nil
     
     func testTransferDataIntegrityWithDirectConfiguration() {
         self.testTransferDataIntegrity(PeerConfiguration.directNeighborConfiguration())
     }
+    
     func testTransferDataIntegrityWith2HopConfiguration() {
         self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedConfiguration())
     }
+    
     func testTransferDataIntegrityWith2HopMulticastConfiguration() {
         self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedMulticastConfiguration())
     }
+    
     func testTransferDataIntegrityWith2HopMulticastConfiguration2() {
         self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedMulticastConfiguration2())
     }
+    
     func testTransferDataIntegrityWith4HopConfiguration() {
         self.testTransferDataIntegrity(PeerConfiguration.fourHopRoutedConfiguration())
     }

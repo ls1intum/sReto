@@ -207,19 +207,10 @@
 		CD4D82FB19CD07B6001A5897 /* PeerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4D82FA19CD07B6001A5897 /* PeerConfiguration.swift */; };
 		CD4D82FF19CD1FFE001A5897 /* DiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4D82FE19CD1FFE001A5897 /* DiscoveryTest.swift */; };
 		CD4D833219CD530F001A5897 /* ConnectivityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4D833119CD530F001A5897 /* ConnectivityTest.swift */; };
-		CD6D20C01992661B004E4381 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20BB199265E4004E4381 /* Security.framework */; };
-		CD6D20C11992661B004E4381 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B9199265DC004E4381 /* CFNetwork.framework */; };
-		CD6D20C21992661B004E4381 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B7199265D4004E4381 /* libicucore.dylib */; };
 		CD6DC24F19C8AE6E006ADC24 /* MinimumSteinerTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DC24E19C8AE6E006ADC24 /* MinimumSteinerTreeTests.swift */; };
 		CD7C68A119A539C500764589 /* UUIDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C68A019A539C500764589 /* UUIDTests.swift */; };
-		CDA6676819E7E11900EB63D2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20BB199265E4004E4381 /* Security.framework */; };
-		CDA6676919E7E11900EB63D2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B9199265DC004E4381 /* CFNetwork.framework */; };
-		CDA6676A19E7E11900EB63D2 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B7199265D4004E4381 /* libicucore.dylib */; };
 		CDBA245D19A49560005B18EA /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBA245C19A49560005B18EA /* GraphTests.swift */; };
 		CDC2218F19CE9AE500EEE479 /* TransferDataIntegrityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2218E19CE9AE500EEE479 /* TransferDataIntegrityTest.swift */; };
-		CDD08F0E19D3E1BD00C78CD5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20BB199265E4004E4381 /* Security.framework */; };
-		CDD08F0F19D3E1CA00C78CD5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B9199265DC004E4381 /* CFNetwork.framework */; };
-		CDD08F1019D3E1D700C78CD5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6D20B7199265D4004E4381 /* libicucore.dylib */; };
 		CDFD74BC19A4BFC800F66620 /* RoutingTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD74BB19A4BFC800F66620 /* RoutingTableTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -304,9 +295,6 @@
 		CD4D82FA19CD07B6001A5897 /* PeerConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PeerConfiguration.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD4D82FE19CD1FFE001A5897 /* DiscoveryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DiscoveryTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD4D833119CD530F001A5897 /* ConnectivityTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectivityTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		CD6D20B7199265D4004E4381 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		CD6D20B9199265DC004E4381 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		CD6D20BB199265E4004E4381 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CD6DC24E19C8AE6E006ADC24 /* MinimumSteinerTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MinimumSteinerTreeTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD7C68A019A539C500764589 /* UUIDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UUIDTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDA6677819E7E11900EB63D2 /* sReto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = sReto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,9 +313,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA6676819E7E11900EB63D2 /* Security.framework in Frameworks */,
-				CDA6676919E7E11900EB63D2 /* CFNetwork.framework in Frameworks */,
-				CDA6676A19E7E11900EB63D2 /* libicucore.dylib in Frameworks */,
 				58C1C1100A20BA3C076F6820 /* Pods_sRetoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,9 +321,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD6D20C01992661B004E4381 /* Security.framework in Frameworks */,
-				CD6D20C11992661B004E4381 /* CFNetwork.framework in Frameworks */,
-				CD6D20C21992661B004E4381 /* libicucore.dylib in Frameworks */,
 				BCFD25B314AE0FFEDBF50318 /* Pods_sRetoMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,9 +329,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDD08F1019D3E1D700C78CD5 /* libicucore.dylib in Frameworks */,
-				CDD08F0F19D3E1CA00C78CD5 /* CFNetwork.framework in Frameworks */,
-				CDD08F0E19D3E1BD00C78CD5 /* Security.framework in Frameworks */,
 				0C3B1A181EF89C8EB0D811FB /* Pods_sRetoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,9 +549,6 @@
 		CD6D20BD199265F4004E4381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CD6D20BB199265E4004E4381 /* Security.framework */,
-				CD6D20B9199265DC004E4381 /* CFNetwork.framework */,
-				CD6D20B7199265D4004E4381 /* libicucore.dylib */,
 				B5D752DBF9C854690375C595 /* Pods_sRetoIOS.framework */,
 				E2C25A3A1FAD44DC5B20AF9B /* Pods_sRetoMac.framework */,
 			);
