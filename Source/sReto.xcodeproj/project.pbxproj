@@ -7,6 +7,67 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C3B1A181EF89C8EB0D811FB /* Pods_sRetoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D752DBF9C854690375C595 /* Pods_sRetoIOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		58C1C1100A20BA3C076F6820 /* Pods_sRetoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D752DBF9C854690375C595 /* Pods_sRetoIOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5E0BAA091C3367BE002CF93A /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A51C331632000A9BD5 /* Graph.swift */; };
+		5E0BAA0A1C3367BE002CF93A /* MinimumSteinerTreeApproximation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A61C331632000A9BD5 /* MinimumSteinerTreeApproximation.swift */; };
+		5E0BAA0B1C3367BE002CF93A /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A71C331632000A9BD5 /* Tree.swift */; };
+		5E0BAA0C1C3367BE002CF93A /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A91C331632000A9BD5 /* Address.swift */; };
+		5E0BAA0D1C3367BE002CF93A /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32AA1C331632000A9BD5 /* Advertiser.swift */; };
+		5E0BAA0E1C3367BE002CF93A /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32AB1C331632000A9BD5 /* Browser.swift */; };
+		5E0BAA0F1C3367BE002CF93A /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32AC1C331632000A9BD5 /* Module.swift */; };
+		5E0BAA101C3367BE002CF93A /* UnderlyingConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32AD1C331632000A9BD5 /* UnderlyingConnection.swift */; };
+		5E0BAA111C3367BE002CF93A /* Packets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B71C331632000A9BD5 /* Packets.swift */; };
+		5E0BAA121C3367BE002CF93A /* PacketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B01C331632000A9BD5 /* PacketConnection.swift */; };
+		5E0BAA131C3367BE002CF93A /* ReliabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B11C331632000A9BD5 /* ReliabilityManager.swift */; };
+		5E0BAA141C3367BE002CF93A /* TransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B21C331632000A9BD5 /* TransferManager.swift */; };
+		5E0BAA151C3367BE002CF93A /* CompositeAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BA1C331632000A9BD5 /* CompositeAdvertiser.swift */; };
+		5E0BAA161C3367BE002CF93A /* CompositeBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BB1C331632000A9BD5 /* CompositeBrowser.swift */; };
+		5E0BAA171C3367BE002CF93A /* DefaultRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BC1C331632000A9BD5 /* DefaultRouter.swift */; };
+		5E0BAA181C3367BE002CF93A /* FloodingPacketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BD1C331632000A9BD5 /* FloodingPacketManager.swift */; };
+		5E0BAA191C3367BE002CF93A /* ForwardingConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BE1C331632000A9BD5 /* ForwardingConnection.swift */; };
+		5E0BAA1A1C3367BE002CF93A /* LinkStatePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BF1C331632000A9BD5 /* LinkStatePacket.swift */; };
+		5E0BAA1B1C3367BE002CF93A /* LinkStateRoutingTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C01C331632000A9BD5 /* LinkStateRoutingTable.swift */; };
+		5E0BAA1C1C3367BE002CF93A /* ManagedModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C11C331632000A9BD5 /* ManagedModule.swift */; };
+		5E0BAA1D1C3367BE002CF93A /* MulticastConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C21C331632000A9BD5 /* MulticastConnection.swift */; };
+		5E0BAA1E1C3367BE002CF93A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C31C331632000A9BD5 /* Node.swift */; };
+		5E0BAA1F1C3367BE002CF93A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C41C331632000A9BD5 /* Router.swift */; };
+		5E0BAA201C3367BE002CF93A /* RoutingPackets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C51C331632000A9BD5 /* RoutingPackets.swift */; };
+		5E0BAA211C3367BE002CF93A /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C81C331632000A9BD5 /* Data.swift */; };
+		5E0BAA221C3367BE002CF93A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C91C331632000A9BD5 /* Logging.swift */; };
+		5E0BAA231C3367BE002CF93A /* MappingSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CA1C331632000A9BD5 /* MappingSequence.swift */; };
+		5E0BAA241C3367BE002CF93A /* PipeForward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CB1C331632000A9BD5 /* PipeForward.swift */; };
+		5E0BAA251C3367BE002CF93A /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CC1C331632000A9BD5 /* PriorityQueue.swift */; };
+		5E0BAA261C3367BE002CF93A /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CD1C331632000A9BD5 /* Set.swift */; };
+		5E0BAA271C3367BE002CF93A /* SinglePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CE1C331632000A9BD5 /* SinglePacket.swift */; };
+		5E0BAA281C3367BE002CF93A /* RepeatedExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D01C331632000A9BD5 /* RepeatedExecutor.swift */; };
+		5E0BAA291C3367BE002CF93A /* StartStopHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D11C331632000A9BD5 /* StartStopHelper.swift */; };
+		5E0BAA2A1C3367BE002CF93A /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D21C331632000A9BD5 /* Timer.swift */; };
+		5E0BAA2B1C3367BE002CF93A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D31C331632000A9BD5 /* Utils.swift */; };
+		5E0BAA2C1C3367BE002CF93A /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D41C331632000A9BD5 /* UUID.swift */; };
+		5E0BAA2D1C3367BE002CF93A /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32AE1C331632000A9BD5 /* Connection.swift */; };
+		5E0BAA2E1C3367BE002CF93A /* InTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B31C331632000A9BD5 /* InTransfer.swift */; };
+		5E0BAA2F1C3367BF002CF93A /* LocalPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B41C331632000A9BD5 /* LocalPeer.swift */; };
+		5E0BAA301C3367BF002CF93A /* OutTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B51C331632000A9BD5 /* OutTransfer.swift */; };
+		5E0BAA311C3367BF002CF93A /* RemotePeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32B81C331632000A9BD5 /* RemotePeer.swift */; };
+		5E0BAA321C3367BF002CF93A /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32C61C331632000A9BD5 /* Transfer.swift */; };
+		5E0BAA331C3367BF002CF93A /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D71C331632000A9BD5 /* BluetoothBonjourServiceAdvertiser.swift */; };
+		5E0BAA341C3367BF002CF93A /* BluetoothBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D81C331632000A9BD5 /* BluetoothBonjourServiceBrowser.swift */; };
+		5E0BAA351C3367BF002CF93A /* BluetoothModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D91C331632000A9BD5 /* BluetoothModule.swift */; };
+		5E0BAA361C3367BF002CF93A /* AsyncSocketUnderlyingConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E21C331632000A9BD5 /* AsyncSocketUnderlyingConnection.swift */; };
+		5E0BAA371C3367BF002CF93A /* BonjourAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E31C331632000A9BD5 /* BonjourAdvertiser.swift */; };
+		5E0BAA381C3367BF002CF93A /* BonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E41C331632000A9BD5 /* BonjourBrowser.swift */; };
+		5E0BAA391C3367BF002CF93A /* TcpIpAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E81C331632000A9BD5 /* TcpIpAddress.swift */; };
+		5E0BAA3A1C3367BF002CF93A /* RemoteP2PAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EA1C331632000A9BD5 /* RemoteP2PAddress.swift */; };
+		5E0BAA3B1C3367BF002CF93A /* RemoteP2PConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EB1C331632000A9BD5 /* RemoteP2PConnection.swift */; };
+		5E0BAA3C1C3367BF002CF93A /* RemoteP2PModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32EC1C331632000A9BD5 /* RemoteP2PModule.swift */; };
+		5E0BAA3D1C3367BF002CF93A /* RemoteP2PPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32ED1C331632000A9BD5 /* RemoteP2PPacket.swift */; };
+		5E0BAA3E1C3367BF002CF93A /* WlanBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F61C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift */; };
+		5E0BAA3F1C3367BF002CF93A /* WlanBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */; };
+		5E0BAA401C3367BF002CF93A /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F81C331632000A9BD5 /* WlanModule.swift */; };
+		5E0BAA411C33682F002CF93A /* DNSSDBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32DC1C331632000A9BD5 /* DNSSDBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E0BAA421C33682F002CF93A /* DNSSDRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32DE1C331632000A9BD5 /* DNSSDRegistration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5E0BAA431C33682F002CF93A /* DNSSDService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32E01C331632000A9BD5 /* DNSSDService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EAB32A11C331606000A9BD5 /* sReto.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32A01C331606000A9BD5 /* sReto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EAB32A21C331606000A9BD5 /* sReto.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAB32A01C331606000A9BD5 /* sReto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EAB32F91C331632000A9BD5 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A51C331632000A9BD5 /* Graph.swift */; };
@@ -133,6 +194,7 @@
 		5EAB33821C331632000A9BD5 /* WlanBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */; };
 		5EAB33831C331632000A9BD5 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F81C331632000A9BD5 /* WlanModule.swift */; };
 		5EAB33841C331632000A9BD5 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F81C331632000A9BD5 /* WlanModule.swift */; };
+		BCFD25B314AE0FFEDBF50318 /* Pods_sRetoMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C25A3A1FAD44DC5B20AF9B /* Pods_sRetoMac.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CD39158919CA25E900459AA8 /* TestMulticastHandshakePacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD39158819CA25E900459AA8 /* TestMulticastHandshakePacket.swift */; };
 		CD3915BC19CA28A700459AA8 /* DummyNetworkInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3915BB19CA28A700459AA8 /* DummyNetworkInterface.swift */; };
 		CD3915BE19CA293700459AA8 /* DummyBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3915BD19CA293700459AA8 /* DummyBrowser.swift */; };
@@ -225,6 +287,10 @@
 		5EAB32F61C331632000A9BD5 /* WlanBonjourServiceAdvertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanBonjourServiceAdvertiser.swift; sourceTree = "<group>"; };
 		5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanBonjourServiceBrowser.swift; sourceTree = "<group>"; };
 		5EAB32F81C331632000A9BD5 /* WlanModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanModule.swift; sourceTree = "<group>"; };
+		7A62B65A5F7392CF57E6AA08 /* Pods-sRetoIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS.release.xcconfig"; sourceTree = "<group>"; };
+		98E1C36BF60EFBF91298E324 /* Pods-sRetoMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoMac/Pods-sRetoMac.release.xcconfig"; sourceTree = "<group>"; };
+		9C17F9E82D87AF73C2A323A9 /* Pods-sRetoMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoMac/Pods-sRetoMac.debug.xcconfig"; sourceTree = "<group>"; };
+		B5D752DBF9C854690375C595 /* Pods_sRetoIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1814121A79B6850027BB09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = sReto/Info.plist; sourceTree = SOURCE_ROOT; };
 		CD39158819CA25E900459AA8 /* TestMulticastHandshakePacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestMulticastHandshakePacket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD3915BB19CA28A700459AA8 /* DummyNetworkInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DummyNetworkInterface.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -250,6 +316,8 @@
 		CDD98EE31980510600C69036 /* sRetoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sRetoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD98EE91980510600C69036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDFD74BB19A4BFC800F66620 /* RoutingTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RoutingTableTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E2C25A3A1FAD44DC5B20AF9B /* Pods_sRetoMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFEE63BD85E7134F087E9357 /* Pods-sRetoIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +328,7 @@
 				CDA6676819E7E11900EB63D2 /* Security.framework in Frameworks */,
 				CDA6676919E7E11900EB63D2 /* CFNetwork.framework in Frameworks */,
 				CDA6676A19E7E11900EB63D2 /* libicucore.dylib in Frameworks */,
+				58C1C1100A20BA3C076F6820 /* Pods_sRetoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +339,7 @@
 				CD6D20C01992661B004E4381 /* Security.framework in Frameworks */,
 				CD6D20C11992661B004E4381 /* CFNetwork.framework in Frameworks */,
 				CD6D20C21992661B004E4381 /* libicucore.dylib in Frameworks */,
+				BCFD25B314AE0FFEDBF50318 /* Pods_sRetoMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +350,7 @@
 				CDD08F1019D3E1D700C78CD5 /* libicucore.dylib in Frameworks */,
 				CDD08F0F19D3E1CA00C78CD5 /* CFNetwork.framework in Frameworks */,
 				CDD08F0E19D3E1BD00C78CD5 /* Security.framework in Frameworks */,
+				0C3B1A181EF89C8EB0D811FB /* Pods_sRetoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +530,17 @@
 			path = WlanModule;
 			sourceTree = "<group>";
 		};
+		7C951E9942F20C6999DCB28F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FFEE63BD85E7134F087E9357 /* Pods-sRetoIOS.debug.xcconfig */,
+				7A62B65A5F7392CF57E6AA08 /* Pods-sRetoIOS.release.xcconfig */,
+				9C17F9E82D87AF73C2A323A9 /* Pods-sRetoMac.debug.xcconfig */,
+				98E1C36BF60EFBF91298E324 /* Pods-sRetoMac.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		CD3915B919CA287800459AA8 /* IntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -491,6 +573,8 @@
 				CD6D20BB199265E4004E4381 /* Security.framework */,
 				CD6D20B9199265DC004E4381 /* CFNetwork.framework */,
 				CD6D20B7199265D4004E4381 /* libicucore.dylib */,
+				B5D752DBF9C854690375C595 /* Pods_sRetoIOS.framework */,
+				E2C25A3A1FAD44DC5B20AF9B /* Pods_sRetoMac.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -513,6 +597,7 @@
 				CDD98EE71980510600C69036 /* sRetoTests */,
 				CDBAB9EC199032DD00364D04 /* Supporting Files */,
 				CDD98ED91980510600C69036 /* Products */,
+				7C951E9942F20C6999DCB28F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -590,10 +675,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDA6677519E7E11900EB63D2 /* Build configuration list for PBXNativeTarget "sRetoIOS" */;
 			buildPhases = (
+				553B46C5180884DF48A272A9 /* Check Pods Manifest.lock */,
 				CDA6672219E7E11900EB63D2 /* Sources */,
 				CDA6676719E7E11900EB63D2 /* Frameworks */,
 				CDA6676B19E7E11900EB63D2 /* Headers */,
 				CDA6677419E7E11900EB63D2 /* Resources */,
+				EFF22272BF9151146E9C2DEB /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -608,10 +695,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDBAB9FE199032DD00364D04 /* Build configuration list for PBXNativeTarget "sRetoMac" */;
 			buildPhases = (
+				117A98652DB223AE2FA72343 /* Check Pods Manifest.lock */,
 				CDBAB9E5199032DD00364D04 /* Sources */,
 				CDBAB9E6199032DD00364D04 /* Frameworks */,
 				CDBAB9E7199032DD00364D04 /* Headers */,
 				CDBAB9E8199032DD00364D04 /* Resources */,
+				043095F2D7994B2D712BDC36 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -626,9 +715,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDD98EF11980510600C69036 /* Build configuration list for PBXNativeTarget "sRetoTests" */;
 			buildPhases = (
+				771E4D4FB924CCC16A52AB9F /* Check Pods Manifest.lock */,
 				CDD98EDF1980510600C69036 /* Sources */,
 				CDD98EE01980510600C69036 /* Frameworks */,
 				CDD98EE11980510600C69036 /* Resources */,
+				DEF415C13CC6349785469DDC /* Embed Pods Frameworks */,
+				C9CB430904410269461EDAF0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -701,6 +793,114 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		043095F2D7994B2D712BDC36 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoMac/Pods-sRetoMac-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		117A98652DB223AE2FA72343 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		553B46C5180884DF48A272A9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		771E4D4FB924CCC16A52AB9F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C9CB430904410269461EDAF0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DEF415C13CC6349785469DDC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFF22272BF9151146E9C2DEB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CDA6672219E7E11900EB63D2 /* Sources */ = {
@@ -839,6 +1039,65 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E0BAA411C33682F002CF93A /* DNSSDBrowser.m in Sources */,
+				5E0BAA421C33682F002CF93A /* DNSSDRegistration.m in Sources */,
+				5E0BAA431C33682F002CF93A /* DNSSDService.m in Sources */,
+				5E0BAA091C3367BE002CF93A /* Graph.swift in Sources */,
+				5E0BAA0A1C3367BE002CF93A /* MinimumSteinerTreeApproximation.swift in Sources */,
+				5E0BAA0B1C3367BE002CF93A /* Tree.swift in Sources */,
+				5E0BAA0C1C3367BE002CF93A /* Address.swift in Sources */,
+				5E0BAA0D1C3367BE002CF93A /* Advertiser.swift in Sources */,
+				5E0BAA0E1C3367BE002CF93A /* Browser.swift in Sources */,
+				5E0BAA0F1C3367BE002CF93A /* Module.swift in Sources */,
+				5E0BAA101C3367BE002CF93A /* UnderlyingConnection.swift in Sources */,
+				5E0BAA111C3367BE002CF93A /* Packets.swift in Sources */,
+				5E0BAA121C3367BE002CF93A /* PacketConnection.swift in Sources */,
+				5E0BAA131C3367BE002CF93A /* ReliabilityManager.swift in Sources */,
+				5E0BAA141C3367BE002CF93A /* TransferManager.swift in Sources */,
+				5E0BAA151C3367BE002CF93A /* CompositeAdvertiser.swift in Sources */,
+				5E0BAA161C3367BE002CF93A /* CompositeBrowser.swift in Sources */,
+				5E0BAA171C3367BE002CF93A /* DefaultRouter.swift in Sources */,
+				5E0BAA181C3367BE002CF93A /* FloodingPacketManager.swift in Sources */,
+				5E0BAA191C3367BE002CF93A /* ForwardingConnection.swift in Sources */,
+				5E0BAA1A1C3367BE002CF93A /* LinkStatePacket.swift in Sources */,
+				5E0BAA1B1C3367BE002CF93A /* LinkStateRoutingTable.swift in Sources */,
+				5E0BAA1C1C3367BE002CF93A /* ManagedModule.swift in Sources */,
+				5E0BAA1D1C3367BE002CF93A /* MulticastConnection.swift in Sources */,
+				5E0BAA1E1C3367BE002CF93A /* Node.swift in Sources */,
+				5E0BAA1F1C3367BE002CF93A /* Router.swift in Sources */,
+				5E0BAA201C3367BE002CF93A /* RoutingPackets.swift in Sources */,
+				5E0BAA211C3367BE002CF93A /* Data.swift in Sources */,
+				5E0BAA221C3367BE002CF93A /* Logging.swift in Sources */,
+				5E0BAA231C3367BE002CF93A /* MappingSequence.swift in Sources */,
+				5E0BAA241C3367BE002CF93A /* PipeForward.swift in Sources */,
+				5E0BAA251C3367BE002CF93A /* PriorityQueue.swift in Sources */,
+				5E0BAA261C3367BE002CF93A /* Set.swift in Sources */,
+				5E0BAA271C3367BE002CF93A /* SinglePacket.swift in Sources */,
+				5E0BAA281C3367BE002CF93A /* RepeatedExecutor.swift in Sources */,
+				5E0BAA291C3367BE002CF93A /* StartStopHelper.swift in Sources */,
+				5E0BAA2A1C3367BE002CF93A /* Timer.swift in Sources */,
+				5E0BAA2B1C3367BE002CF93A /* Utils.swift in Sources */,
+				5E0BAA2C1C3367BE002CF93A /* UUID.swift in Sources */,
+				5E0BAA2D1C3367BE002CF93A /* Connection.swift in Sources */,
+				5E0BAA2E1C3367BE002CF93A /* InTransfer.swift in Sources */,
+				5E0BAA2F1C3367BF002CF93A /* LocalPeer.swift in Sources */,
+				5E0BAA301C3367BF002CF93A /* OutTransfer.swift in Sources */,
+				5E0BAA311C3367BF002CF93A /* RemotePeer.swift in Sources */,
+				5E0BAA321C3367BF002CF93A /* Transfer.swift in Sources */,
+				5E0BAA331C3367BF002CF93A /* BluetoothBonjourServiceAdvertiser.swift in Sources */,
+				5E0BAA341C3367BF002CF93A /* BluetoothBonjourServiceBrowser.swift in Sources */,
+				5E0BAA351C3367BF002CF93A /* BluetoothModule.swift in Sources */,
+				5E0BAA361C3367BF002CF93A /* AsyncSocketUnderlyingConnection.swift in Sources */,
+				5E0BAA371C3367BF002CF93A /* BonjourAdvertiser.swift in Sources */,
+				5E0BAA381C3367BF002CF93A /* BonjourBrowser.swift in Sources */,
+				5E0BAA391C3367BF002CF93A /* TcpIpAddress.swift in Sources */,
+				5E0BAA3A1C3367BF002CF93A /* RemoteP2PAddress.swift in Sources */,
+				5E0BAA3B1C3367BF002CF93A /* RemoteP2PConnection.swift in Sources */,
+				5E0BAA3C1C3367BF002CF93A /* RemoteP2PModule.swift in Sources */,
+				5E0BAA3D1C3367BF002CF93A /* RemoteP2PPacket.swift in Sources */,
+				5E0BAA3E1C3367BF002CF93A /* WlanBonjourServiceAdvertiser.swift in Sources */,
+				5E0BAA3F1C3367BF002CF93A /* WlanBonjourServiceBrowser.swift in Sources */,
+				5E0BAA401C3367BF002CF93A /* WlanModule.swift in Sources */,
 				CD3915BE19CA293700459AA8 /* DummyBrowser.swift in Sources */,
 				CD3915CA19CA52E400459AA8 /* TestData.swift in Sources */,
 				CDC2218F19CE9AE500EEE479 /* TransferDataIntegrityTest.swift in Sources */,
@@ -864,6 +1123,7 @@
 /* Begin XCBuildConfiguration section */
 		CDA6677619E7E11900EB63D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFEE63BD85E7134F087E9357 /* Pods-sRetoIOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -886,6 +1146,7 @@
 		};
 		CDA6677719E7E11900EB63D2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7A62B65A5F7392CF57E6AA08 /* Pods-sRetoIOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -907,6 +1168,7 @@
 		};
 		CDBAB9FA199032DD00364D04 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C17F9E82D87AF73C2A323A9 /* Pods-sRetoMac.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -933,6 +1195,7 @@
 		};
 		CDBAB9FB199032DD00364D04 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98E1C36BF60EFBF91298E324 /* Pods-sRetoMac.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1045,6 +1308,7 @@
 		};
 		CDD98EF21980510600C69036 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFEE63BD85E7134F087E9357 /* Pods-sRetoIOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1066,6 +1330,7 @@
 		};
 		CDD98EF31980510600C69036 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7A62B65A5F7392CF57E6AA08 /* Pods-sRetoIOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
