@@ -43,7 +43,7 @@ $ [sudo] gem install cocoapods
 $ pod setup
 ```
 
-Change to the directory of your Xcode project, and Create and Edit your Podfile and add sReto:
+Change to the directory of your Xcode project, and Create and Edit your Podfile and add sReto as framework:
 
 ``` bash
 $ cd /path/to/MyProject
@@ -51,6 +51,9 @@ $ pod init
 $ edit Podfile
 platform :ios, '8.0'
 # Or platform :osx, '10.9'
+
+use_frameworks!
+
 pod 'sReto'
 # this will install the WLAN module and all its dependencies
 
