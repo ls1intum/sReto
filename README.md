@@ -30,13 +30,57 @@ Reto is designed to be easily extensible to use other networking technologies by
 Installation
 ------------
 
-Reto is provided as a standard Xcode project that includes framework targets for Reto on iOS and Mac OS X. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto (using Xcode 6.1).
+The recommended approach for installing sReto is via the [CocoaPods](http://cocoapods.org) package manager, as it provides flexible dependency management.
 
- 1. Open the Xcode project in which you want to include Reto. Drag & drop the sReto.xcodeproj into your project.
- 2. Select your project and add sReto in as a target dependency and link your project with it in the "Build Phases" tab.
- 3. Import the module in your code:
+sReto can be integrated as framework on iOS 8.0+ and OS X 10.9+. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto using CocoaPods.
+
+### via CocoaPods
+
+Install CocoaPods if not already available:
+
+``` bash
+$ [sudo] gem install cocoapods
+$ pod setup
+```
+
+Change to the directory of your Xcode project, and Create and Edit your Podfile and add sReto:
+
+``` bash
+$ cd /path/to/MyProject
+$ pod init
+$ edit Podfile
+platform :ios, '8.0'
+# Or platform :osx, '10.9'
+pod 'sReto'
+# this will install the WLAN module and all its dependencies
+
+# Bluetooth and Remote are optional modules
+pod 'sReto/BluetoothModule'
+pod 'sReto/RemoteModule'
+
+# Alternatively you can also install all modules with:
+pod 'sReto/AllModules'
+
+```
+
+Install into your project:
+
+``` bash
+$ pod install
+```
+
+Open your project in Xcode from the .xcworkspace file (not the usual project file)
+
+``` bash
+$ open MyProject.xcworkspace
+```
+
+Import the module in your code:
   1. In Swift, import Reto using "import sReto" depending on your target platform.
   2. In Objective-C, import Reto using "@import sReto;"
+
+Please note that if your installation fails, it may be because you are installing with a version of Git lower than CocoaPods is expecting. Please ensure that you are running Git **>= 1.8.0** by executing `git --version`. You can get a full picture of the installation details by executing `pod install --verbose`.
+
  
 Usage
 -----
