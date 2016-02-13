@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/ls1intum/sReto.svg)](https://travis-ci.org/ls1intum/sReto)
-[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/sReto.svg)](https://img.shields.io/cocoapods/v/sReto.svg)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/sReto.svg)](https://img.shields.io/cocoapods/v/sReto.svg)
 [![Platform](https://img.shields.io/cocoapods/p/sReto.svg?style=flat)](http://cocoadocs.org/docsets/sReto)
 [![Twitter](https://img.shields.io/badge/twitter-@ls1intum-blue.svg?style=flat)](http://twitter.com/ls1intum)
 
