@@ -40,6 +40,8 @@
 			<false/>
 		</dict>
 	</dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Send a photo in the chat</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

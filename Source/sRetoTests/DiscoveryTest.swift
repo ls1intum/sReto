@@ -28,17 +28,17 @@ class DiscoveryTest: XCTestCase {
     }
     
     func testDiscoveryDirect() {
-        self.testDiscovery(PeerConfiguration.directNeighborConfiguration())
+        self.testDiscovery(configuration: PeerConfiguration.directNeighborConfiguration())
     }
     func testDiscovery2Hop() {
-        self.testDiscovery(PeerConfiguration.twoHopRoutedConfiguration())
+        self.testDiscovery(configuration: PeerConfiguration.twoHopRoutedConfiguration())
     }
     func testDiscovery4Hop() {
-        self.testDiscovery(PeerConfiguration.fourHopRoutedConfiguration())
+        self.testDiscovery(configuration: PeerConfiguration.fourHopRoutedConfiguration())
     }
     
     func testDiscovery(configuration: PeerConfiguration) {
-        let allPeersDiscoveredExpectation = self.expectationWithDescription("all peers discovered")
+        let allPeersDiscoveredExpectation = self.expectation(description: "all peers discovered")
         var reachablePeerIdentifiers = configuration.reachablePeerIdentifiers - [configuration.primaryPeer.identifier]
         
         configuration.primaryPeer.start(onPeerDiscovered: {
@@ -53,6 +53,6 @@ class DiscoveryTest: XCTestCase {
             peer.start(onPeerDiscovered: {_ in ()}, onPeerRemoved: {_ in ()}, onIncomingConnection: {_ in ()}, displayName: nil)
         }
         
-        self.waitForExpectationsWithTimeout(30, handler: { error in () })
+        self.waitForExpectations(timeout: 30, handler: { error in () })
     }
 }

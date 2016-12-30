@@ -28,7 +28,7 @@ import Foundation
 * You have to notify the RetryableActionExecutor about the success or failure of the action by calling onSuccess() or onFail().
 *
 */
-typealias RetryableAction = (attemptNumber: Int) -> ()
+typealias RetryableAction = (_ attemptNumber: Int) -> ()
 
 /**
 A RetryableActionExecutor executes a RetryableAction in certain time intervals if necessary. The RetryableAction needs to notify the RetryableActionExecutor when an action succeeds or fails.
@@ -37,7 +37,7 @@ class RetryableActionExecutor {
     /** The action to executed. */
     let action: RetryableAction
     /** The dispatch queue that the action is executed on. */
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     /** The timer settings used to create the timer that triggers a retry. */
     let timerSettings: Timer.BackoffTimerSettings
     
@@ -51,7 +51,7 @@ class RetryableActionExecutor {
     * @param timerSettings: Specifies the delay in which the action should be executed.
     * @param dispatchQueue: The dispatch queue on which actions should be executed.
     */
-    init(action: RetryableAction, timerSettings: Timer.BackoffTimerSettings, dispatchQueue: dispatch_queue_t) {
+    init(action: @escaping RetryableAction, timerSettings: Timer.BackoffTimerSettings, dispatchQueue: DispatchQueue) {
         self.action = action
         self.timerSettings = timerSettings
         self.dispatchQueue = dispatchQueue
@@ -68,11 +68,11 @@ class RetryableActionExecutor {
             dispatchQueue: self.dispatchQueue,
             action: {
                 timer, executionCount in
-                self.action(attemptNumber: executionCount + 1)
+                self.action(executionCount + 1)
             }
         )
         
-        dispatch_async(self.dispatchQueue, { self.action(attemptNumber: 0) })
+        self.dispatchQueue.async(execute: { self.action(0) })
     }
     /**
     * Stops trying to execute the RetryableAction.
@@ -108,9 +108,9 @@ class StartStopHelper {
     /**
     * Represents the desired states this class should help reach.
     * */
-    private enum State {
-        case Started
-        case Stopped
+    fileprivate enum State {
+        case started
+        case stopped
     }
     
     /** A RetryableActionExecutor that attempts to exectute the start action */
@@ -121,12 +121,12 @@ class StartStopHelper {
     *
     * E.g.: When the switching the desired state to the started state (by calling start), the StartStopHelper will call
     * the start action until it is notified about a successful start via onStart(). */
-    private var desiredState: State = .Stopped
+    fileprivate var desiredState: State = .stopped
     /**
     * Whether the StartStopHelper is currently trying to reach or has reached the Started state.
     */
     var isStarted: Bool {
-        return self.desiredState == .Started
+        return self.desiredState == .started
     }
     
     /**
@@ -137,7 +137,7 @@ class StartStopHelper {
     * @param timerSettings The timer settings used to retry the start and stop actions
     * @param executor The executor to execute the start and stop action on.
     * */
-    init(startBlock: RetryableAction, stopBlock: RetryableAction, timerSettings: Timer.BackoffTimerSettings, dispatchQueue: dispatch_queue_t) {
+    init(startBlock: @escaping RetryableAction, stopBlock: @escaping RetryableAction, timerSettings: Timer.BackoffTimerSettings, dispatchQueue: DispatchQueue) {
         self.starter = RetryableActionExecutor(action: startBlock, timerSettings: timerSettings, dispatchQueue: dispatchQueue)
         self.stopper = RetryableActionExecutor(action: stopBlock, timerSettings: timerSettings, dispatchQueue: dispatchQueue)
     }
@@ -146,7 +146,7 @@ class StartStopHelper {
     * Runs the startAction in delays until onStart is called.
     * */
     func start() {
-        self.desiredState = .Started
+        self.desiredState = .started
         
         stopper.stop()
         starter.start()
@@ -155,7 +155,7 @@ class StartStopHelper {
     * Runs the startAction in delays until onStart is called.
     * */
     func stop() {
-        self.desiredState = .Stopped
+        self.desiredState = .stopped
         
         starter.stop()
         stopper.start()
@@ -166,7 +166,7 @@ class StartStopHelper {
     * */
     func confirmStartOccured() {
         self.starter.stop()
-        if self.desiredState == .Stopped {
+        if self.desiredState == .stopped {
             self.stopper.start()
         }
     }
@@ -175,7 +175,7 @@ class StartStopHelper {
     * */
     func confirmStopOccured() {
         self.stopper.stop()
-        if self.desiredState == .Started {
+        if self.desiredState == .started {
             self.starter.start()
         }
     }

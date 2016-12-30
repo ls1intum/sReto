@@ -25,16 +25,16 @@ import Foundation
 */
 public protocol UnderlyingConnectionDelegate : class {
     /** Called when the connection connected successfully.*/
-    func didConnect(connection: UnderlyingConnection)
+    func didConnect(_ connection: UnderlyingConnection)
     /** Called when the connection closes. Has an optional error parameter to indicate issues. (Used to report problems to the user). */
-    func didClose(connection: UnderlyingConnection, error: AnyObject?)
+    func didClose(_ connection: UnderlyingConnection, error: AnyObject?)
     /** Called when data was received. */
-    func didReceiveData(connection: UnderlyingConnection, data: NSData)
+    func didReceiveData(_ connection: UnderlyingConnection, data: Data)
     /** 
     * Called for each writeData call, when it is complete.
     * Note: The current implementation of Reto does not work when this method is called directly from writeData. If you wish to call it immediately, use dispatch_async to call it.
     */
-    func didSendData(connection: UnderlyingConnection)
+    func didSendData(_ connection: UnderlyingConnection)
 }
 
 /**
@@ -55,5 +55,5 @@ public protocol UnderlyingConnection : class {
     /** Closes the connection. */
     func close()
     /** Sends data using the connection. */
-    func writeData(data : NSData)
+    func writeData(_ data : Data)
 }

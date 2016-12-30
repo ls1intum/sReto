@@ -45,7 +45,7 @@ import Foundation
 */
 protocol PacketConnectionDelegate: class {
     /** Called when the underlying connection closed. */
-    func underlyingConnectionDidClose(error: AnyObject?)
+    func underlyingConnectionDidClose(_ error: AnyObject?)
     /** Called when the underlying connection is about to be switched to a different one. */
     func willSwapUnderlyingConnection()
     /** Called when confirmation that the underlying connection did connect is received. */
@@ -63,7 +63,7 @@ protocol PacketHandler: PacketConnectionDelegate {
     /** An array of packet types that are handled by this PacketHandler. */
     var handledPacketTypes: [PacketType] { get }
     /** Called when a packet is received that should be handled */
-    func handlePacket(data: DataReader, type: PacketType)
+    func handlePacket(_ data: DataReader, type: PacketType)
 }
 
 /**
@@ -93,7 +93,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
     /** The PacketConnection's delegates. */
     var packetHandlers: [PacketType: WeakPacketHandler] = [:]
     /** The underlying connection used by this PacketConnection */
-    private(set) var underlyingConnection: UnderlyingConnection?
+    fileprivate(set) var underlyingConnection: UnderlyingConnection?
     /** The connection's identifier. This identifier is used to associate new incoming underlying connections with exising packet connections. */
     let connectionIdentifier: UUID
     /** This connection's destinations. */
@@ -124,17 +124,17 @@ class PacketConnection: UnderlyingConnectionDelegate {
     }
     
     /** Add a PacketConnectionDelegate */
-    func addDelegate(delegate: PacketConnectionDelegate) {
+    func addDelegate(_ delegate: PacketConnectionDelegate) {
         self.delegates.append(WeakPacketConnectionDelegate(delegate: delegate))
     }
     
     /** Add a PacketHandler */
-    func addDelegate(delegate: PacketHandler) {
+    func addDelegate(_ delegate: PacketHandler) {
         self.delegates.append(WeakPacketConnectionDelegate(delegate: delegate))
         
         for type in delegate.handledPacketTypes {
             if let handler = self.packetHandlers[type] {
-                log(.High, warning: "For packet type \(type), there already is the packet handler \(handler). It will be overwritten with \(delegate).")
+                log(.high, warning: "For packet type \(type), there already is the packet handler \(handler). It will be overwritten with \(delegate).")
             }
             
             self.packetHandlers[type] = WeakPacketHandler(handler: delegate)
@@ -142,7 +142,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
     }
     
     /** Used internally to simplify notifying all delegates. */
-    private func notifyDelegates(closure: (PacketConnectionDelegate) -> ()) {
+    fileprivate func notifyDelegates(_ closure: (PacketConnectionDelegate) -> ()) {
         for weakDelegate in self.delegates {
             if let delegate = weakDelegate.delegate {
                 closure(delegate)
@@ -153,7 +153,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
     /**
     * Swaps this PacketConnection's underlying connection to a new one. The new connection can also be nil, in that case the packet connection will be disconnected.
     */
-    func swapUnderlyingConnection(underlyingConnection: UnderlyingConnection?) {
+    func swapUnderlyingConnection(_ underlyingConnection: UnderlyingConnection?) {
         if (self.underlyingConnection === underlyingConnection) {
             return
         }
@@ -192,7 +192,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
     /**
     * Writes a packet. The packet will be buffered and sent later if the connection is currently disconnected.
     */
-    func write(packet: Packet) {
+    func write(_ packet: Packet) {
         self.unsentPackets.append(packet)
         self.write()
     }
@@ -214,7 +214,7 @@ class PacketConnection: UnderlyingConnectionDelegate {
             }
             else {
                 self.isSendingPacket = true
-                underlyingConnection.writeData(self.unsentPackets.removeAtIndex(0).serialize())
+                underlyingConnection.writeData(self.unsentPackets.remove(at: 0).serialize())
             }
         }
     }
@@ -224,17 +224,17 @@ class PacketConnection: UnderlyingConnectionDelegate {
     }
     
     // MARK: UnderlyingConnectionDelegate methods.
-    func didConnect(connection: UnderlyingConnection) {
+    func didConnect(_ connection: UnderlyingConnection) {
         if connection !== self.underlyingConnection { return }
         
         self.didConnect()
     }
-    func didClose(connection: UnderlyingConnection, error: AnyObject?) {
+    func didClose(_ connection: UnderlyingConnection, error: AnyObject?) {
         if connection !== self.underlyingConnection { return }
 
         self.notifyDelegates { $0.underlyingConnectionDidClose(error) }
     }
-    func didReceiveData(connection: UnderlyingConnection, data: NSData) {
+    func didReceiveData(_ connection: UnderlyingConnection, data: Data) {
         if connection !== self.underlyingConnection { return }
         
         let dataReader = DataReader(data)
@@ -245,13 +245,13 @@ class PacketConnection: UnderlyingConnectionDelegate {
             if let handler = self.packetHandlers[packetType]?.handler {
                 handler.handlePacket(dataReader, type: packetType)
             } else {
-                log(.High, warning: "There was no PacketHandler registered for the type \(packetType) (raw: \(packetType.rawValue)) with the PacketConnection \(self). It will be dismissed.")
+                log(.high, warning: "There was no PacketHandler registered for the type \(packetType) (raw: \(packetType.rawValue)) with the PacketConnection \(self). It will be dismissed.")
             }
         } else {
-            log(.High, error: "Unknown packet type: \(packetType)")
+            log(.high, error: "Unknown packet type: \(packetType)")
         }
     }
-    func didSendData(connection: UnderlyingConnection) {
+    func didSendData(_ connection: UnderlyingConnection) {
         self.isSendingPacket = false
         self.write()
     }

@@ -26,7 +26,7 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
     let browser: CompositeBrowser
     var modules: [ManagedModule]
     
-    init(localIdentifier: UUID, localName: String, dispatchQueue: dispatch_queue_t, modules: [Module]) {
+    init(localIdentifier: UUID, localName: String, dispatchQueue: DispatchQueue, modules: [Module]) {
         self.modules = modules.map { ManagedModule(module: $0, dispatchQueue: dispatchQueue) }
         self.advertiser = CompositeAdvertiser(advertisers: self.modules.map { $0.advertiser })
         self.browser = CompositeBrowser(browsers: self.modules.map { $0.browser })
@@ -47,7 +47,7 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
         self.browser.stopBrowsing()
     }
     
-    func addModule(module: Module) {
+    func addModule(_ module: Module) {
         let newModule = ManagedModule(module: module, dispatchQueue: self.dispatchQueue)
         
         self.advertiser.addAdvertiser(newModule.advertiser)
@@ -55,7 +55,7 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
         self.modules.append(newModule)
     }
     
-    func removeModule(module: Module) {
+    func removeModule(_ module: Module) {
         let removedModules = self.modules.filter { $0.module === module }
         
         for removedModule in removedModules {
@@ -66,17 +66,17 @@ class DefaultRouter: Router, AdvertiserDelegate, BrowserDelegate {
         self.modules = self.modules.filter { $0.module !== module }
     }
     
-    func didStartAdvertising(advertiser: Advertiser) {}
-    func didStopAdvertising(advertiser: Advertiser) {}
-    func handleConnection(advertiser: Advertiser, connection underlyingConnection: UnderlyingConnection) {
+    func didStartAdvertising(_ advertiser: Advertiser) {}
+    func didStopAdvertising(_ advertiser: Advertiser) {}
+    func handleConnection(_ advertiser: Advertiser, connection underlyingConnection: UnderlyingConnection) {
         self.handleDirectConnection(underlyingConnection)
     }
-    func didStartBrowsing(browser: Browser) {}
-    func didStopBrowsing(browser: Browser) {}
-    func didDiscoverAddress(browser: Browser, address: Address, identifier: UUID) {
+    func didStartBrowsing(_ browser: Browser) {}
+    func didStopBrowsing(_ browser: Browser) {}
+    func didDiscoverAddress(_ browser: Browser, address: Address, identifier: UUID) {
         self.addAddress(identifier, nodeName: address.hostName, address: address)
     }
-    func didRemoveAddress(browser: Browser, address: Address, identifier: UUID) {
+    func didRemoveAddress(_ browser: Browser, address: Address, identifier: UUID) {
         self.removeAddress(identifier, nodeName: nil, address: address)
     }
 }

@@ -27,24 +27,24 @@ import Foundation
 *
 * This class can be used to establish and accept connections to/from those peers.
 * */
-public class RemotePeer: NSObject {
+open class RemotePeer: NSObject {
     /** This peer's unique identifier. */
-    public let identifier: UUID
+    open let identifier: UUID
     
     /** This peer's name. */
-    public let name: String?
+    open let name: String?
      
     /**
     * Set this property if you want to handle incoming connections on a per-peer basis.
     */
-    public var onConnection: ConnectionClosure? = nil
+    open var onConnection: ConnectionClosure? = nil
     
     /**
     * Establishes a connection to this peer.
     * 
     * @return A Connection to this peer.
     */
-    public func connect() -> Connection {
+    open func connect() -> Connection {
         return self.localPeer.connect([self])
     }
     
@@ -52,7 +52,7 @@ public class RemotePeer: NSObject {
     * Returns the UUID identifier as string to bridge to Objective-C Code
     * @return the UUID identifier as string
     */
-    public func stringIdentifier() -> String {
+    open func stringIdentifier() -> String {
         return self.identifier.UUIDString
     }
 
@@ -70,7 +70,7 @@ public class RemotePeer: NSObject {
     * @param node The node representing the the peer on the routing level.
     * @param localPeer The local peer that created this peer
     */
-    init(node: Node, localPeer: LocalPeer, dispatchQueue: dispatch_queue_t) {
+    init(node: Node, localPeer: LocalPeer, dispatchQueue: DispatchQueue) {
         self.node = node
         self.localPeer = localPeer
         self.identifier = node.identifier

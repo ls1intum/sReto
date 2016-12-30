@@ -30,7 +30,7 @@ class ManagedModule: Module {
         return "ManagedModule: {\n\tadvertiser: \(self.advertiser), \n\tbrowser: \(self.browser)"
     }
     
-    init(module: Module, dispatchQueue: dispatch_queue_t) {
+    init(module: Module, dispatchQueue: DispatchQueue) {
         self.module = module
         let advertiser = ManagedAdvertiser(advertiser: module.advertiser, dispatchQueue: dispatchQueue)
         let browser = ManagedBrowser(browser: module.browser, dispatchQueue: dispatchQueue)
@@ -55,7 +55,7 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
         return "ManagedAdvertiser: {isStarted: \(self.startStopManager?.isStarted), advertiser: \(advertiser)}"
     }
     
-    init(advertiser: Advertiser, dispatchQueue: dispatch_queue_t) {
+    init(advertiser: Advertiser, dispatchQueue: DispatchQueue) {
         self.advertiser = advertiser
         
         super.init()
@@ -67,7 +67,7 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
                 attemptNumber in
                 if let uuid = self.advertisedUuid {
                     if attemptNumber != 0 {
-                        log(.Low, info: "Trying to restart advertiser: \(advertiser). (Attempt #\(attemptNumber))")
+                        log(.low, info: "Trying to restart advertiser: \(advertiser). (Attempt #\(attemptNumber))")
                     }
                     advertiser.startAdvertising(uuid)
                 }
@@ -75,7 +75,7 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
             stopBlock: {
                 attemptNumber in
                 if attemptNumber != 0 {
-                    log(.Low, info: "Trying to stop advertiser again: \(advertiser). (Attempt #\(attemptNumber))")
+                    log(.low, info: "Trying to stop advertiser again: \(advertiser). (Attempt #\(attemptNumber))")
                 }
                 advertiser.stopAdvertising()
             },
@@ -84,7 +84,7 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
         )
     }
     
-    func startAdvertising(identifier: UUID) {
+    func startAdvertising(_ identifier: UUID) {
         self.advertisedUuid = identifier
         self.startStopManager?.start()
     }
@@ -94,18 +94,18 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
     }
     
     // - MARK: AdvertiserDelegate
-    func didStartAdvertising(advertiser: Advertiser) {
+    func didStartAdvertising(_ advertiser: Advertiser) {
         self.startStopManager?.confirmStartOccured()
-        log(.Low, info: "Started advertisement using \(advertiser)")
+        log(.low, info: "Started advertisement using \(advertiser)")
         self.advertiserDelegate?.didStartAdvertising(self)
     }
     
-    func didStopAdvertising(advertiser: Advertiser) {
+    func didStopAdvertising(_ advertiser: Advertiser) {
         self.startStopManager?.confirmStopOccured()
         self.advertiserDelegate?.didStopAdvertising(self)
     }
     
-    func handleConnection(advertiser: Advertiser, connection: UnderlyingConnection) {
+    func handleConnection(_ advertiser: Advertiser, connection: UnderlyingConnection) {
         self.advertiserDelegate?.handleConnection(self, connection: connection)
     }
 }
@@ -123,7 +123,7 @@ class ManagedBrowser: NSObject, Browser, BrowserDelegate {
         return "ManagedBrowser: {isStarted: \(self.startStopManager?.isStarted), browser: \(self.browser)"
     }
 
-    init(browser: Browser, dispatchQueue: dispatch_queue_t) {
+    init(browser: Browser, dispatchQueue: DispatchQueue) {
         self.browser = browser
         
         super.init()
@@ -134,7 +134,7 @@ class ManagedBrowser: NSObject, Browser, BrowserDelegate {
                 [unowned self]
                 attemptNumber in
                 if attemptNumber != 0 {
-                    log(.Low, info: "Trying to restart browser: \(self.browser). (Attempt #\(attemptNumber))")
+                    log(.low, info: "Trying to restart browser: \(self.browser). (Attempt #\(attemptNumber))")
                 }
                 self.browser.startBrowsing()
             },
@@ -142,7 +142,7 @@ class ManagedBrowser: NSObject, Browser, BrowserDelegate {
                 [unowned self]
                 attemptNumber in
                 if attemptNumber != 0 {
-                    log(.Low, info: "Trying to stop browser again: \(self.browser). (Attempt #\(attemptNumber))")
+                    log(.low, info: "Trying to stop browser again: \(self.browser). (Attempt #\(attemptNumber))")
                 }
                 self.browser.stopBrowsing()
             },
@@ -158,22 +158,22 @@ class ManagedBrowser: NSObject, Browser, BrowserDelegate {
         self.startStopManager?.stop()
     }
     
-    func didStartBrowsing(browser: Browser) {
+    func didStartBrowsing(_ browser: Browser) {
         self.startStopManager?.confirmStartOccured()
         self.browserDelegate?.didStartBrowsing(self)
-        log(.Low, info: "Started browsing using \(browser)")
+        log(.low, info: "Started browsing using \(browser)")
     }
     
-    func didStopBrowsing(browser: Browser) {
+    func didStopBrowsing(_ browser: Browser) {
         self.startStopManager?.confirmStopOccured()
         self.browserDelegate?.didStopBrowsing(self)
     }
     
-    func didDiscoverAddress(browser: Browser, address: Address, identifier: UUID) {
+    func didDiscoverAddress(_ browser: Browser, address: Address, identifier: UUID) {
         self.browserDelegate?.didDiscoverAddress(self, address: address, identifier: identifier)
     }
     
-    func didRemoveAddress(browser: Browser, address: Address, identifier: UUID) {
+    func didRemoveAddress(_ browser: Browser, address: Address, identifier: UUID) {
         self.browserDelegate?.didRemoveAddress(self, address: address, identifier: identifier)
     }
 }

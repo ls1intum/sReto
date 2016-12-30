@@ -27,23 +27,23 @@ import Foundation
 struct FloodingPacket: Packet {
     let sequenceNumber: Int32
     let originIdentifier: UUID
-    let payload: NSData
+    let payload: Data
     
-    static func getType() -> PacketType { return PacketType.FloodPacket }
-    static func getLength() -> Int { return sizeof(PacketType) + sizeof(Int32) + sizeof(UUID) }
+    static func getType() -> PacketType { return PacketType.floodPacket }
+    static func getLength() -> Int { return MemoryLayout<PacketType>.size + MemoryLayout<Int32>.size + MemoryLayout<UUID>.size }
     
-    static func deserialize(data: DataReader) -> FloodingPacket? {
+    static func deserialize(_ data: DataReader) -> FloodingPacket? {
         if !Packets.check(data: data, expectedType: self.getType(), minimumLength: self.getLength()) { return nil }
-        return FloodingPacket(sequenceNumber: data.getInteger(), originIdentifier: data.getUUID(), payload: data.getData())
+        return FloodingPacket(sequenceNumber: data.getInteger(), originIdentifier: data.getUUID(), payload: data.getData() as Data)
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.getLength() + payload.length)
-        data.add(self.dynamicType.getType().rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).getLength() + payload.count)
+        data.add(type(of: self).getType().rawValue)
         data.add(self.sequenceNumber)
         data.add(self.originIdentifier)
         data.add(self.payload)
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -75,12 +75,12 @@ class FloodingPacketManager: NSObject {
     }
     
     /** Adds a packet handler for a given type. */
-    func addPacketHandler(packetType: PacketType, handler: PacketHandlerFunction) {
+    func addPacketHandler(_ packetType: PacketType, handler: @escaping PacketHandlerFunction) {
         self.packetHandlers[packetType] = handler
     }
     
     /** Handles a received packet from a given source. If the packet is new, it is forwarded and handled, otherwise it is dismissed. */
-    func handlePacket(sourceIdentifier: UUID, data: DataReader, packetType: PacketType) {
+    func handlePacket(_ sourceIdentifier: UUID, data: DataReader, packetType: PacketType) {
         let packet = FloodingPacket.deserialize(data)
         
         if let packet = packet {
@@ -102,21 +102,21 @@ class FloodingPacketManager: NSObject {
                 if let packetHandler = self.packetHandlers[packetType] {
                     packetHandler(DataReader(packet.payload), packetType)
                 } else {
-                    log(.High, error: "Error in FloodingPacketManager: No packet handler for packet type \(packetType)")
+                    log(.high, error: "Error in FloodingPacketManager: No packet handler for packet type \(packetType)")
                 }
             } else {
-                log(.High, error: "Error in FloodingPacketManager: Payload contains invalid packet type.")
+                log(.high, error: "Error in FloodingPacketManager: Payload contains invalid packet type.")
             }
         }
     }
     
     /** Floods a new packet through the network. Increases the sequence number and sends the packet to all neighbors. */
-    func floodPacket(packet: Packet) {
+    func floodPacket(_ packet: Packet) {
         if let router = self.router {
-            let floodingPacket = FloodingPacket(sequenceNumber: self.currentSequenceNumber, originIdentifier: router.identifier, payload: packet.serialize())
+            let floodingPacket = FloodingPacket(sequenceNumber: self.currentSequenceNumber, originIdentifier: router.identifier, payload: packet.serialize() as Data)
             
             self.sequenceNumbers[router.identifier] = self.currentSequenceNumber
-            self.currentSequenceNumber++
+            self.currentSequenceNumber += 1
             
             for neighbor in router.neighbors {
                 neighbor.sendPacket(floodingPacket)

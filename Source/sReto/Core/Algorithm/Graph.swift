@@ -19,6 +19,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /**
 * The protocol used with edge annotations.
@@ -56,7 +80,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /** All vertices contained in this graph. */
     var allVertices: Set<V> { get { return Set(self.adjacencyList.keys) } }
     /** All edges contained in this graph. */
-    var allEdges: [Edge<V,E>] { get { return self.allVertices.map({ self.getEdges(startingAtVertex: $0) ?? [] }).reduce([], combine: +) } }
+    var allEdges: [Edge<V,E>] { get { return self.allVertices.map({ self.getEdges(startingAtVertex: $0) ?? [] }).reduce([], +) } }
     
     /** Constructs a new graph given the list of adjacencies for each node. */
     init(_ adjacencyList: [V: [(vertex: V, annotation: E)]] = [:]) {
@@ -86,7 +110,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /**
     * Returns a new graph corresponding to this graph, with the edge annotations mapped to new ones.
     */
-    func mapEdges<F: WeightedEdgeAnnotation>(mapping: (E) -> F) -> Graph<V, F> {
+    func mapEdges<F: WeightedEdgeAnnotation>(_ mapping: (E) -> F) -> Graph<V, F> {
         return Graph<V, F>(self.adjacencyList.mapValues { vertex, adjacencies in
             adjacencies.map { (vertex: $0.vertex, edge: mapping($0.annotation)) }
         })
@@ -94,7 +118,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /**
     * Returns a new graph corresponding to this graph, with the vertices mapped to new ones.
     */
-    func mapVertices<W>(mapping: (V) -> W) -> Graph<W, E> {
+    func mapVertices<W>(_ mapping: @escaping (V) -> W) -> Graph<W, E> {
         return Graph<W, E>(self.adjacencyList.map({ vertex, adjacencies in
             (mapping(vertex), adjacencies.map { (vertex: mapping($0.vertex), annotation: $0.annotation) })
         }))
@@ -157,7 +181,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param vertex The vertex in question.
     * @return True if the graph contains that vertex. False otherwise.
     */
-    func contains(vertex vertex: V) -> Bool {
+    func contains(vertex: V) -> Bool {
         return self.adjacencyList[vertex] != nil
     }
     /**
@@ -174,7 +198,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /** 
     * Adds a vertex to the graph.
     */
-    mutating func addVertex(vertex: V) {
+    mutating func addVertex(_ vertex: V) {
         if adjacencyList[vertex] == nil {
             self.adjacencyList[vertex] = []
         }
@@ -182,7 +206,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /**
     * Removes a vertex. All edges starting or ending at this vertex will be removed.
     */
-    mutating func removeVertex(vertex: V) {
+    mutating func removeVertex(_ vertex: V) {
         self.adjacencyList[vertex] = nil
         
         for otherVertex in self.allVertices {
@@ -195,7 +219,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param vertex2 The end vertex of the edge.
     * @param edgeAnnotation The edgeAnnotation of the edge.
     */
-    mutating func addEdge(vertex1: V, _ vertex2: V, _ edgeAnnotation: E) {
+    mutating func addEdge(_ vertex1: V, _ vertex2: V, _ edgeAnnotation: E) {
         self.addVertex(vertex1)
         self.addVertex(vertex2)
         self.adjacencyList[vertex1]?.append( (vertex: vertex2, annotation: edgeAnnotation) )
@@ -203,7 +227,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     /**
     * Adds an edge to the graph. @see addEdge(V, V, E)
     */
-    mutating func addEdge(edge: Edge<V, E>) {
+    mutating func addEdge(_ edge: Edge<V, E>) {
         self.addEdge(edge.startVertex, edge.endVertex, edge.annotation)
     }
     /**
@@ -227,13 +251,14 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param start The start vertex for which all reachable nodes should be computed.
     * @return A set of nodes that are reachable from the start vertex.
     */
-    func reachableVertices(start: V) -> Set<V> {
+    func reachableVertices(_ start: V) -> Set<V> {
         return Set(depthFirstSearch(start, visitedVertices: Set()))
     }
     /** 
     * Explores the graph using DFS.
     */
-    private func depthFirstSearch(vertex: V, var visitedVertices: Set<V>) -> [V] {
+    private func depthFirstSearch(_ vertex: V, visitedVertices: Set<V>) -> [V] {
+        var visitedVertices = visitedVertices
         visitedVertices += vertex
         
         if let edges = self.getEdges(startingAtVertex: vertex) {
@@ -248,7 +273,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
                         return result
                     }
                 }
-                .reduce([], combine: +)
+                .reduce([], +)
             
             return [vertex] + recursiveResults
         }
@@ -262,7 +287,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param endVertex An optional end vertex. If specified, the algorithm ends when the shortest path to this vertex is found.
     * @return A tuple of predecessorRelationships which represent the shortest paths, and the shortest distances for all reachable vertices.
     */
-    func shortestPaths(start: V, endVertex: V? = nil) -> (predecessorRelationships: [V: V], distances: [V: Double]) {
+    func shortestPaths(_ start: V, endVertex: V? = nil) -> (predecessorRelationships: [V: V], distances: [V: Double]) {
         var shortestKnownDistancesByVertex: [V: Double] = [start: 0]
         var predecessorVertices: [V: V] = [:]
         // The working set contains the vertices that will be inspected next.
@@ -309,7 +334,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param end The end vertex
     * @return The path from the start to the end vertex, and the length of the path.
     */
-    func shortestPath(start: V, end: V) -> (path: [V], length: Double)? {
+    func shortestPath(_ start: V, end: V) -> (path: [V], length: Double)? {
         let (predecessorVertices, distances) = self.shortestPaths(start, endVertex: end)
         
         // The predecessor dictionary allows us to construct the path in reverse order.
@@ -318,14 +343,14 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
             
             // Essentially, this creates the sequence [predecessorVertices[end], predecessorVertices[predecessorVertices[end]], ...]
             let reversePathSequence = AnySequence (
-                anyGenerator({
+                AnyIterator({
                     () -> V? in
                     current = predecessorVertices[current!]
                     return current
                 })
             )
             
-            return (path: Array(Array(reversePathSequence).reverse()) + [end], length: distances[end]!)
+            return (path: Array(Array(reversePathSequence).reversed()) + [end], length: distances[end]!)
         } else {
             if start == end {
                 return (path: [end], length: 0)
@@ -340,7 +365,7 @@ struct Graph<V: Hashable, E: WeightedEdgeAnnotation> {
     * @param startVertex The start vertex (i.e. root node)
     * @return The minimum aborescence
     */
-    func getMinimumAborescenceGraph(startVertex: V) -> Graph<V, E> {
+    func getMinimumAborescenceGraph(_ startVertex: V) -> Graph<V, E> {
         let (predecessorRelationships, _) = self.shortestPaths(startVertex)
         
         var result = Graph<V, E>()

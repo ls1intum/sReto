@@ -36,7 +36,7 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
     let onCloseClosure: (ForkingConnection)->()
     
     /** Constructs a new ForkingConnection. */
-    init(incomingConnection: UnderlyingConnection, outgoingConnection: UnderlyingConnection, onClose: (ForkingConnection)->()) {
+    init(incomingConnection: UnderlyingConnection, outgoingConnection: UnderlyingConnection, onClose: @escaping (ForkingConnection)->()) {
         self.incomingConnection = incomingConnection
         self.outgoingConnection = outgoingConnection
         self.onCloseClosure = onClose
@@ -47,7 +47,7 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
         self.outgoingConnection.delegate = self
     }
 
-    func counterpartForConnection(connection: UnderlyingConnection) -> UnderlyingConnection {
+    func counterpartForConnection(_ connection: UnderlyingConnection) -> UnderlyingConnection {
         if connection === self.incomingConnection {
             return self.outgoingConnection
         }
@@ -55,7 +55,7 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
             return self.incomingConnection
         }
         
-        log(.High, error: "Trying to get counterpart to unknown connection.")
+        log(.high, error: "Trying to get counterpart to unknown connection.")
         let result: UnderlyingConnection? = nil
         return result!
     }
@@ -66,23 +66,23 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
     var recommendedPacketSize: Int { get { return self.incomingConnection.recommendedPacketSize } }
     
     func connect() {
-        log(.High, error: "Connect called on Forwarding connection. Should already be connected.")
+        log(.high, error: "Connect called on Forwarding connection. Should already be connected.")
     }
     func close() {
         self.incomingConnection.close()
         self.outgoingConnection.close()
     }
-    func writeData(data: NSData) {
+    func writeData(_ data: Data) {
         self.incomingConnection.writeData(data)
     }
     
     // MARK: UnderlyingConnectionDelegate protocol
     
-    func didConnect(connection: UnderlyingConnection) {
-        log(.High, error: "Forwarding connection received a didConnect call. This should not happen as the underlying connections should be established already.")
+    func didConnect(_ connection: UnderlyingConnection) {
+        log(.high, error: "Forwarding connection received a didConnect call. This should not happen as the underlying connections should be established already.")
     }
-    func didClose(connection: UnderlyingConnection, error: AnyObject?) {
-        log(.Low, info: "An underlying connection closed. Closing other connection.")
+    func didClose(_ connection: UnderlyingConnection, error: AnyObject?) {
+        log(.low, info: "An underlying connection closed. Closing other connection.")
         self.incomingConnection.delegate = nil
         self.outgoingConnection.delegate = nil
         
@@ -91,14 +91,14 @@ class ForkingConnection: NSObject, UnderlyingConnection, UnderlyingConnectionDel
         self.delegate?.didClose(self, error: error)
         self.onCloseClosure(self)
     }
-    func didReceiveData(connection: UnderlyingConnection, data: NSData) {
+    func didReceiveData(_ connection: UnderlyingConnection, data: Data) {
         if connection === incomingConnection {
             self.delegate?.didReceiveData(self, data: data)
         }
         
         self.counterpartForConnection(connection).writeData(data)
     }
-    func didSendData(connection: UnderlyingConnection) {
+    func didSendData(_ connection: UnderlyingConnection) {
         if connection === self.incomingConnection {
             self.delegate?.didSendData(self)
         }

@@ -21,13 +21,13 @@
 import Foundation
 import SocketRocket
 
-class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
+class RemoteP2PConnection: NSObject, UnderlyingConnection {
     weak var delegate: UnderlyingConnectionDelegate?
     var isConnected: Bool = false
     var receivedConnectionConfirmation = false
     var recommendedPacketSize: Int = 2048
-    var serverUrl: NSURL?
-    let dispatchQueue: dispatch_queue_t
+    var serverUrl: URL?
+    let dispatchQueue: DispatchQueue
     var selfRetain: RemoteP2PConnection?
     
     var socket: SRWebSocket?
@@ -36,7 +36,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
         return "RemoteP2PConnection: {url: \(self.serverUrl), isConnected: \(self.isConnected), webSocket: \(self.socket)}"
     }
     
-    init(serverUrl: NSURL, dispatchQueue: dispatch_queue_t) {
+    init(serverUrl: URL, dispatchQueue: DispatchQueue) {
         self.dispatchQueue = dispatchQueue
         
         super.init()
@@ -44,7 +44,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
         self.serverUrl = serverUrl
         self.selfRetain = self
     }
-    init(socket: SRWebSocket, dispatchQueue: dispatch_queue_t) {
+    init(socket: SRWebSocket, dispatchQueue: DispatchQueue) {
         self.socket = socket
         self.dispatchQueue = dispatchQueue
         self.socket?.setDelegateDispatchQueue(dispatchQueue)
@@ -57,7 +57,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
     
     func connect() {
         if let url = self.serverUrl {
-            self.socket = SRWebSocket(URL: url)
+            self.socket = SRWebSocket(url: url)
             self.socket?.setDelegateDispatchQueue(self.dispatchQueue)
             self.socket?.delegate = self
             self.socket?.open()
@@ -67,36 +67,48 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection, SRWebSocketDelegate {
         self.socket?.close()
         self.socket = nil
     }
-    func writeData(data: NSData) {
+    func writeData(_ data: Data) {
         if !isConnected {
-            log(.High, error: "Attempted to write data before connection connected.")
+            log(.high, error: "Attempted to write data before connection connected.")
             return
         }
 
         self.socket?.send(data)
-        dispatch_async(self.dispatchQueue, { () -> Void in
+        self.dispatchQueue.async(execute: { () -> Void in
             self.delegate?.didSendData(self)
             return
         })
     }
+}
+
+extension RemoteP2PConnection: SRWebSocketDelegate {
+
+    func webSocketDidOpen(_ webSocket: SRWebSocket!) {}
     
-    func webSocketDidOpen(webSocket: SRWebSocket!) {}
-    func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        log(.Low, info: "closed web socket. Code: \(code), reason: \(reason), wasClean: \(wasClean)")
+    func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        log(.low, info: "closed web socket. Code: \(code), reason: \(reason), wasClean: \(wasClean)")
     
-        self.delegate?.didClose(self, error: wasClean ? nil : "Code: \(code), reason: \(reason), wasClean: \(wasClean)")
+        if wasClean == true {
+            self.delegate?.didClose(self, error: nil)
+        }
+        else {
+            self.delegate?.didClose(self, error: "Code: \(code), reason: \(reason), wasClean: \(wasClean)" as AnyObject)
+        }
     }
-    func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
-        log(.Low, info: "closed with error: \(error)")
+    
+    func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
+
+        log(.low, info: "closed with error: \(error)")
         
-        self.delegate?.didClose(self, error: error)
+        self.delegate?.didClose(self, error: error as AnyObject?)
     }
-    func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
-        if let data = message as? NSData {
+    
+    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+        if let data = message as? Data {
             if !receivedConnectionConfirmation {
                 let reader = DataReader(data)
                 if !reader.checkRemaining(4) || reader.getInteger() != 1 {
-                    log(.High, error: "Expected confirmation, other data received.")
+                    log(.high, error: "Expected confirmation, other data received.")
                     self.close()
                     return
                 } else {

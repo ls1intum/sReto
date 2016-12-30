@@ -16,23 +16,23 @@ class Model {
     init() {
     }
     
-    func addPeer(peer: RemotePeer) {
+    func addPeer(_ peer: RemotePeer) {
         self.peers.append(ExamplePeer(peer: peer))
     }
     
-    func removePeer(peer: RemotePeer) {
+    func removePeer(_ peer: RemotePeer) {
         print("removing: \(peer), existing: \(peer)")
         self.peers = self.peers.filter({ existingPeer in existingPeer.peer !== peer})
         if self.selectedPeer === peer {
             self.selectedPeer = nil
         }
     }
-    func selectPeer(index: Int) {
+    func selectPeer(_ index: Int) {
         self.selectedPeer = peers[index]
     }
     
-    func examplePeer(peer: RemotePeer) -> ExamplePeer? {
-        print("peers here: \(self.peers)", terminator: "")
+    func examplePeer(_ peer: RemotePeer) -> ExamplePeer? {
+        print("peers here: \(self.peers)")
         for examplePeer in self.peers {
             if examplePeer.peer === peer {
                 return examplePeer
@@ -40,7 +40,7 @@ class Model {
         }
         return nil
     }
-    func examplePeer(connection: Connection) -> ExamplePeer? {
+    func examplePeer(_ connection: Connection) -> ExamplePeer? {
         for examplePeer in self.peers {
             for econnection in examplePeer.connections {
                 if econnection.connection === connection {
@@ -50,7 +50,7 @@ class Model {
         }
         return nil
     }
-    func exampleConnection(connection: Connection) -> ExampleConnection? {
+    func exampleConnection(_ connection: Connection) -> ExampleConnection? {
         for examplePeer in self.peers {
             for econnection in examplePeer.connections {
                 if econnection.connection === connection {
@@ -71,13 +71,13 @@ class ExamplePeer {
         self.peer = peer
     }
     
-    func selectConnection(index: Int) {
+    func selectConnection(_ index: Int) {
         self.selectedConnection = self.connections[index]
     }
-    func addConnection(connection: Connection) {
+    func addConnection(_ connection: Connection) {
         self.connections.append(ExampleConnection(connection: connection))
     }
-    func removeConnection(connection: Connection) {
+    func removeConnection(_ connection: Connection) {
         self.connections = self.connections.filter { existingConnection in existingConnection.connection !== connection }
         if connection === self.selectedConnection {
             self.selectedConnection = nil

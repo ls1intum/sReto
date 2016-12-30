@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Master-->
@@ -30,18 +34,18 @@
                         <viewControllerLayoutGuide type="bottom" id="fdN-Xj-2V2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2OE-0J-pZY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="WyR-mh-doG">
-                                <rect key="frame" x="4" y="110" width="592" height="490"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="110" width="375" height="557"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="58d-8x-4d2" customClass="ChatPeerCell" customModule="SimpleChatIOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="592" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="58d-8x-4d2" id="nYJ-mu-bqS">
-                                            <rect key="frame" x="0.0" y="0.0" width="592" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -52,7 +56,7 @@
                                 </connections>
                             </tableView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="iOS" borderStyle="roundedRect" placeholder="Display Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sJ8-GO-SdX">
-                                <rect key="frame" x="20" y="72" width="442" height="30"/>
+                                <rect key="frame" x="16" y="72" width="225" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -60,19 +64,19 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lBT-bB-3uy">
-                                <rect key="frame" x="470" y="72" width="110" height="30"/>
+                                <rect key="frame" x="249" y="72" width="110" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="iL4-hO-rAJ"/>
                                 </constraints>
                                 <state key="normal" title="Start">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="start:" destination="IDz-uj-xMh" eventType="touchUpInside" id="4oY-Ja-7ta"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="WyR-mh-doG" firstAttribute="top" secondItem="lBT-bB-3uy" secondAttribute="bottom" constant="8" id="51u-QR-Kdd"/>
                             <constraint firstItem="lBT-bB-3uy" firstAttribute="top" secondItem="1nK-Yr-jdE" secondAttribute="bottom" constant="8" id="DCi-9Z-Ncb"/>
@@ -106,30 +110,30 @@
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="svH-Pt-448" customClass="ChatView" customModule="SimpleChatIOS" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PrD-kU-FjU" userLabel="ChatMessages">
-                                <rect key="frame" x="20" y="20" width="560" height="464"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="16" y="20" width="343" height="531"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFi-BQ-fpy" userLabel="Controls">
-                                <rect key="frame" x="4" y="492" width="592" height="88"/>
+                                <rect key="frame" x="0.0" y="559" width="375" height="88"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xgb-CB-Xnf">
-                                        <rect key="frame" x="16" y="38" width="560" height="30"/>
+                                        <rect key="frame" x="16" y="38" width="343" height="30"/>
                                         <state key="normal" title="Send File"/>
                                         <connections>
                                             <action selector="sendFile:" destination="JEX-9P-axG" eventType="touchUpInside" id="49e-CL-0Xz"/>
                                         </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFc-s6-9x1">
-                                        <rect key="frame" x="16" y="66" width="560" height="2"/>
+                                        <rect key="frame" x="16" y="66" width="343" height="2"/>
                                     </progressView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a message..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W2Q-XJ-G4V">
-                                        <rect key="frame" x="16" y="0.0" width="560" height="30"/>
+                                        <rect key="frame" x="16" y="0.0" width="343" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="send"/>
                                         <connections>
@@ -137,7 +141,7 @@
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Xgb-CB-Xnf" secondAttribute="trailing" constant="16" id="53u-k1-SYq"/>
                                     <constraint firstItem="W2Q-XJ-G4V" firstAttribute="leading" secondItem="OFi-BQ-fpy" secondAttribute="leading" constant="16" id="6l2-59-qQ2"/>
@@ -153,7 +157,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="PrD-kU-FjU" firstAttribute="trailing" secondItem="svH-Pt-448" secondAttribute="trailingMargin" id="2Gs-E6-hYd"/>
                             <constraint firstItem="OFi-BQ-fpy" firstAttribute="top" secondItem="PrD-kU-FjU" secondAttribute="bottom" constant="8" id="IKD-DQ-nhj"/>

@@ -34,30 +34,38 @@ class DummyNetworkInterface {
     
     func register(browser: DummyBrowser) {
         browsers += browser
-        for advertiser in advertisers { self.notifyAddPeer(browser, advertiser) }
+        for advertiser in advertisers {
+            self.notifyAddPeer(browser: browser, advertiser)
+        }
     }
     func unregister(browser: DummyBrowser) {
         browsers -= browser
-        for advertiser in advertisers { self.notifyRemovePeer(browser, advertiser) }
+        for advertiser in advertisers {
+            self.notifyRemovePeer(browser: browser, advertiser)
+        }
     }
     
     func register(advertiser: DummyAdvertiser) {
         advertisers += advertiser
-        for browser in browsers { self.notifyAddPeer(browser, advertiser) }
+        for browser in browsers {
+            self.notifyAddPeer(browser: browser, advertiser)
+        }
     }
     func unregister(advertiser: DummyAdvertiser) {
         advertisers -= advertiser
-        for browser in browsers { self.notifyRemovePeer(browser, advertiser) }
+        for browser in browsers {
+            self.notifyRemovePeer(browser: browser, advertiser)
+        }
     }
     
     func notifyAddPeer(browser: DummyBrowser, _ advertiser: DummyAdvertiser) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            browser.onAddPeer(advertiser.identifier, address: DummyAddress(networkInterface: self, advertiser: advertiser))
-        })
+        DispatchQueue.main.async {
+            browser.onAddPeer(identifier: advertiser.identifier, address: DummyAddress(networkInterface: self, advertiser: advertiser))
+        }
     }
     func notifyRemovePeer(browser: DummyBrowser, _ advertiser: DummyAdvertiser) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            browser.onRemovePeer(advertiser.identifier)
-        })
+        DispatchQueue.main.async {
+            browser.onRemovePeer(identifier: advertiser.identifier)
+        }
     }
 }

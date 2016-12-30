@@ -9,10 +9,10 @@
 import Foundation
 
 protocol RouterHandler: class {
-    func didFindNode(router: Router, node: Node)
-    func didImproveRoute(router: Router, node: Node)
-    func didLoseNode(router: Router, node: Node)
-    func handleConnection(router: Router, node: Node, connection: UnderlyingConnection)
+    func didFindNode(_ router: Router, node: Node)
+    func didImproveRoute(_ router: Router, node: Node)
+    func didLoseNode(_ router: Router, node: Node)
+    func handleConnection(_ router: Router, node: Node, connection: UnderlyingConnection)
 }
 
 var broadcastDelaySettings: (shortDelay: Double, regularDelay: Double) = (0.5, 5)
@@ -37,17 +37,17 @@ class Router {
     /** The local peer's identifier */
     let identifier: UUID
     /** The dispatch queue used for networking related tasks. Delegate methods are also called on this queue. */
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     /** The Router's delegate. */
     weak var delegate: RouterHandler?
     /** A map from a node's UUID to the node for all Nodes known to the Router */
-    private var nodes = [UUID: Node]()
+    fileprivate var nodes = [UUID: Node]()
     /** The set of Nodes that are neighbors of the local peer. */
     var neighbors = Set<Node>()
     /** The linkStatePacketManager floods LinkStatePackets (i.e. routing information) through the network */
-    private var linkStatePacketManager: FloodingPacketManager?
+    fileprivate var linkStatePacketManager: FloodingPacketManager?
     /** Link state information packets are flooded periodically. The delayedLinkStateBroadcaster calls the appropriate methods in specified intervals. */
-    private var delayedLinkStateBroadcaster: RepeatedExecutor!
+    fileprivate var delayedLinkStateBroadcaster: RepeatedExecutor!
     /** The routing table that builds a representation of the network using received link state information. */
     let routingTable: LinkStateRoutingTable<UUID>
     /** 
@@ -55,22 +55,22 @@ class Router {
     * This type of connection is used in multicast connections.
     * As the local peer may not hold a reference to the connection, it must be retained here.
     */
-    private var forkingConnections = Set<ForkingConnection>()
+    fileprivate var forkingConnections = Set<ForkingConnection>()
     /**
     * Stores connections for which the next hop connections have not been established yet to keep them from deallocating.
     */
-    private var connectionsAwaitingForwardedConnections = [UnderlyingConnection]()
+    fileprivate var connectionsAwaitingForwardedConnections = [UnderlyingConnection]()
     
     //this array stores connections that would be deinitialized otherwised
     //TODO: when should we remove the connections from this array?
-    private var connections = [UnderlyingConnection]()
+    fileprivate var connections = [UnderlyingConnection]()
     
     /**
     * Constructs a Router.
     * @param identifier The local peer's identifier
     * @param dispatchQueue The dispatch queue used for networking purposes. Delegate methods are also called on this queue.
     **/
-    init(identifier: UUID, name: String, dispatchQueue: dispatch_queue_t) {
+    init(identifier: UUID, name: String, dispatchQueue: DispatchQueue) {
         self.name = name
         self.identifier = identifier
         self.dispatchQueue = dispatchQueue
@@ -78,7 +78,7 @@ class Router {
 
         self.linkStatePacketManager = FloodingPacketManager(router: self)
         self.linkStatePacketManager?.addPacketHandler(
-            PacketType.LinkState,
+            PacketType.linkState,
             handler: {
                 [unowned self]
                 data, type in
@@ -95,7 +95,7 @@ class Router {
         self.delayedLinkStateBroadcaster.start { [unowned self] in self.broadcastLinkStateInformation() }
     }
     /** Constructs a new node for a given identifier. */
-    func provideNode(nodeIdentifier: UUID, nodeName: String?) -> Node {
+    func provideNode(_ nodeIdentifier: UUID, nodeName: String?) -> Node {
         let node = self.nodes.getOrDefault(nodeIdentifier, defaultValue: Node(identifier: nodeIdentifier, localIdentifier: self.identifier, name: nodeName, linkStatePacketManager: self.linkStatePacketManager))
         node.router = self
         return node
@@ -105,7 +105,7 @@ class Router {
     * The routing metadata connection for that node is established.
     * Finally, changes in reachability are computed, and the delegate is informed about any changes.
     */
-    func addAddress(nodeIdentifier: UUID, nodeName: String?, address: Address) {
+    func addAddress(_ nodeIdentifier: UUID, nodeName: String?, address: Address) {
         if nodeIdentifier == self.identifier {
             return
         }
@@ -120,7 +120,7 @@ class Router {
     * Removes an address for a node. 
     * Notifies the delegate about routing table changes.
     */
-    func removeAddress(nodeIdentifier: UUID, nodeName: String?, address: Address) {
+    func removeAddress(_ nodeIdentifier: UUID, nodeName: String?, address: Address) {
         if nodeIdentifier == self.identifier { return }
         
         let node = self.provideNode(nodeIdentifier, nodeName: nodeName)
@@ -142,21 +142,21 @@ class Router {
     * @param onConnection A callback called when the connection is established.
     * @param onFail A closure called when an error occurs.
     */
-    func establishDirectConnection(destination destination: Node, purpose: ConnectionPurpose, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+    func establishDirectConnection(destination: Node, purpose: ConnectionPurpose, onConnection: @escaping (UnderlyingConnection) -> (), onFail: @escaping () -> ()) {
         if let underlyingConnection = destination.bestAddress?.createConnection() {
             connections.append(underlyingConnection)
             underlyingConnection.connect()
             
-            writeSinglePacket(connection: underlyingConnection, packet: LinkHandshake(peerIdentifier: self.identifier, peerName: name, connectionPurpose: purpose), onSuccess: {
-                log(.Low, info: "Connection was established.")
+            _ = writeSinglePacket(connection: underlyingConnection, packet: LinkHandshake(peerIdentifier: self.identifier, peerName: name, connectionPurpose: purpose), onSuccess: {
+                log(.low, info: "Connection was established.")
                 onConnection(underlyingConnection)
             }, onFail: {
-                log(.Medium, error: "Failed to establish direct connection.")
+                log(.medium, error: "Failed to establish direct connection.")
                 onFail()
             })
         }
         else {
-            log(.Medium, error: "Failed to establish direct connection as no direct addresses are known for this node.")
+            log(.medium, error: "Failed to establish direct connection as no direct addresses are known for this node.")
             onFail()
         }
     }
@@ -165,25 +165,25 @@ class Router {
     * Handles direct connections. Expects to receive a LinkHandshake packet, which is sent by this method's counterpart, establishDirectConnection.
     * Depending on the ConnectionPurpose received, the connection is either used as a routing connection, or handled as a hop connection.
     */
-    func handleDirectConnection(connection: UnderlyingConnection) {
-        readSinglePacket(connection: connection, onPacket: { data in
+    func handleDirectConnection(_ connection: UnderlyingConnection) {
+        _ = readSinglePacket(connection: connection, onPacket: { data in
             if let packet = LinkHandshake.deserialize(data) {
                 switch packet.connectionPurpose {
-                    case .RoutingConnection:
+                    case .routingConnection:
                         self.provideNode(packet.peerIdentifier, nodeName: packet.peerName).handleRoutingConnection(connection)
                         break
-                    case .RoutedConnection:
+                    case .routedConnection:
                         self.handleHopConnection(connection: connection)
                         break
                     default:
                         break
                 }
             } else {
-                log(.Medium, error: "Did not receive LinkHandshake.")
+                log(.medium, error: "Did not receive LinkHandshake.")
                 connection.close()
             }
         }, onFail: {
-            log(.Medium, error: "received no or invalid data instead of peer handshake, closing connection.")
+            log(.medium, error: "received no or invalid data instead of peer handshake, closing connection.")
             connection.close()
         })
     }
@@ -205,7 +205,7 @@ class Router {
     * @param onConnection A closure that is called when the next hop connections were established.
     * @param onFail A closure that is called when the connection establishement process failed.
     */
-    func establishHopConnections(destinationIdentifiers destinationIdentifiers: Set<UUID>, nextHopTree: Tree<UUID>, sourcePeerIdentifier: UUID, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+    func establishHopConnections(destinationIdentifiers: Set<UUID>, nextHopTree: Tree<UUID>, sourcePeerIdentifier: UUID, onConnection: @escaping (UnderlyingConnection) -> (), onFail: @escaping () -> ()) {
         let multicastConnection: MulticastConnection? = (nextHopTree.subtrees.count > 1) ? MulticastConnection() : nil
         var establishmentFailed = false
         
@@ -216,10 +216,10 @@ class Router {
         }
         
         for nextHopSubtree in nextHopTree.subtrees {
-            self.establishDirectConnection(destination: self.provideNode(nextHopSubtree.value, nodeName: nil), purpose: ConnectionPurpose.RoutedConnection, onConnection: { connection in
+            self.establishDirectConnection(destination: self.provideNode(nextHopSubtree.value, nodeName: nil), purpose: ConnectionPurpose.routedConnection, onConnection: { connection in
                 let handshake = MulticastHandshake(sourcePeerIdentifier: sourcePeerIdentifier, destinationIdentifiers: destinationIdentifiers, nextHopTree: nextHopSubtree)
                 
-                writeSinglePacket(connection: connection, packet: handshake, onSuccess: {
+                _ = writeSinglePacket(connection: connection, packet: handshake, onSuccess: {
                     if establishmentFailed {
                         connection.close()
                         return
@@ -250,8 +250,8 @@ class Router {
     *
     * @param connection The connection to handle
     */
-    func handleHopConnection(connection connection: UnderlyingConnection) {
-        readSinglePacket(
+    func handleHopConnection(connection: UnderlyingConnection) {
+        _ = readSinglePacket(
             connection: connection,
             onPacket: {
                 if let multicastHandshake = MulticastHandshake.deserialize($0) {
@@ -266,12 +266,12 @@ class Router {
                         )
                     }
                 } else {
-                    log(.Medium, error: "Received invalid MulticastHandshake.")
+                    log(.medium, error: "Received invalid MulticastHandshake.")
                     connection.close()
                 }
             },
             onFail: {
-                log(.Medium, error: "Failed to read multicast handshake when handling hop connection.")
+                log(.medium, error: "Failed to read multicast handshake when handling hop connection.")
             }
         )
     }
@@ -284,7 +284,7 @@ class Router {
     * @param nextHopTree A tree rooted at the local peer representing the connections that still need to be established.
     * @param incomingConnection The connection from which data should be forwarded.
     */
-    func establishForwardingConnections(sourcePeerIdentifier sourcePeerIdentifier: UUID, destinations: Set<UUID>, nextHopTree: Tree<UUID>, incomingConnection: UnderlyingConnection) {
+    func establishForwardingConnections(sourcePeerIdentifier: UUID, destinations: Set<UUID>, nextHopTree: Tree<UUID>, incomingConnection: UnderlyingConnection) {
         self.connectionsAwaitingForwardedConnections.append(incomingConnection)
         
         self.establishHopConnections(destinationIdentifiers: destinations, nextHopTree: nextHopTree, sourcePeerIdentifier: sourcePeerIdentifier,
@@ -297,21 +297,21 @@ class Router {
                 
                 self.connectionsAwaitingForwardedConnections = self.connectionsAwaitingForwardedConnections.filter { $0 === incomingConnection }
             }, onFail: {
-                log(.Medium, error: "Failed to establish forwarding connections.")
+                log(.medium, error: "Failed to establish forwarding connections.")
                 incomingConnection.close()
                 self.connectionsAwaitingForwardedConnections = self.connectionsAwaitingForwardedConnections.filter { $0 === incomingConnection }
             }
         )
     }
     /** Creates a forking connection for an incoming and outgoing connection. */
-    func createForkingConnection(incomingConnection: UnderlyingConnection, _ outgoingConnection: UnderlyingConnection) -> UnderlyingConnection {
+    func createForkingConnection(_ incomingConnection: UnderlyingConnection, _ outgoingConnection: UnderlyingConnection) -> UnderlyingConnection {
         let forkingConnection = ForkingConnection(incomingConnection: incomingConnection, outgoingConnection: outgoingConnection, onClose: self.removeForkingConnection)
         self.forkingConnections += forkingConnection
         return forkingConnection
     }
     /** Removes a forking connection. */
-    func removeForkingConnection(forkingConnection: ForkingConnection) {
-        log(.Low, info: "Forwarding connection closed.")
+    func removeForkingConnection(_ forkingConnection: ForkingConnection) {
+        log(.low, info: "Forwarding connection closed.")
         self.forkingConnections -= forkingConnection
     }
     
@@ -324,32 +324,32 @@ class Router {
     * @param onConnection A closure that is called when the connection was fully established.
     * @param onFail A closure that is called when the connection establishment process fails.
     */
-    func establishMulticastConnection(destinations destinations: Set<Node>, onConnection: (UnderlyingConnection) -> (), onFail: () -> ()) {
+    func establishMulticastConnection(destinations: Set<Node>, onConnection: @escaping (UnderlyingConnection) -> (), onFail: @escaping () -> ()) {
         let destinationIdentifiers = Set(destinations.map { $0.identifier })
         let nextHopTree = self.routingTable.getHopTree(destinationIdentifiers)
         var receivedConfirmations: Set<UUID> = []
         
         self.establishHopConnections(destinationIdentifiers: destinationIdentifiers, nextHopTree: nextHopTree, sourcePeerIdentifier: self.identifier, onConnection: { connection in
-            readPackets(connection: connection, packetCount: destinations.count, onPacket: {
+            _ = readPackets(connection: connection, packetCount: destinations.count, onPacket: {
                 if let packet = RoutedConnectionEstablishedConfirmationPacket.deserialize($0) {
                     receivedConfirmations += packet.source
                 } else {
-                    log(.Medium, error: "failed to receive confirmation packet.")
+                    log(.medium, error: "failed to receive confirmation packet.")
                     connection.close()
                 }
             },
             onSuccess: {
-                writeSinglePacket(connection: connection, packet: RoutedConnectionEstablishedConfirmationPacket(source: self.identifier), onSuccess: {
+                _ = writeSinglePacket(connection: connection, packet: RoutedConnectionEstablishedConfirmationPacket(source: self.identifier), onSuccess: {
                     onConnection(connection)
                 }, onFail: onFail)
             },
             onFail: {
-                log(.Medium, error: "Did not receive all confirmation packets.")
+                log(.medium, error: "Did not receive all confirmation packets.")
                 onFail()
             })
         },
         onFail: {
-            log(.Medium, error: "Failed to establish hop connections.")
+            log(.medium, error: "Failed to establish hop connections.")
             onFail()
         })
     }
@@ -362,12 +362,12 @@ class Router {
     * @param sourcepeerIdentifier The identifier of the peer that originally established the connection.
     * @param connection An underlying connection that should be handled.
     */
-    func handleMulticastConnection(sourcePeerIdentifier sourcePeerIdentifier: UUID, connection: UnderlyingConnection) {
-        writeSinglePacket(
+    func handleMulticastConnection(sourcePeerIdentifier: UUID, connection: UnderlyingConnection) {
+        _ = writeSinglePacket(
             connection: connection,
             packet: RoutedConnectionEstablishedConfirmationPacket(source: self.identifier),
             onSuccess: {
-                readSinglePacket(
+                _ = readSinglePacket(
                     connection: connection,
                     onPacket: {
                         if let _ = RoutedConnectionEstablishedConfirmationPacket.deserialize($0) {
@@ -375,12 +375,12 @@ class Router {
                         }
                     },
                     onFail: {
-                        log(.Medium, error: "did not receive establishment information.")
+                        log(.medium, error: "did not receive establishment information.")
                     }
                 )
             },
             onFail: {
-                log(.Medium, error: "Failed to send routed connection establishment confirmation.")
+                log(.medium, error: "Failed to send routed connection establishment confirmation.")
             }
         )
     }
@@ -392,17 +392,17 @@ class Router {
     * Informs the delegate about any changes in reachability.
     * @param change A RoutingTableChange object reflecting a set of changes in the routing table.
     */
-    func updateNodesWithRoutingTableChange(change: RoutingTableChange<UUID>) {
+    func updateNodesWithRoutingTableChange(_ change: RoutingTableChange<UUID>) {
         if change.isEmpty {
             return
         }
         
-        log(.Low, info: " -- Peer Discovery Information -- ")
+        log(.low, info: " -- Peer Discovery Information -- ")
         if change.nowReachable.isEmpty {
-            log(.Low, info: " - No new nodes reachable.")
+            log(.low, info: " - No new nodes reachable.")
         }
         else {
-            log(.Low, info: " - Peers now reachable: ")
+            log(.low, info: " - Peers now reachable: ")
         }
         
         for (discovered, nextHop, cost) in change.nowReachable {
@@ -411,15 +411,15 @@ class Router {
             
             discoveredNode.reachableVia = (nextHop: nextHopNode, cost: Int(cost))
             
-            log(.Low, info: "\t\(discovered) (via \(nextHop), cost: \(cost))")
+            log(.low, info: "\t\(discovered) (via \(nextHop), cost: \(cost))")
             self.delegate?.didFindNode(self, node: discoveredNode)
         }
         
         if change.nowUnreachable.isEmpty {
-            log(.Low, info: "No nodes became unreachable.")
+            log(.low, info: "No nodes became unreachable.")
         }
         else {
-            log(.Low, info: "Peers now unreachable: ")
+            log(.low, info: "Peers now unreachable: ")
         }
         
         for unreachable in change.nowUnreachable {
@@ -427,15 +427,15 @@ class Router {
             
             unreachableNode.reachableVia = nil
             
-            log(.Low, info: "\t\(unreachable)")
+            log(.low, info: "\t\(unreachable)")
             self.delegate?.didLoseNode(self, node: unreachableNode)
         }
         
         if change.routeChanged.isEmpty {
-            log(.Low, info: "No routes changed.")
+            log(.low, info: "No routes changed.")
         }
         else {
-            log(.Low, info: "Peers with changed routes: ")
+            log(.low, info: "Peers with changed routes: ")
         }
         
         for (changedNodeId, nextHop, oldCost, newCost) in change.routeChanged {
@@ -447,13 +447,13 @@ class Router {
             
             changedNode.reachableVia = (nextHop: self.provideNode(nextHop, nodeName: nil), cost: Int(newCost))
             
-            log(.Low, info: "\t\(changedNodeId) (old cost: \(oldCost), new cost: \(newCost), reachable via: \(nextHop)")
+            log(.low, info: "\t\(changedNodeId) (old cost: \(oldCost), new cost: \(newCost), reachable via: \(nextHop)")
         }
     }
     /**
     * Handles a received link state packet and updates the routing table.
     */
-    func handleLinkStatePacket(packet: LinkStatePacket) {
+    func handleLinkStatePacket(_ packet: LinkStatePacket) {
         let change = self.routingTable.getRoutingTableChangeForLinkStateInformationUpdate(packet.peerIdentifier, neighbors: packet.neighbors.map({
             identifier, cost in
             (node: identifier, cost: Double(cost))
@@ -473,8 +473,8 @@ class Router {
     
     // MARK: Neighbor management
     /** Called by a Node when it became directly reachable. */
-    func onNeighborReachable(node: Node) {
-        log(.Low, info: " -- Discovered Neighbor: \(node.identifier) -- ")
+    func onNeighborReachable(_ node: Node) {
+        log(.low, info: " -- Discovered Neighbor: \(node.identifier) -- ")
         
         self.neighbors += node
         
@@ -484,8 +484,8 @@ class Router {
         self.delayedLinkStateBroadcaster?.runActionInShortDelay()
     }
     /** Called by a Node when it lost its neighbor status. */
-    func onNeighborLost(node: Node) {
-        log(.Low, info: " -- Lost Neighbor: \(node.identifier) -- ")
+    func onNeighborLost(_ node: Node) {
+        log(.low, info: " -- Lost Neighbor: \(node.identifier) -- ")
         
         self.neighbors -= node
         let change = self.routingTable.getRoutingTableChangeForNeighborRemoval(node.identifier)

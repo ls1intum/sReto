@@ -45,7 +45,7 @@ class PeerConfiguration {
         self.init(primaryPeer: primaryPeer, destination: destination, participatingPeers: participatingPeers, reachablePeers: participatingPeers)
     }
     
-    func executeAfterDiscovery(onSuccess: () -> ()) {
+    func executeAfterDiscovery(onSuccess: @escaping () -> ()) {
         var discoveredPeers: [LocalPeer: Set<UUID>] = [:]
         
         for peer in self.participatingPeers {
@@ -57,7 +57,7 @@ class PeerConfiguration {
                     
                     let allDiscovered = discoveredPeers.filter( { self.reachablePeers.contains($0.0) })
                         .map({ $0.1.count == self.reachablePeers.count-1 })
-                        .reduce(true, combine: { $0 && $1 })
+                        .reduce(true, { $0 && $1 })
                     if allDiscovered { onSuccess() }
                 },
                 onPeerRemoved: {
@@ -71,7 +71,7 @@ class PeerConfiguration {
     }
     
     class func createPeer(interfaces: [DummyNetworkInterface]) -> LocalPeer {
-        return LocalPeer(name: "Peer", identifier: randomUUID(), modules: interfaces.map({ DummyModule(networkInterface: $0) }), dispatchQueue: dispatch_get_main_queue())
+        return LocalPeer(name: "Peer", identifier: randomUUID(), modules: interfaces.map({ DummyModule(networkInterface: $0) }), dispatchQueue: DispatchQueue.main)
     }
     class func directNeighborConfiguration() -> PeerConfiguration {
         let interfaces = [("test1", 1)].map { DummyNetworkInterface(interfaceName: $0.0, cost: $0.1) }

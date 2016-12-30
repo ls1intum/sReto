@@ -46,13 +46,13 @@ class GraphTests: XCTestCase {
         graph.addEdge("A", "B", DefaultEdge(weight: 1))
         graph.removeEdges(startingAtVertex: "A", endingAtVertex: "B")
         
-        XCTAssert(graph.getEdges(startingAtVertex: "A")?.count == .Some(0), "Edge not removed")
+        XCTAssert(graph.getEdges(startingAtVertex: "A")?.count == .some(0), "Edge not removed")
         
         graph.addEdge("A", "B", DefaultEdge(weight: 1))
         graph.addEdge("A", "C", DefaultEdge(weight: 1))
         graph.removeEdges(startingAtVertex: "A")
         XCTAssert(graph.allVertices.contains(["A", "B", "C"]), "Vertex removed")
-        XCTAssert(graph.getEdges(startingAtVertex: "A")?.count == .Some(0), "Edges not removed")
+        XCTAssert(graph.getEdges(startingAtVertex: "A")?.count == .some(0), "Edges not removed")
     }
     
     func testDijkstraTrivial() {

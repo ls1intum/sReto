@@ -31,7 +31,7 @@ protocol ReliabilityManagerDelegate: class {
     /** Called when the connection closes expectedly (i.e. when close() was called on the connection) */
     func connectionClosedExpectedly()
     /** Called when the connection failed and could not be reestablished. */
-    func connectionClosedUnexpectedly(error: AnyObject?)
+    func connectionClosedUnexpectedly(_ error: AnyObject?)
 }
 
 /**
@@ -41,11 +41,11 @@ protocol ConnectionManager: class {
     /**
     * Called when a new underlying connection needs to be established for an packet connection.
     */
-    func establishUnderlyingConnection(connection: PacketConnection)
+    func establishUnderlyingConnection(_ connection: PacketConnection)
     /** 
     * Called when a connection closed.
     */
-    func notifyConnectionClose(connection: PacketConnection)
+    func notifyConnectionClose(_ connection: PacketConnection)
 }
 
 /**
@@ -55,13 +55,13 @@ protocol ConnectionManager: class {
 */
 class ReliabilityManager: NSObject, PacketHandler {
     /** The PacketConnection thats reliability is managed. */
-    private let packetConnection: PacketConnection
+    fileprivate let packetConnection: PacketConnection
     /** The delegate */
     weak var delegate: ReliabilityManagerDelegate?
     /** The connection manager */
     weak var connectionManager: ConnectionManager? = nil
     /** The dispatch queue used to dispatch delegate methods on */
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     /** The local peer's identifier */
     let localIdentifier: UUID
     /** All of the managed connection's destination's identifiers */
@@ -89,7 +89,7 @@ class ReliabilityManager: NSObject, PacketHandler {
     * @param localIdentifier The local peer's identifier.
     * @param dispatchQueue The dispatch queue on which all delegate method calls are dispatched.
     */
-    init(packetConnection: PacketConnection, let connectionManager: ConnectionManager, isExpectedToReconnect: Bool, localIdentifier: UUID, dispatchQueue: dispatch_queue_t) {
+    init(packetConnection: PacketConnection, connectionManager: ConnectionManager, isExpectedToReconnect: Bool, localIdentifier: UUID, dispatchQueue: DispatchQueue) {
         self.packetConnection = packetConnection
         self.connectionManager = connectionManager
         
@@ -119,7 +119,7 @@ class ReliabilityManager: NSObject, PacketHandler {
             return
         }
         
-        self.reconnectAttempts++
+        self.reconnectAttempts += 1
         
         if self.reconnectAttempts > 5 {
             self.repeatedExecutor.stop()
@@ -133,18 +133,18 @@ class ReliabilityManager: NSObject, PacketHandler {
     }
     
     /** Handles a close request. */
-    private func handleCloseRequest() {
+    fileprivate func handleCloseRequest() {
         self.packetConnection.write(CloseAnnounce())
     }
     
     /** Handles a close announce. */
-    private func handleCloseAnnounce() {
+    fileprivate func handleCloseAnnounce() {
         self.isExpectingConnectionToClose = true
         self.packetConnection.write(CloseAcknowledge(source: self.localIdentifier))
     }
     
     /** Handles a close acknowledge. */
-    private func handleCloseAcknowledge(packet: CloseAcknowledge) {
+    fileprivate func handleCloseAcknowledge(_ packet: CloseAcknowledge) {
         self.receivedCloseRequestAcknowledges += packet.source
         if self.receivedCloseRequestAcknowledges == self.destinationIdentifiers {
             self.isExpectingConnectionToClose = true
@@ -155,7 +155,7 @@ class ReliabilityManager: NSObject, PacketHandler {
     
     // MARK: PacketConnection delegate
     
-    func underlyingConnectionDidClose(error: AnyObject?) {
+    func underlyingConnectionDidClose(_ error: AnyObject?) {
         self.originalError = error
         
         if self.isExpectingConnectionToClose {
@@ -181,21 +181,21 @@ class ReliabilityManager: NSObject, PacketHandler {
     func didWriteAllPackets() {
     }
     
-    let handledPacketTypes = [PacketType.CloseRequest, PacketType.CloseAnnounce, PacketType.CloseAcknowledge]
+    let handledPacketTypes = [PacketType.closeRequest, PacketType.closeAnnounce, PacketType.closeAcknowledge]
     
-    func handlePacket(data: DataReader, type: PacketType) {
+    func handlePacket(_ data: DataReader, type: PacketType) {
         switch type {
-        case .CloseRequest:
+        case .closeRequest:
             handleCloseRequest()
             break
-        case .CloseAnnounce:
+        case .closeAnnounce:
             handleCloseAnnounce()
             break
-        case .CloseAcknowledge:
+        case .closeAcknowledge:
             if let packet = CloseAcknowledge.deserialize(data) {handleCloseAcknowledge(packet)}
             break
         default:
-            log(.Medium, error: "Unknown packet type.")
+            log(.medium, error: "Unknown packet type.")
         }
     }
 }

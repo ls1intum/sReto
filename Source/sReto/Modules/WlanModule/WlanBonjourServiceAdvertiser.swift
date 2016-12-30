@@ -20,12 +20,12 @@
 
 import Foundation
 
-class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NSNetServiceDelegate {
+class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NetServiceDelegate {
     var delegate: BonjourServiceAdvertiserDelegate?
-    var netService : NSNetService?
+    var netService : NetService?
 
-    func startAdvertising(name: String, type: String, port: UInt) {
-        let netService = NSNetService(domain: "", type: type, name: name, port: Int32(port))
+    func startAdvertising(_ name: String, type: String, port: UInt) {
+        let netService = NetService(domain: "", type: type, name: name, port: Int32(port))
         self.netService = netService
         
         netService.delegate = self
@@ -42,18 +42,18 @@ class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NSNetSer
         self.delegate?.didStop()
     }
     
-    func netServiceDidPublish(sender: NSNetService) {
-        log(.Low, info: "published wlan bonjour address: \(sender.name)")
+    func netServiceDidPublish(_ sender: NetService) {
+        log(.low, info: "published wlan bonjour address: \(sender.name)")
         self.delegate?.didPublish()
     }
     
-    func netService(sender: NSNetService, didNotPublish errorDict: [String : NSNumber]) {
-        log(.Medium, error: "failed to publish on wlan: \(errorDict)")
+    func netService(_ sender: NetService, didNotPublish errorDict: [String : NSNumber]) {
+        log(.medium, error: "failed to publish on wlan: \(errorDict)")
         self.delegate?.didNotPublish()
     }
     
-    func netServiceDidStop(sender: NSNetService){
-        log(.Medium, info: "stopped publishing on wlan")
+    func netServiceDidStop(_ sender: NetService){
+        log(.medium, info: "stopped publishing on wlan")
         self.delegate?.didStop()
     }
 }

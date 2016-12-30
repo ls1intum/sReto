@@ -33,19 +33,19 @@ class ConnectivityTest: XCTestCase {
     }
     
     func testDirectNeighborConnectivity() {
-        testConnectivity(PeerConfiguration.directNeighborConfiguration())
+        testConnectivity(configuration: PeerConfiguration.directNeighborConfiguration())
     }
     func testTwoHopConnectivity() {
-        testConnectivity(PeerConfiguration.twoHopRoutedConfiguration())
+        testConnectivity(configuration: PeerConfiguration.twoHopRoutedConfiguration())
     }
     func testTwoHopMulticastConnectivity() {
-        testConnectivity(PeerConfiguration.twoHopRoutedMulticastConfiguration())
+        testConnectivity(configuration: PeerConfiguration.twoHopRoutedMulticastConfiguration())
     }
     func testTwoHopMulticastConnectivity2() {
-        testConnectivity(PeerConfiguration.twoHopRoutedMulticastConfiguration2())
+        testConnectivity(configuration: PeerConfiguration.twoHopRoutedMulticastConfiguration2())
     }
     func testFourHopConnectivity() {
-        testConnectivity(PeerConfiguration.fourHopRoutedConfiguration())
+        testConnectivity(configuration: PeerConfiguration.fourHopRoutedConfiguration())
     }
     
     func testConnectivity(configuration: PeerConfiguration) {
@@ -54,8 +54,8 @@ class ConnectivityTest: XCTestCase {
         var onConnectExpectations: [UUID: XCTestExpectation] = [:]
         var onCloseExpectations: [UUID: XCTestExpectation] = [:]
         for peer in activePeers {
-            onConnectExpectations[peer.identifier] = self.expectationWithDescription("\(peer.identifier) received on connect call")
-            onCloseExpectations[peer.identifier] = self.expectationWithDescription("\(peer.identifier) received on close call")
+            onConnectExpectations[peer.identifier] = self.expectation(description: "\(peer.identifier) received on connect call")
+            onCloseExpectations[peer.identifier] = self.expectation(description: "\(peer.identifier) received on close call")
         }
         
         configuration.executeAfterDiscovery {
@@ -97,7 +97,7 @@ class ConnectivityTest: XCTestCase {
             }
         }
         
-        self.waitForExpectationsWithTimeout(60, handler: {
+        self.waitForExpectations(timeout: 60, handler: {
             error in print("success!")
         })
     }

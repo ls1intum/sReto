@@ -24,12 +24,12 @@ class BluetoothBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, DNS
     var delegate: BonjourServiceAdvertiserDelegate?
     var registration: DNSSDRegistration?
     
-    func startAdvertising(name: String, type: String, port: UInt) {
+    func startAdvertising(_ name: String, type: String, port: UInt) {
         let registration = DNSSDRegistration(domain: "", type: type, name: name, port: port)
         self.registration = registration
         
-        registration.delegate = self
-        registration.start()
+        registration?.delegate = self
+        registration?.start()
     }
     func stopAdvertising() {
         if let registration = self.registration {
@@ -41,16 +41,17 @@ class BluetoothBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, DNS
         self.delegate?.didStop()
     }
     
-    func dnssdRegistrationDidRegister(sender: DNSSDRegistration!) {
-        log(.Low, info: "published wlan bonjour bluetooth")
+    func dnssdRegistrationDidRegister(_ sender: DNSSDRegistration!) {
+        log(.low, info: "published wlan bonjour bluetooth")
         self.delegate?.didPublish()
     }
-    func dnssdRegistration(sender: DNSSDRegistration!, didNotRegister error: NSError!) {
-        log(.Medium, error: "failed to publish on bluetooth: \(error)")
+    
+    func dnssdRegistration(_ sender: DNSSDRegistration!, didNotRegister error: Error!) {
+        log(.medium, error: "failed to publish on bluetooth: \(error)")
         self.delegate?.didNotPublish()
     }
-    func dnssdRegistrationDidStop(sender: DNSSDRegistration!) {
-        log(.Medium, info: "stopped publishing on bluetooth")
+    func dnssdRegistrationDidStop(_ sender: DNSSDRegistration!) {
+        log(.medium, info: "stopped publishing on bluetooth")
         self.delegate?.didStop()
     }
 }

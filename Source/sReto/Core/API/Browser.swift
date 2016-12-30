@@ -23,13 +23,13 @@
 */
 public protocol BrowserDelegate: class {
     /** Called when the Browser started to browse. */
-    func didStartBrowsing(browser: Browser)
+    func didStartBrowsing(_ browser: Browser)
     /** Called when the Browser stopped to browse. */
-    func didStopBrowsing(browser: Browser)
+    func didStopBrowsing(_ browser: Browser)
     /** Called when the Browser discovered an address. */
-    func didDiscoverAddress(browser: Browser, address: Address, identifier: UUID)
+    func didDiscoverAddress(_ browser: Browser, address: Address, identifier: UUID)
     /** Called when the Browser lost an address, i.e. when that address becomes invalid for any reason. */
-    func didRemoveAddress(browser: Browser, address: Address, identifier: UUID)
+    func didRemoveAddress(_ browser: Browser, address: Address, identifier: UUID)
 }
 
 /** A Browser attempts to discover other peers, it is the counterpart to the same module's advertiser. */

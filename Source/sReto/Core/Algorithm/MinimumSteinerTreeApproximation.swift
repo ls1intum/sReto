@@ -24,7 +24,7 @@ struct MetricClosureEdgeAnnotation<V>: WeightedEdgeAnnotation {
     var path: [V] = []
     var weight: Double
     
-    static func combine(edge1: MetricClosureEdgeAnnotation<V>, _ edge2: MetricClosureEdgeAnnotation<V>, _ separatingVertex: V) -> MetricClosureEdgeAnnotation<V> {
+    static func combine(_ edge1: MetricClosureEdgeAnnotation<V>, _ edge2: MetricClosureEdgeAnnotation<V>, _ separatingVertex: V) -> MetricClosureEdgeAnnotation<V> {
         return MetricClosureEdgeAnnotation(path: edge1.path + [separatingVertex] + edge2.path, weight: edge1.weight + edge2.weight)
     }
 }
@@ -42,7 +42,7 @@ extension Graph {
     * @param includedVertices A set of vertices that should be included in the minimum steiner tree.
     * @return A tree representation of the computed tree.
     */
-    func getSteinerTreeApproximation(rootVertex rootVertex: V, includedVertices: Set<V>) -> Tree<V> {
+    func getSteinerTreeApproximation(rootVertex: V, includedVertices: Set<V>) -> Tree<V> {
         return Graph.reconstruct(
             self.getMetricClosure(includedVertices).getMinimumAborescenceGraph(rootVertex)
         )
@@ -54,7 +54,7 @@ extension Graph {
     * @param vertices A set of vertices which should exist in the metric closure.
     * @return A Graph that uses MetricClosureEdgeAnnotations that store the paths in the original graph to allow later reconstruction.
     */
-    func getMetricClosure(vertices: Set<V>) -> Graph<V, MetricClosureEdgeAnnotation<V>> {
+    func getMetricClosure(_ vertices: Set<V>) -> Graph<V, MetricClosureEdgeAnnotation<V>> {
         var metricClosure = self.mapEdges { MetricClosureEdgeAnnotation<V>(path: [], weight: $0.weight) }
 
         let eliminatedVertices = metricClosure.allVertices - vertices
@@ -88,7 +88,7 @@ extension Graph {
     * @param metricClosure a metric closure
     * @return The reconstructed graph
     */
-    static func reconstruct<V>(metricClosure: Graph<V, MetricClosureEdgeAnnotation<V>>) -> Graph<V, DefaultEdge> {
+    static func reconstruct<V>(_ metricClosure: Graph<V, MetricClosureEdgeAnnotation<V>>) -> Graph<V, DefaultEdge> {
         var result = Graph<V, DefaultEdge>()
 
         for (startVertex, edges) in metricClosure.adjacencyList {
@@ -108,7 +108,7 @@ extension Graph {
     * @param startVertex The vertex at which to start exploring the graph.
     * @return A Tree representing the explored graph.
     */
-    private func constructTree(startVertex: V) -> Tree<V> {
+    fileprivate func constructTree(_ startVertex: V) -> Tree<V> {
         return Tree(value: startVertex, subtrees: Set((self.getEdges(startingAtVertex: startVertex) ?? []).map { self.constructTree($0.endVertex) }))
     }
 }

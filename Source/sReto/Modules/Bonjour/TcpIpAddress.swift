@@ -21,20 +21,20 @@
 import Foundation
 
 class TcpIpAddress: NSObject, Address {
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     let addressInformation: AddressInformation
     let recommendedPacketSize: Int
     let cost = 10
     let hostName: String
     
-    init(dispatchQueue: dispatch_queue_t, address: AddressInformation, recommendedPacketSize: Int) {
+    init(dispatchQueue: DispatchQueue, address: AddressInformation, recommendedPacketSize: Int) {
         self.dispatchQueue = dispatchQueue
         self.addressInformation = address
         switch address {
-        case .AddressAsData(_, let hostName, _):
+        case .addressAsData(_, let hostName, _):
             self.hostName = hostName
             break
-        case .HostName(let hostName, _):
+        case .hostName(let hostName, _):
             self.hostName = hostName
             break
         }

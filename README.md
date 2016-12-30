@@ -7,6 +7,9 @@ sReto
 ========
 Reto: P2P Framework for realtime collaboration in Swift.
 
+sReto 2.0 is compatible with Swift 3!
+If you want to support Swift 2, please use older versions, e.g. 1.4.1.
+
 Notice: There is also a Java version for the use of Reto on Windows and Unix: [jReto](https://github.com/ls1intum/jReto)
 
 About
@@ -32,7 +35,7 @@ Installation
 
 The recommended approach for installing sReto is via the [CocoaPods](http://cocoapods.org) package manager, as it provides flexible dependency management.
 
-sReto can be integrated as framework on iOS 8.0+ and OS X 10.9+. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto using CocoaPods.
+sReto 2.0 can be integrated as framework on iOS 9.0+ and OS X 10.9+. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto using CocoaPods.
 
 ### via CocoaPods
 
@@ -96,9 +99,9 @@ Advertisement and discovery is managed by the `LocalPeer` class. A `LocalPeer` r
 
 ```swift
 // 1. Create the WlanModule
-let wlanModule = WlanModule(type: "ExampleType", dispatchQueue: dispatch_get_main_queue())
+let wlanModule = WlanModule(type: "ExampleType", dispatchQueue: DispatchQueue.main)
 // 2. Create the LocalPeer
-let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
+let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: DispatchQueue.main)
 // 3. Starting the LocalPeer
 localPeer.start(
   onPeerDiscovered: { peer in print("Discovered peer: \(peer)") },

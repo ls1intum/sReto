@@ -31,31 +31,31 @@ class DummyAdvertiser: NSObject, Advertiser  {
         self.networkInterface = networkInterface
     }
     
-    func startAdvertising(identifier : UUID) {
+    func startAdvertising(_ identifier : UUID) {
         self.identifier = identifier
         self.isAdvertising = true
-        self.networkInterface.register(self)
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.networkInterface.register(advertiser: self)
+        DispatchQueue.main.async {
             if let adv = self.advertiserDelegate {
                 adv.didStartAdvertising(self)
             }
-        })
+        }
     }
     func stopAdvertising() {
         self.isAdvertising = false
-        self.networkInterface.unregister(self)
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.networkInterface.unregister(advertiser: self)
+        DispatchQueue.main.async {
             if let adv = self.advertiserDelegate {
                 adv.didStopAdvertising(self)
             }
-        })
+        }
     }
     
     func onConnection(connection: DummyInConnection) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async {
             if let adv = self.advertiserDelegate {
                 adv.handleConnection(self, connection: connection)
             }
-        })
+        }
     }
 }

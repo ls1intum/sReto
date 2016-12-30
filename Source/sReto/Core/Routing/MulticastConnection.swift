@@ -35,15 +35,15 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
     
     init() {}
     /** Adds a subconnection. */
-    func addSubconnection(connection: UnderlyingConnection) {
+    func addSubconnection(_ connection: UnderlyingConnection) {
         self.subconnections.append(connection)
         connection.delegate = self
     }
    
     // MARK: UnderlyingConnection protocol
     var delegate: UnderlyingConnectionDelegate?
-    var isConnected: Bool { get { return subconnections.map({ $0.isConnected }).reduce(false, combine: { $0 && $1 }) } }
-    var recommendedPacketSize: Int { get { return subconnections.map { $0.recommendedPacketSize }.minElement()! } }
+    var isConnected: Bool { get { return subconnections.map({ $0.isConnected }).reduce(false, { $0 && $1 }) } }
+    var recommendedPacketSize: Int { get { return subconnections.map { $0.recommendedPacketSize }.min()! } }
     
     func connect() {
         for connection in self.subconnections {
@@ -57,9 +57,9 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
         }
     }
     
-    func writeData(data: NSData) {
+    func writeData(_ data: Data) {
         if self.dataSentCallbacksToBeReceived != 0 {
-            self.dataPacketsSent++
+            self.dataPacketsSent += 1
         } else {
             self.dataSentCallbacksToBeReceived = self.subconnections.count
         }
@@ -71,11 +71,11 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
     
 
     // MARK: UnderlyingConnectionDelegate protocol
-    func didConnect(connection: UnderlyingConnection) {
+    func didConnect(_ connection: UnderlyingConnection) {
         if self.isConnected { self.delegate?.didConnect(self) }
     }
     
-    func didClose(closedConnection: UnderlyingConnection, error: AnyObject?) {
+    func didClose(_ closedConnection: UnderlyingConnection, error: AnyObject?) {
         for connection in self.subconnections {
             if connection !== closedConnection { connection.close() }
         }
@@ -83,21 +83,21 @@ class MulticastConnection: UnderlyingConnection, UnderlyingConnectionDelegate {
         self.delegate?.didClose(self, error: error )
     }
     
-    func didReceiveData(connection: UnderlyingConnection, data: NSData) {
+    func didReceiveData(_ connection: UnderlyingConnection, data: Data) {
         self.delegate?.didReceiveData(self, data: data)
     }
     
-    func didSendData(connection: UnderlyingConnection) {
+    func didSendData(_ connection: UnderlyingConnection) {
         if self.dataSentCallbacksToBeReceived == 0 {
-            log(.Medium, info: "Received unexpected didSendData call.")
+            log(.medium, info: "Received unexpected didSendData call.")
             return
         }
         
-        self.dataSentCallbacksToBeReceived--
+        self.dataSentCallbacksToBeReceived -= 1
         
         if self.dataSentCallbacksToBeReceived == 0 {
             if self.dataPacketsSent != 0 {
-                self.dataPacketsSent--
+                self.dataPacketsSent -= 1
                 self.dataSentCallbacksToBeReceived = self.subconnections.count
             }
         

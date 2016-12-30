@@ -41,7 +41,7 @@ class RoutingTableTests: XCTestCase {
 
     func testRoutingTableWithIneffectualLinkStateInformation() {
         let routingTable = LinkStateRoutingTable(localNode: "Local")
-        routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
+        _ = routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
 
         let routeChange = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("B", neighbors: [(neighborId: "C", cost: 1), (neighborId: "D", cost: 1)])
         
@@ -52,8 +52,8 @@ class RoutingTableTests: XCTestCase {
 
     func testRoutingTableWithEffectualLinkStateInformation() {
         let routingTable = LinkStateRoutingTable(localNode: "Local")
-        routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
-        routingTable.getRoutingTableChangeForLinkStateInformationUpdate("B", neighbors: [(neighborId: "C", cost: 1), (neighborId: "D", cost: 1)])
+        _ = routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
+        _ = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("B", neighbors: [(neighborId: "C", cost: 1), (neighborId: "D", cost: 1)])
         
         let routeChange = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("A", neighbors: [(neighborId: "B", cost: 1)])
         
@@ -70,9 +70,9 @@ class RoutingTableTests: XCTestCase {
     
     func testRoutingTableForRouteChanges() {
         let routingTable = LinkStateRoutingTable(localNode: "Local")
-        routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
-        routingTable.getRoutingTableChangeForLinkStateInformationUpdate("B", neighbors: [(neighborId: "C", cost: 1), (neighborId: "D", cost: 1)])
-        routingTable.getRoutingTableChangeForLinkStateInformationUpdate("A", neighbors: [(neighborId: "B", cost: 1)])
+        _ = routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
+        _ = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("B", neighbors: [(neighborId: "C", cost: 1), (neighborId: "D", cost: 1)])
+        _ = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("A", neighbors: [(neighborId: "B", cost: 1)])
         
         let routeChange = routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 5)
         
@@ -83,8 +83,8 @@ class RoutingTableTests: XCTestCase {
     
     func testRoutingTableUnreachability() {
         let routingTable = LinkStateRoutingTable(localNode: "Local")
-        routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
-        routingTable.getRoutingTableChangeForLinkStateInformationUpdate("A", neighbors: [(neighborId: "B", cost: 1)])
+        _ = routingTable.getRoutingTableChangeForNeighborUpdate("A", cost: 10)
+        _ = routingTable.getRoutingTableChangeForLinkStateInformationUpdate("A", neighbors: [(neighborId: "B", cost: 1)])
         
         let routeChange = routingTable.getRoutingTableChangeForNeighborRemoval("A")
         

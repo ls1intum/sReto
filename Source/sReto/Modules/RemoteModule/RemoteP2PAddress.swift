@@ -21,7 +21,7 @@
 import Foundation
 
 class RemoteP2PAddress: NSObject, Address {
-    let serverUrl: NSURL
+    let serverUrl: URL
     let cost = 50
     let hostName: String
     
@@ -29,9 +29,9 @@ class RemoteP2PAddress: NSObject, Address {
         return "RemoteP2PAddress: {url: \(self.serverUrl)}"
     }
     
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
 
-    init(serverUrl: NSURL, dispatchQueue: dispatch_queue_t) {
+    init(serverUrl: URL, dispatchQueue: DispatchQueue) {
         self.hostName = serverUrl.absoluteString
         self.serverUrl = serverUrl
         self.dispatchQueue = dispatchQueue

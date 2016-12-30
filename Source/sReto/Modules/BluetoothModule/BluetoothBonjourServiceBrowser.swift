@@ -25,11 +25,11 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
     var browser: DNSSDBrowser?
     var services: [DNSSDService] = []
     
-    func startBrowsing(networkType: String) {
+    func startBrowsing(_ networkType: String) {
         let browser = DNSSDBrowser(domain: "", type: networkType)
         self.browser = browser
-        browser.delegate = self
-        browser.startBrowse()
+        browser?.delegate = self
+        browser?.startBrowse()
     }
     
     func stopBrowsing() {
@@ -42,23 +42,23 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
         self.delegate?.didStop()
     }
     
-    func addAddress(service: DNSSDService) {
-        log(.Low, info: "found address for: \(service.name)")
+    func addAddress(_ service: DNSSDService) {
+        log(.low, info: "found address for: \(service.name)")
         if let uuid = UUIDfromString(service.name) {
-            let addressInformation = AddressInformation.HostName(service.resolvedHost, Int(service.resolvedPort))
+            let addressInformation = AddressInformation.hostName(service.resolvedHost, Int(service.resolvedPort))
             self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
         }
     }
     
-    func dnssdBrowserWillBrowse(browser: DNSSDBrowser!) {
+    func dnssdBrowserWillBrowse(_ browser: DNSSDBrowser!) {
         self.delegate?.didStart()
     }
     
-    func dnssdBrowserDidStopBrowse(browser: DNSSDBrowser!) {
+    func dnssdBrowserDidStopBrowse(_ browser: DNSSDBrowser!) {
         self.delegate?.didStop()
     }
     
-    func dnssdBrowser(browser: DNSSDBrowser!, didAddService service: DNSSDService!, moreComing: Bool) {
+    func dnssdBrowser(_ browser: DNSSDBrowser!, didAdd service: DNSSDService!, moreComing: Bool) {
         if (service.resolvedHost != nil) {
             self.addAddress(service)
         } else {
@@ -68,22 +68,22 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
         }
     }
     
-    func dnssdBrowser(browser: DNSSDBrowser!, didRemoveService service: DNSSDService!, moreComing: Bool) {
+    func dnssdBrowser(_ browser: DNSSDBrowser!, didRemove service: DNSSDService!, moreComing: Bool) {
         self.services = self.services.filter({ s in s != service })
         if let uuid = UUIDfromString(service.name) {
             self.delegate?.removedAddress(uuid)
         }
     }
     
-    func dnssdServiceDidResolveAddress(service: DNSSDService!) {
+    func dnssdServiceDidResolveAddress(_ service: DNSSDService!) {
         self.addAddress(service)
     }
     
-    func dnssdService(service: DNSSDService!, didNotResolve error: NSError!) {
-        log(.Medium, error: "Could not resolve service. \(error)")
+    func dnssdService(_ service: DNSSDService!, didNotResolve error: Error!) {
+        log(.medium, error: "Could not resolve service. \(error)")
     }
 
-    func dnssdServiceDidStop(service: DNSSDService!) {
+    func dnssdServiceDidStop(_ service: DNSSDService!) {
         service.delegate = nil
         self.services = self.services.filter({ s in s != service })
     }

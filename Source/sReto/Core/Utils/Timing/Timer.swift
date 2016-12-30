@@ -98,7 +98,7 @@ Execute an action with user-specified delays (you figure out something to do wit
         }
     )
 */
-public class Timer {
+open class Timer {
     /**
     Represents a time interval in seconds
     */
@@ -106,11 +106,11 @@ public class Timer {
     /**
     An action executed by a Timer if it is repeated. A Timer object is passed to allow stopping of the timer, as well as the number of executions.
     */
-    public typealias TimerAction = (timer: Timer, executionCount: Int) -> ()
+    public typealias TimerAction = (_ timer: Timer, _ executionCount: Int) -> ()
     /**
     An function that returns a time interval.
     */
-    public typealias DelayBlock = (executionCount: Int) -> TimeInterval
+    public typealias DelayBlock = (_ executionCount: Int) -> TimeInterval
     
     /**
     Executes a block after a given delay.
@@ -123,10 +123,10 @@ public class Timer {
         The main dispatch queue is used by default.
     - parameter action: The action to execute.
     */
-    public class func delay(
-        delay: TimeInterval,
-        dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
-        action: () -> ()) -> Timer {
+    open class func delay(
+        _ delay: TimeInterval,
+        dispatchQueue: DispatchQueue = DispatchQueue.main,
+        action: @escaping () -> ()) -> Timer {
             
         return Timer(
             delayBlock: { _ in delay },
@@ -156,11 +156,11 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func repeatAction(
-        interval interval: TimeInterval,
-        dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
+    open class func repeatAction(
+        interval: TimeInterval,
+        dispatchQueue: DispatchQueue = DispatchQueue.main,
         maximumExecutionCount: Int? = nil,
-        action: TimerAction) -> Timer {
+        action: @escaping TimerAction) -> Timer {
             
         return Timer(
             delayBlock: { _ in interval },
@@ -198,13 +198,13 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func repeatActionWithBackoff (
-        initialDelay initialDelay: TimeInterval,
+    open class func repeatActionWithBackoff (
+        initialDelay: TimeInterval,
         backOffFactor: Double = 1.5,
         maximumDelay: TimeInterval? = nil,
-        dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
+        dispatchQueue: DispatchQueue = DispatchQueue.main,
         maximumExecutionCount: Int? = nil,
-        action: TimerAction) -> Timer {
+        action: @escaping TimerAction) -> Timer {
             
         return Timer(
             delayBlock: {
@@ -220,11 +220,11 @@ public class Timer {
     }
     
     public typealias BackoffTimerSettings = (initialInterval: TimeInterval, backOffFactor: Double, maximumDelay: TimeInterval?)
-    public class func repeatActionWithBackoff (
-        timerSettings timerSettings: BackoffTimerSettings,
-        dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
+    open class func repeatActionWithBackoff (
+        timerSettings: BackoffTimerSettings,
+        dispatchQueue: DispatchQueue = DispatchQueue.main,
         maximumExecutionCount: Int? = nil,
-        action: TimerAction) -> Timer {
+        action: @escaping TimerAction) -> Timer {
         
             return repeatActionWithBackoff(initialDelay: timerSettings.initialInterval, backOffFactor: timerSettings.backOffFactor, maximumDelay: timerSettings.maximumDelay, dispatchQueue: dispatchQueue, maximumExecutionCount: maximumExecutionCount, action: action)
     }
@@ -246,11 +246,11 @@ public class Timer {
         Nil by default.
     - parameter action: The action to execute.
     */
-    public class func repeatAction (
-        delayBlock delayBlock: DelayBlock,
-        dispatchQueue: dispatch_queue_t = dispatch_get_main_queue(),
+    open class func repeatAction (
+        delayBlock: @escaping DelayBlock,
+        dispatchQueue: DispatchQueue = DispatchQueue.main,
         maximumExecutionCount: Int? = nil,
-        action: TimerAction) -> Timer {
+        action: @escaping TimerAction) -> Timer {
             
         return Timer(
             delayBlock: delayBlock,
@@ -260,17 +260,17 @@ public class Timer {
         )
     }
     
-    private let dispatchQueue: dispatch_queue_t
-    private let delayBlock: DelayBlock
-    private let action: TimerAction
-    private let maximumExecutions: Int?
+    fileprivate let dispatchQueue: DispatchQueue
+    fileprivate let delayBlock: DelayBlock
+    fileprivate let action: TimerAction
+    fileprivate let maximumExecutions: Int?
     
-    private var currentExecutionCount: Int = 0
-    private var isDone: Bool = false
+    fileprivate var currentExecutionCount: Int = 0
+    fileprivate var isDone: Bool = false
     
-    private var selfRetain: Timer?
+    fileprivate var selfRetain: Timer?
     
-    private init(delayBlock: DelayBlock, dispatchQueue: dispatch_queue_t, maximumExecutions: Int?, action: TimerAction) {
+    fileprivate init(delayBlock: @escaping DelayBlock, dispatchQueue: DispatchQueue, maximumExecutions: Int?, action: @escaping TimerAction) {
         self.delayBlock = delayBlock
         self.dispatchQueue = dispatchQueue
         self.maximumExecutions = maximumExecutions
@@ -283,7 +283,7 @@ public class Timer {
     /**
     Stops the Timer. No actions will be executed anymore.
     */
-    public func stop() {
+    open func stop() {
         self.isDone = true
         self.selfRetain = nil
     }
@@ -291,11 +291,11 @@ public class Timer {
     /**
     Fires the timer prematurely. The action is only executed if the Timer is still running.
     */
-    public func fire() {
+    open func fire() {
         if self.isDone { return }
         
-        self.action(timer: self, executionCount: self.currentExecutionCount)
-        self.currentExecutionCount++
+        self.action(self, self.currentExecutionCount)
+        self.currentExecutionCount += 1
 
         if let maximum = self.maximumExecutions {
             if self.currentExecutionCount >= maximum { self.isDone = true }
@@ -307,11 +307,11 @@ public class Timer {
             self.selfRetain = nil
         }
     }
-    private func startTimer() {
-        let delay = Int64(self.delayBlock(executionCount: self.currentExecutionCount) * Double(NSEC_PER_SEC))
+    fileprivate func startTimer() {
+        let delay = Int64(self.delayBlock(self.currentExecutionCount) * Double(NSEC_PER_SEC))
         
-        dispatch_after(
-            dispatch_time(DISPATCH_TIME_NOW, delay), self.dispatchQueue) {
+        self.dispatchQueue.asyncAfter(
+            deadline: DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)) {
             [weak self] in
             if let weakSelf = self { weakSelf.fire() }
         }

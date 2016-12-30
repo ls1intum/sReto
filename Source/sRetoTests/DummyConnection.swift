@@ -38,10 +38,10 @@ class DummyConnection: NSObject, UnderlyingConnection {
             return
         }
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async {
             self.internalClose()
             self.counterpartConnection?.internalClose()
-        })
+        }
     }
     func internalClose() {
         if !self.isConnected {
@@ -50,23 +50,23 @@ class DummyConnection: NSObject, UnderlyingConnection {
         }
         
         self.isConnected = false
-        self.delegate?.didClose(self, error: "Internal test close")
+        self.delegate?.didClose(self, error: "Internal test close" as AnyObject?)
     }
     
-    func writeData(data: NSData) {
+    func writeData(_ data: Data) {
         let type = DataReader(data).getInteger()
         if let type = PacketType(rawValue: type) {
-            if type == PacketType.Unknown {
+            if type == PacketType.unknown {
                 print("Trying to send packet with invalid type.")
             }
         }
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.counterpartConnection?.internalReceiveData(data)
+        DispatchQueue.main.async {
+            self.counterpartConnection?.internalReceiveData(data: data)
             self.delegate?.didSendData(self)
-        })
+        }
     }
-    func internalReceiveData(data: NSData) {
+    func internalReceiveData(data: Data) {
         self.delegate?.didReceiveData(self, data: data)
     }
 }
@@ -104,7 +104,7 @@ class DummyInConnection: DummyConnection {
         self.isConnected = true
     }
     func internalAnnounceOpen() {
-        self.advertiser.onConnection(self)
+        self.advertiser.onConnection(connection: self)
     }
     override func connect() {
         print("Connect called in incoming connection. Ignored.")

@@ -40,13 +40,13 @@ struct RoutingTableChange<T> {
 }
 
 /** Finds the next hop to a given destination node based on the predecessor relationships of the nodes. */
-private func findNextHop<T>(predecessorRelationships: [T: T], destination: T) -> T {
+private func findNextHop<T>(_ predecessorRelationships: [T: T], destination: T) -> T {
     let path = Array(Array(
         iterateMapping(
             initialState: destination,
             mapping: { predecessorRelationships[$0] }
         )
-    ).reverse())
+    ).reversed())
     
     return path[1]
 }
@@ -94,7 +94,7 @@ class LinkStateRoutingTable<T: Hashable> {
     * @param cost The cost to reach that neighbor.
     * @return A LinkStateRoutingTable.Change object representing the changes that occurred in the routing table.
     * */
-    func getRoutingTableChangeForNeighborUpdate(neighbor: T, cost: Double) -> RoutingTableChange<T> {
+    func getRoutingTableChangeForNeighborUpdate(_ neighbor: T, cost: Double) -> RoutingTableChange<T> {
         return self.trackGraphChanges { self.updateNeighbor(neighbor, cost: cost) }
     }
     /**
@@ -103,7 +103,7 @@ class LinkStateRoutingTable<T: Hashable> {
     * @param neighbor The neighbor to remove
     * @return A LinkStateRoutingTable.Change object representing the changes that occurred in the routing table.
     * */
-    func getRoutingTableChangeForNeighborRemoval(neighbor: T) -> RoutingTableChange<T> {
+    func getRoutingTableChangeForNeighborRemoval(_ neighbor: T) -> RoutingTableChange<T> {
         return self.trackGraphChanges { self.removeNeighbor(neighbor) }
     }
     /**
@@ -113,7 +113,7 @@ class LinkStateRoutingTable<T: Hashable> {
     * @param neighbors The node's neighbors.
     * @return A LinkStateRoutingTable.Change object representing the changes that occurred in the routing table.
     * */
-    func getRoutingTableChangeForLinkStateInformationUpdate(node: T, neighbors: [(neighborId: T, cost: Double)]) -> RoutingTableChange<T> {
+    func getRoutingTableChangeForLinkStateInformationUpdate(_ node: T, neighbors: [(neighborId: T, cost: Double)]) -> RoutingTableChange<T> {
         return self.trackGraphChanges { self.updateLinkStateInformation(node, neighbors: neighbors) }
     }
     
@@ -127,16 +127,16 @@ class LinkStateRoutingTable<T: Hashable> {
     }
     
     /** Updates or adds a neighbor. */
-    private func updateNeighbor(neighbor: T, cost: Double) {
+    fileprivate func updateNeighbor(_ neighbor: T, cost: Double) {
         self.graph.removeEdges(startingAtVertex: self.localNode, endingAtVertex: neighbor)
         self.graph.addEdge(self.localNode, neighbor, DefaultEdge(weight: cost))
     }
     /** Removes a neighbor. */
-    private func removeNeighbor(neighbor: T) {
+    fileprivate func removeNeighbor(_ neighbor: T) {
         self.graph.removeEdges(startingAtVertex: self.localNode, endingAtVertex: neighbor)
     }
     /** Updates link state information for a given node. */
-    private func updateLinkStateInformation(node: T, neighbors: [(neighborId: T, cost: Double)]) {
+    fileprivate func updateLinkStateInformation(_ node: T, neighbors: [(neighborId: T, cost: Double)]) {
         self.graph.removeEdges(startingAtVertex: node)
         
         for (neighbor, cost) in neighbors {
@@ -144,14 +144,14 @@ class LinkStateRoutingTable<T: Hashable> {
         }
     }
 
-    func nextHop(destination: T) -> T? {
+    func nextHop(_ destination: T) -> T? {
         if let (path, _) = graph.shortestPath(self.localNode, end: destination) {
             return path[1]
         }
         
         return nil
     }
-    func getHopTree(destinations: Set<T>) -> Tree<T> {
+    func getHopTree(_ destinations: Set<T>) -> Tree<T> {
         return self.graph.getSteinerTreeApproximation(rootVertex: self.localNode, includedVertices: destinations + [self.localNode])
     }
     
@@ -165,7 +165,7 @@ class LinkStateRoutingTable<T: Hashable> {
     * @param graphAction A Runnable that is expected to perform some changes on the graph.
     * @return A LinkStateRoutingTable.Change object representing the changes caused by the changes performed by the graphAction.
     * */
-    private func trackGraphChanges(graphAction: () -> ()) -> RoutingTableChange<T> {
+    fileprivate func trackGraphChanges(_ graphAction: () -> ()) -> RoutingTableChange<T> {
         let (previousPredecessorRelationships, previousDistances) = graph.shortestPaths(self.localNode)
         
         graphAction()
@@ -183,12 +183,12 @@ class LinkStateRoutingTable<T: Hashable> {
         )
         let nowUnreachable = Set(previousPredecessorRelationships.keys) - Set(updatedPredecessorRelationships.keys)
         
-        let changedRoutes = Set(updatedPredecessorRelationships.keys).intersect(Set(previousPredecessorRelationships.keys))
-            |> filter {
+        let changedRoutes = Set(updatedPredecessorRelationships.keys).intersection(Set(previousPredecessorRelationships.keys))
+            .filter {
                 previousDistances[$0] != updatedDistances[$0] ||
                     findNextHop(previousPredecessorRelationships, destination: $0) != findNextHop(updatedPredecessorRelationships, destination: $0)
             }
-            |> map { (
+            .map { (
                 node: $0,
                 nextHop: findNextHop(updatedPredecessorRelationships, destination: $0),
                 oldCost: previousDistances[$0]!,

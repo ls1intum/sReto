@@ -21,8 +21,8 @@
 import Foundation
 
 protocol BonjourServiceBrowserDelegate : class {
-    func foundAddress(identifier: UUID, addressInformation: AddressInformation)
-    func removedAddress(identifier: UUID)
+    func foundAddress(_ identifier: UUID, addressInformation: AddressInformation)
+    func removedAddress(_ identifier: UUID)
     func didStart()
     func didStop()
 }
@@ -30,20 +30,20 @@ protocol BonjourServiceBrowserDelegate : class {
 protocol BonjourServiceBrowser : class {
     weak var delegate: BonjourServiceBrowserDelegate? { get set }
     
-    func startBrowsing(networkType: String)
+    func startBrowsing(_ networkType: String)
     func stopBrowsing()
 }
 
 class BonjourBrowser: NSObject, Browser, BonjourServiceBrowserDelegate {
     let browser: BonjourServiceBrowser
     let networkType: String
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     let recommendedPacketSize: Int
     var addresses: [UUID: Address] = [:]
     var browserDelegate: BrowserDelegate?
     var isBrowsing: Bool = false
     
-    init(networkType: String, dispatchQueue: dispatch_queue_t, browser: BonjourServiceBrowser, recommendedPacketSize: Int) {
+    init(networkType: String, dispatchQueue: DispatchQueue, browser: BonjourServiceBrowser, recommendedPacketSize: Int) {
         self.networkType = networkType
         self.dispatchQueue = dispatchQueue
         self.browser = browser
@@ -72,13 +72,13 @@ class BonjourBrowser: NSObject, Browser, BonjourServiceBrowserDelegate {
         self.browserDelegate?.didStopBrowsing(self)
     }
     
-    func foundAddress(identifier: UUID, addressInformation: AddressInformation) {
+    func foundAddress(_ identifier: UUID, addressInformation: AddressInformation) {
         let address = TcpIpAddress(dispatchQueue: self.dispatchQueue, address: addressInformation, recommendedPacketSize: self.recommendedPacketSize)
         self.addresses[identifier] = address
         self.browserDelegate?.didDiscoverAddress(self, address: address, identifier: identifier)
     }
     
-    func removedAddress(identifier: UUID) {
+    func removedAddress(_ identifier: UUID) {
         let addr = self.addresses[identifier]
         self.addresses[identifier] = nil
 

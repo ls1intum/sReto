@@ -29,18 +29,18 @@ struct LinkStatePacket: Packet {
     /** A list of identifier/cost pairs for each of the peer's neighbors. */
     let neighbors: [(identifier: UUID, cost: Int32)]
     
-    static func getType() -> PacketType { return PacketType.LinkState }
-    static func getLength() -> Int { return sizeof(PacketType) + sizeof(UUID) }
+    static func getType() -> PacketType { return PacketType.linkState }
+    static func getLength() -> Int { return MemoryLayout<PacketType>.size + MemoryLayout<UUID>.size }
     
-    static func deserialize(data: DataReader) -> LinkStatePacket? {
+    static func deserialize(_ data: DataReader) -> LinkStatePacket? {
         if !Packets.check(data: data, expectedType: self.getType(), minimumLength: self.getLength()) { return nil }
         
         let peerIdentifier = data.getUUID()
         var neighbors: [(identifier: UUID, cost: Int32)] = []
         let neighborCount: Int = Int(data.getInteger())
         
-        if !data.checkRemaining(neighborCount * (sizeof(UUID) + sizeof(Int32))) {
-            log(.High, error: "not enough data remaining in LinkStatePacket.")
+        if !data.checkRemaining(neighborCount * (MemoryLayout<UUID>.size + MemoryLayout<Int32>.size)) {
+            log(.high, error: "not enough data remaining in LinkStatePacket.")
             return nil
         }
         
@@ -51,9 +51,9 @@ struct LinkStatePacket: Packet {
         return LinkStatePacket(peerIdentifier: peerIdentifier, neighbors: neighbors)
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.getLength() + self.neighbors.count * (sizeof(UUID) + sizeof(Int32)))
-        data.add(self.dynamicType.getType().rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).getLength() + self.neighbors.count * (MemoryLayout<UUID>.size + MemoryLayout<Int32>.size))
+        data.add(type(of: self).getType().rawValue)
         data.add(self.peerIdentifier)
         data.add(Int32(self.neighbors.count))
         
@@ -62,6 +62,6 @@ struct LinkStatePacket: Packet {
             data.add(cost)
         }
         
-        return data.getData()
+        return data.getData() as Data
     }
 }

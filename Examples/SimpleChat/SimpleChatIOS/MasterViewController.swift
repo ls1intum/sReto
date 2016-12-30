@@ -9,44 +9,44 @@
 import UIKit
 
 class ChatPeerCell: UITableViewCell {
-    private var kvoContext = 0
-    private var chatPeer: ChatRoom?
+    fileprivate var kvoContext = 0
+    fileprivate var chatPeer: ChatRoom?
     
-    func configure(chatPeer: ChatRoom) {
+    func configure(_ chatPeer: ChatRoom) {
         self.chatPeer = chatPeer
         self.textLabel?.text = chatPeer.remoteDisplayName ?? "Loading remote name..."
-        chatPeer.addObserver(self, forKeyPath: "remoteDisplayName", options: .New, context: &kvoContext)
+        chatPeer.addObserver(self, forKeyPath: "remoteDisplayName", options: .new, context: &kvoContext)
     }
     
     override func prepareForReuse() {
         self.chatPeer?.removeObserver(self, forKeyPath: "remoteDisplayName")
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             self.textLabel?.text = chatPeer?.remoteDisplayName ?? "Loading remote name..."
         } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }
 
 class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-    private var kvoContext = 0
+    fileprivate var kvoContext = 0
     var localPeer = LocalChatPeer()
     var detailViewController: DetailViewController? = nil
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var displayName: UITextField!
     
-    @IBAction func start(sender: AnyObject) {
-        displayName.enabled = false
+    @IBAction func start(_ sender: AnyObject) {
+        displayName.isEnabled = false
         self.localPeer = LocalChatPeer()
         self.localPeer.start(displayName.text!)
-        self.localPeer.addObserver(self, forKeyPath: "chatRooms", options: .New, context: &kvoContext)
+        self.localPeer.addObserver(self, forKeyPath: "chatRooms", options: .new, context: &kvoContext)
     }
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             self.tableView.reloadData()
         }
@@ -54,7 +54,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
         }
     }
@@ -70,47 +70,47 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            self.tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true);
+            self.tableView.deselectRow(at: selectedIndexPath, animated: true);
         }
     }
 
     // MARK: - Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let object = localPeer.chatRooms[indexPath.row]
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.chatRoom = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
     }
 
     // MARK: - Table View
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("table has \(localPeer.chatRooms.count) rows")
         return localPeer.chatRooms.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! ChatPeerCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ChatPeerCell
         let chatRoom = localPeer.chatRooms[indexPath.row]
         cell.configure(chatRoom)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("showDetail", sender: self);
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "showDetail", sender: self);
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

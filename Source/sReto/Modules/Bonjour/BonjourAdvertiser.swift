@@ -30,7 +30,7 @@ protocol BonjourServiceAdvertiserDelegate : class {
 protocol BonjourServiceAdvertiser : class {
     weak var delegate: BonjourServiceAdvertiserDelegate? { get set }
     
-    func startAdvertising(name: String, type: String, port: UInt)
+    func startAdvertising(_ name: String, type: String, port: UInt)
     func stopAdvertising()
 }
 
@@ -38,16 +38,16 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
     var advertiserDelegate: AdvertiserDelegate?
     var isAdvertising: Bool = false
     
-    private let networkType: String
-    private let dispatchQueue: dispatch_queue_t
-    private var advertiser: BonjourServiceAdvertiser
-    private let recommendedPacketSize: Int
+    fileprivate let networkType: String
+    fileprivate let dispatchQueue: DispatchQueue
+    fileprivate var advertiser: BonjourServiceAdvertiser
+    fileprivate let recommendedPacketSize: Int
     //this array stores connections that would be deinitialized otherwised
-    private var connections = [UnderlyingConnection]()
+    fileprivate var connections = [UnderlyingConnection]()
     
     var acceptingSocket: GCDAsyncSocket?
     
-    init(networkType: String, dispatchQueue: dispatch_queue_t, advertiser: BonjourServiceAdvertiser, recommendedPacketSize: Int) {
+    init(networkType: String, dispatchQueue: DispatchQueue, advertiser: BonjourServiceAdvertiser, recommendedPacketSize: Int) {
         self.networkType = networkType
         self.dispatchQueue = dispatchQueue
         self.advertiser = advertiser
@@ -56,21 +56,21 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         super.init()
     }
     
-    func startAdvertising(identifier : UUID) {
+    func startAdvertising(_ identifier : UUID) {
         let acceptingSocket = GCDAsyncSocket(delegate: self, delegateQueue: dispatchQueue, socketQueue: dispatchQueue)
         self.acceptingSocket = acceptingSocket
         
         var error : NSError? = nil
         do {
-            try acceptingSocket.acceptOnPort(0)
+            try acceptingSocket?.accept(onPort: 0)
         } catch let error1 as NSError {
             error = error1
-            log(.High, error: "An error occured when trying to listen for incoming connections: \(error)")
+            log(.high, error: "An error occured when trying to listen for incoming connections: \(error)")
             return
         }
         
         self.advertiser.delegate = self
-        self.advertiser.startAdvertising(identifier.UUIDString, type: self.networkType, port: UInt(acceptingSocket.localPort))
+        self.advertiser.startAdvertising(identifier.UUIDString, type: self.networkType, port: UInt((acceptingSocket?.localPort)!))
         self.isAdvertising = true
     }
     
@@ -81,14 +81,14 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         self.connections.removeAll()
     }
     
-    func socket(sock: GCDAsyncSocket!, didAcceptNewSocket newSocket: GCDAsyncSocket!) {
+    func socket(_ sock: GCDAsyncSocket!, didAcceptNewSocket newSocket: GCDAsyncSocket!) {
         let connection = AsyncSocketUnderlyingConnection(socket: newSocket, recommendedPacketSize: 32*1024)
         connections.append(connection)
         if let delegate = self.advertiserDelegate {
             delegate.handleConnection(self, connection: connection)
         }
         else {
-            log(.High, error: "Received incoming connection, but there's no delegate set.")
+            log(.high, error: "Received incoming connection, but there's no delegate set.")
         }
     }
     
@@ -97,7 +97,7 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
     }
     
     func didNotPublish() {
-        log(.Medium, error: "failed to publish advertisement.")
+        log(.medium, error: "failed to publish advertisement.")
         self.isAdvertising = false
         self.advertiser.stopAdvertising()
     }

@@ -20,10 +20,10 @@
 
 import Foundation
 
-extension NSUUID {
-    convenience init(uuid: UUID) {
-        var u = uuid.uuidt
-        self.init(UUIDBytes: &u.0)
+extension Foundation.UUID {
+    init(uuid: UUID) {
+        var uuidFoundation = uuid.uuidt
+        self = NSUUID(uuidBytes: &uuidFoundation.0) as Foundation.UUID
     }
 }
 
@@ -38,8 +38,8 @@ public struct UUID: Comparable, Hashable, CustomStringConvertible {
     /** Stores the UUID as a 16 byte array */
     let uuid: [UInt8]
     public var hashValue: Int {
-        return uuid.map { $0.hashValue }.enumerate().reduce(0,
-            combine: {
+        return uuid.map { $0.hashValue }.enumerated().reduce(0,
+            {
                 let (index, hash) = $1
                 return $0 ^ (hash << index * 2)
             }
@@ -57,7 +57,7 @@ public struct UUID: Comparable, Hashable, CustomStringConvertible {
     
     /** Returns the string representation of this UUID */
     public var UUIDString: String {
-        return NSUUID(uuid: self).UUIDString
+        return Foundation.UUID(uuid: self).uuidString
     }
     
     public var description: String {
@@ -72,18 +72,18 @@ public struct UUID: Comparable, Hashable, CustomStringConvertible {
 
 /** Constructs a random UUID. */
 public func randomUUID() -> UUID {
-    return fromNSUUID(NSUUID())
+    return fromUUID(Foundation.UUID())
 }
 
-/** Converts an NSUUID to a UUID. */
-public func fromNSUUID(nsuuid: NSUUID) -> UUID {
+/** Converts an Foundation.UUID to a UUID. */
+public func fromUUID(_ nsuuid: Foundation.UUID) -> UUID {
     var uuid: uuid_t = UUID_T_ZERO
-    withUnsafeMutablePointer(&uuid.0, { pointer in nsuuid.getUUIDBytes(pointer)})
+    withUnsafeMutablePointer(to: &uuid.0, { pointer in (nsuuid as NSUUID).getBytes(pointer)})
     return fromUUID_T(uuid)
 }
 
 /** Converts an uuid_t to a UUID. */
-public func fromUUID_T(uuid: uuid_t) -> UUID {
+public func fromUUID_T(_ uuid: uuid_t) -> UUID {
     return UUID(
         uuid: [
             uuid.0, uuid.1, uuid.2, uuid.3,
@@ -95,9 +95,9 @@ public func fromUUID_T(uuid: uuid_t) -> UUID {
 }
 
 /** Constructs an UUID from its string representation. */
-public func UUIDfromString(string: String) -> UUID? {
-    if let uuid = NSUUID(UUIDString: string) {
-        return fromNSUUID(uuid)
+public func UUIDfromString(_ string: String) -> UUID? {
+    if let uuid = Foundation.UUID(uuidString: string) {
+        return fromUUID(uuid)
     } else {
         return nil
     }

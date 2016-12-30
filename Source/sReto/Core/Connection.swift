@@ -31,7 +31,7 @@ import Foundation
 * None of these events have to be handled, however, if you wish to receive data, you need to react to either the onTransfer or onData event.
 *
 * Sending Data
-* Data can be sent using the methods send(data: NSData) -> Transfer and send(dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> Transfer. 
+* Data can be sent using the methods send(data: NSData) -> Transfer and send(dataLength: Int, dataProvider: (range: Range) -> NSData) -> Transfer. 
 * The latter method allows you to generate data as it is sent, e.g. to load it from a file on demand.
 *
 * Receiving Data
@@ -42,9 +42,9 @@ import Foundation
 *    It gives access to a InTransfer object that allows you to respond to events (such as progress updates), and allows you to specify how the transfer should be received. It can also be used to cancel transfers.
 */
 
-@objc public class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
+@objc open class Connection: NSObject, TransferManagerDelegate, ReliabilityManagerDelegate {
     /** Whether this connection is currently connected. */
-    public var isConnected: Bool = false
+    open var isConnected: Bool = false
     
     // MARK: Events
     
@@ -52,10 +52,10 @@ import Foundation
     * Called when the connection connects successfully. If the connection is already connected when this property is set, it is called immediately.
     * Passes the connection that connected as a parameter.
     */
-    public var onConnect: ((connection: Connection) -> ())? = nil {
+    open var onConnect: ((_ connection: Connection) -> ())? = nil {
         didSet {
             if isConnected {
-                onConnect?(connection: self)
+                onConnect?(self)
             }
         }
     }
@@ -63,19 +63,19 @@ import Foundation
     * Called when an incoming transfer starts. It's possible to specify how the data is received, cancel the transfer, receive progress updates. 
     * Passes the connection that received the transfer and the transfer object as parameters.
     */
-    public var onTransfer: ((connection: Connection, transfer: InTransfer) -> ())? = nil
+    open var onTransfer: ((_ connection: Connection, _ transfer: InTransfer) -> ())? = nil
     /** 
     * Convenience alternative to onTransfer. If set, transfers are received automatically, and passed to this closure on completion. Is used only if onTransfer is not set. 
     */
-    public var onData: ((data: NSData) -> ())? = nil
+    open var onData: ((_ data: Data) -> ())? = nil
     /** 
     * Called when the connection closes. Passes the connection that closed as the parameter.
     */
-    public var onClose: ((connection: Connection) -> ())? = nil
+    open var onClose: ((_ connection: Connection) -> ())? = nil
     /** 
     * Called when an error occurs that caused the connection to close. If not set, onClose will be called when an error occurs. Passes the connection that closed as the parameter.
     */
-    public var onError: ((connection: Connection, error: AnyObject) -> ())? = nil
+    open var onError: ((_ connection: Connection, _ error: AnyObject) -> ())? = nil
     
     // MARK: Sending Data
     
@@ -84,8 +84,8 @@ import Foundation
     * @param data The data that should be sent.
     * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer. Can be ignored.
     */
-    public func send(data data: NSData) -> Transfer {
-        return self.send(dataLength: data.length, dataProvider: { data.subdataWithRange($0) })
+    open func send(data: Data) -> Transfer {
+        return self.send(dataLength: data.count, dataProvider: { data.subdata(in: $0) })
     }
     
     /**
@@ -93,8 +93,8 @@ import Foundation
     * @param data The data that should be sent.
     * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer. Can be ignored.
     */
-    public func send(data: NSData) {
-        self.send(dataLength: data.length, dataProvider: { data.subdataWithRange($0) })
+    open func send(_ data: Data) {
+        _ = self.send(dataLength: data.count, dataProvider: { data.subdata(in: $0) })
     }
     
     
@@ -104,7 +104,7 @@ import Foundation
     * @param dataProvider A closure that returns a subrange of the data that should be sent.
     * @return A Transfer object. Can be used to query about information of the transfer, cancel the transfer, and offers events related to the transfer.
     */
-    public func send(dataLength dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> Transfer {
+    open func send(dataLength: Int, dataProvider: @escaping (_ range: Range<Data.Index>) -> Data) -> Transfer {
         let transfer = self.transferManager.startTransfer(dataLength, dataProvider: dataProvider)
         return transfer
     }
@@ -114,16 +114,16 @@ import Foundation
     /**
     * Closes the connection.
     */
-    public func close() {
+    open func close() {
         self.reliabilityManager.closeConnection()
     }
     
     /**
     * If the connection closed for any reason, this method will attempt to reestablish it.
     */
-    public func reconnect() {
+    open func reconnect() {
         if self.isConnected {
-            log(.Low, error: "Cannot attempt reconnect while connected.")
+            log(.low, error: "Cannot attempt reconnect while connected.")
             return
         }
 
@@ -131,7 +131,7 @@ import Foundation
     }
     
     // MARK: Internal
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     
     /** The trasfer manager, which is responsible for data transmissions. */
     let transferManager: TransferManager
@@ -157,7 +157,7 @@ import Foundation
     *           connection establisher is responsible for any reconnect attempts.
     * @param connectionManager The connection's manager. If a reconnect is required, it is responsible to establish a new underlying connection.
     */
-    init(packetConnection: PacketConnection, localIdentifier: UUID, dispatchQueue: dispatch_queue_t, isConnectionEstablisher: Bool, connectionManager: ConnectionManager) {
+    init(packetConnection: PacketConnection, localIdentifier: UUID, dispatchQueue: DispatchQueue, isConnectionEstablisher: Bool, connectionManager: ConnectionManager) {
         self.dispatchQueue = dispatchQueue
         
         self.transferManager = TransferManager(packetConnection: packetConnection)
@@ -176,12 +176,12 @@ import Foundation
     }
     
     /** Receives a transfer. When done, the onData event is invoked. */
-    private func autoreceive(transfer: InTransfer) {
+    fileprivate func autoreceive(_ transfer: InTransfer) {
         self.autoreceivedTransfers[transfer.identifier] = transfer
         
         transfer.onCompleteData = {
             transfer, data in
-            self.onData?(data: data)
+            self.onData?(data as Data)
             return
         }
         transfer.onComplete = {
@@ -194,32 +194,32 @@ import Foundation
     func connectionConnected() {
         if !self.isConnected {
             self.isConnected = true
-            self.onConnect?(connection: self)
+            self.onConnect?(self)
         }
     }
     
     func connectionClosedExpectedly() {
         self.isConnected = false
         self.retainCycle = nil
-        self.onClose?(connection: self)
+        self.onClose?(self)
     }
     
-    func connectionClosedUnexpectedly(error: AnyObject?) {
+    func connectionClosedUnexpectedly(_ error: AnyObject?) {
         self.isConnected = false
         self.retainCycle = nil
-        if !(self.onError?(connection: self, error: error ?? "Unexpected connection close.") != nil) {
-            self.onClose?(connection: self)
+        if !(self.onError?(self, error ?? "Unexpected connection close." as AnyObject) != nil) {
+            self.onClose?(self)
         }
     }
     
     // MARK: TransferManager delegate
-    func notifyTransferStarted(transfer: InTransfer) {
+    func notifyTransferStarted(_ transfer: InTransfer) {
         if (self.onTransfer != nil) {
-            self.onTransfer!(connection: self, transfer: transfer)
+            self.onTransfer!(self, transfer)
         } else if (self.onData != nil) {
             self.autoreceive(transfer)
         } else {
-            log(.High, error: "You need to set either onTransfer or onData on connection \(self).")
+            log(.high, error: "You need to set either onTransfer or onData on connection \(self).")
         }
     }
 }

@@ -26,7 +26,7 @@ import Foundation
 class RepeatedExecutor {
     let regularDelay: Timer.TimeInterval
     let shortDelay: Timer.TimeInterval
-    let dispatchQueue: dispatch_queue_t
+    let dispatchQueue: DispatchQueue
     
     var action: (()->())? = nil
     var isStarted: Bool = false
@@ -40,7 +40,7 @@ class RepeatedExecutor {
     * @param shortDelay The delay used when runActionInShortDelay is called.
     * @param executor The executor to execute the action with.
     * */
-    init(regularDelay: Timer.TimeInterval, shortDelay: Timer.TimeInterval, dispatchQueue: dispatch_queue_t) {
+    init(regularDelay: Timer.TimeInterval, shortDelay: Timer.TimeInterval, dispatchQueue: DispatchQueue) {
         self.regularDelay = regularDelay
         self.shortDelay = shortDelay
         self.dispatchQueue = dispatchQueue
@@ -48,7 +48,7 @@ class RepeatedExecutor {
     /**
     * Starts executing the action in regular delays.
     * */
-    func start(action: ()->()) {
+    func start(_ action: @escaping ()->()) {
         if self.isStarted {
             return
         }
@@ -92,12 +92,12 @@ class RepeatedExecutor {
         )
     }
 
-    private func interrupt() {
+    fileprivate func interrupt() {
         self.timer?.stop()
         self.timer = nil
     }
     
-    private func resume() {
+    fileprivate func resume() {
         if !self.isStarted {
             return
         }
@@ -113,7 +113,7 @@ class RepeatedExecutor {
         )
     }
     
-    private func resetTimer() {
+    fileprivate func resetTimer() {
         self.interrupt()
         self.resume()
     }

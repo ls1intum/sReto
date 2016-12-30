@@ -15,7 +15,7 @@ class ViewController: NSViewController, ChatRoomDelegate {
     dynamic var localPeer: LocalChatPeer
     dynamic var selectedPeer: ChatRoom?
     
-    override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.localPeer = LocalChatPeer()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.localPeer.chatRoomDelegate = self
@@ -27,13 +27,13 @@ class ViewController: NSViewController, ChatRoomDelegate {
         self.localPeer.chatRoomDelegate = self
     }
 
-    @IBAction func start(sender: AnyObject) {
+    @IBAction func start(_ sender: AnyObject) {
         self.localPeer = LocalChatPeer()
         self.localPeer.chatRoomDelegate = self        
         self.localPeer.start(displayName.stringValue)
     }
     
-    @IBAction func peerSelected(sender: NSComboBox) {
+    @IBAction func peerSelected(_ sender: NSComboBox) {
         if sender.indexOfSelectedItem == -1 {
             self.selectedPeer = nil
         } else {
@@ -41,11 +41,11 @@ class ViewController: NSViewController, ChatRoomDelegate {
         }
     }
     
-    @IBAction func sendMessage(sender: AnyObject) {
+    @IBAction func sendMessage(_ sender: AnyObject) {
         self.selectedPeer?.sendMessage(self.messageTextField.stringValue)
     }
     
-    @IBAction func sendFile(sender: AnyObject) {
+    @IBAction func sendFile(_ sender: AnyObject) {
         if let path = getExistingFilePath() {
             self.selectedPeer?.sendFile(path)
         }
@@ -55,7 +55,7 @@ class ViewController: NSViewController, ChatRoomDelegate {
         let dialogue = NSOpenPanel()
         let result = dialogue.runModal()
         if result == NSFileHandlingPanelOKButton {
-            let url = dialogue.URL
+            let url = dialogue.url
             return url?.path
         }
         
@@ -68,7 +68,7 @@ class ViewController: NSViewController, ChatRoomDelegate {
         let result = dialogue.runModal()
         
         if result == NSFileHandlingPanelOKButton {
-            let url = dialogue.URL
+            let url = dialogue.url
             return url?.path
         }
         

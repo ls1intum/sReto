@@ -23,11 +23,11 @@
 */
 public protocol AdvertiserDelegate: class {
     /** Called when the advertiser started advertising. */
-    func didStartAdvertising(advertiser: Advertiser)
+    func didStartAdvertising(_ advertiser: Advertiser)
     /** Called when the advertiser stopped advertising. */
-    func didStopAdvertising(advertiser: Advertiser)
+    func didStopAdvertising(_ advertiser: Advertiser)
     /** Called when the advertiser received an incoming connection from a remote peer. */
-    func handleConnection(advertiser: Advertiser, connection: UnderlyingConnection)
+    func handleConnection(_ advertiser: Advertiser, connection: UnderlyingConnection)
 }
 
 /** 
@@ -43,7 +43,7 @@ public protocol Advertiser: class {
     * Starts advertising.
     * @param identifier A UUID identifying the local peer.
     */
-    func startAdvertising(identifier : UUID)
+    func startAdvertising(_ identifier : UUID)
     /**
     * Stops advertising.
     */

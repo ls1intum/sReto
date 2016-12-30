@@ -25,26 +25,26 @@ import Foundation
 * See the packet's definitions below for more information about each type.
 */
 enum PacketType: Int32 {
-    case Unknown = 0
+    case unknown = 0
     
     // Routing Layer
-    case LinkHandshake = 1
-    case MulticastHandshake = 2
-    case LinkState = 3
-    case FloodPacket = 4
-    case RoutedConnectionEstablishedConfirmation = 5
+    case linkHandshake = 1
+    case multicastHandshake = 2
+    case linkState = 3
+    case floodPacket = 4
+    case routedConnectionEstablishedConfirmation = 5
     
     // Connectivity
-    case ManagedConnectionHandshake = 10
-    case CloseRequest = 11
-    case CloseAnnounce = 12
-    case CloseAcknowledge = 13
+    case managedConnectionHandshake = 10
+    case closeRequest = 11
+    case closeAnnounce = 12
+    case closeAcknowledge = 13
     
     // Data transmission
-    case TransferStarted = 20
-    case DataPacket = 21
-    case CancelledTransfer = 22
-    case ProgressInformation = 23
+    case transferStarted = 20
+    case dataPacket = 21
+    case cancelledTransfer = 22
+    case progressInformation = 23
 }
 
 /** 
@@ -52,7 +52,7 @@ enum PacketType: Int32 {
 * In general, packets offer a static deserialize method as well, this method is not part of this protocol.
 */
 protocol Packet {
-    func serialize() -> NSData
+    func serialize() -> Data
 }
 /** A helper class that does some generic data verification. */
 class Packets {
@@ -63,14 +63,14 @@ class Packets {
     * @param minimumLength The minimum length required for the packet to be valid
     * @return Whether the conditions are met
     */
-    class func check(data data: DataReader, expectedType: PacketType, minimumLength: Int) -> Bool {
+    class func check(data: DataReader, expectedType: PacketType, minimumLength: Int) -> Bool {
         if !data.checkRemaining(minimumLength) {
-            log(.High, error: "Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining).")
+            log(.high, error: "Could not parse, not enough data remaining (\(minimumLength) needed, \(data.remaining()) remaining).")
             return false
         }
         let type = data.getInteger()
         if type != expectedType.rawValue {
-            log(.High, error: "Could not parse, invalid packet type: \(type)")
+            log(.high, error: "Could not parse, invalid packet type: \(type)")
             return false
         }
         
@@ -85,26 +85,26 @@ class Packets {
 */
 struct ManagedConnectionHandshake: Packet {
     static var type: PacketType {
-        return PacketType.ManagedConnectionHandshake
+        return PacketType.managedConnectionHandshake
     }
     static var length: Int {
-        return sizeof(Int32) + sizeof(UUID)
+        return MemoryLayout<Int32>.size + MemoryLayout<UUID>.size
     }
     
     let connectionIdentifier: UUID
     
-    static func deserialize(data: DataReader) -> ManagedConnectionHandshake? {
+    static func deserialize(_ data: DataReader) -> ManagedConnectionHandshake? {
         if !Packets.check(data: data, expectedType: type, minimumLength: length) {
             return nil
         }
         return ManagedConnectionHandshake(connectionIdentifier: data.getUUID())
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.length)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).length)
+        data.add(type(of: self).type.rawValue)
         data.add(self.connectionIdentifier)
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -113,36 +113,36 @@ struct ManagedConnectionHandshake: Packet {
 * The establisher is expected to respond with a CloseAnnounce packet.
 */
 struct CloseRequest: Packet {
-    static var type: PacketType { get { return PacketType.CloseRequest } }
-    static var length: Int { get { return sizeof(Int32) } }
+    static var type: PacketType { get { return PacketType.closeRequest } }
+    static var length: Int { get { return MemoryLayout<Int32>.size } }
     
-    static func deserialize(data: DataReader) -> CloseRequest? {
+    static func deserialize(_ data: DataReader) -> CloseRequest? {
         if !Packets.check(data: data, expectedType: type, minimumLength: length) { return nil }
         return CloseRequest()
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.length)
-        data.add(self.dynamicType.type.rawValue)
-        return data.getData()
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).length)
+        data.add(type(of: self).type.rawValue)
+        return data.getData() as Data
     }
 }
 /**
 * Announces that a connection will close. Sent by the Connection establisher.
 */
 struct CloseAnnounce: Packet {
-    static var type: PacketType { get { return PacketType.CloseAnnounce } }
-    static var length: Int { get { return sizeof(Int32) } }
+    static var type: PacketType { get { return PacketType.closeAnnounce } }
+    static var length: Int { get { return MemoryLayout<Int32>.size } }
     
-    static func deserialize(data: DataReader) -> CloseAnnounce? {
+    static func deserialize(_ data: DataReader) -> CloseAnnounce? {
         if !Packets.check(data: data, expectedType: type, minimumLength: length) { return nil }
         return CloseAnnounce()
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.length)
-        data.add(self.dynamicType.type.rawValue)
-        return data.getData()
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).length)
+        data.add(type(of: self).type.rawValue)
+        return data.getData() as Data
     }
 }
 /** 
@@ -151,21 +151,21 @@ struct CloseAnnounce: Packet {
 * the underlying connection is closed.
 */
 struct CloseAcknowledge: Packet {
-    static var type: PacketType { get { return PacketType.CloseAcknowledge } }
-    static var length: Int { get { return sizeof(Int32) } }
+    static var type: PacketType { get { return PacketType.closeAcknowledge } }
+    static var length: Int { get { return MemoryLayout<Int32>.size } }
     
     let source: UUID
     
-    static func deserialize(data: DataReader) -> CloseAcknowledge? {
+    static func deserialize(_ data: DataReader) -> CloseAcknowledge? {
         if !Packets.check(data: data, expectedType: type, minimumLength: length) { return nil }
         return CloseAcknowledge(source: data.getUUID())
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.length)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).length)
+        data.add(type(of: self).type.rawValue)
         data.add(source)
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -173,21 +173,21 @@ struct CloseAcknowledge: Packet {
 * Sent when a transfer was cancelled by the sender of a data transfer, or sent when the cancellation of a transfer is requested by the receiver of the data transfer.
 */
 struct CancelledTransferPacket: Packet {
-    static var type: PacketType { get { return PacketType.CancelledTransfer } }
-    static var length: Int { get { return sizeof(Int32) + sizeof(UUID) } }
+    static var type: PacketType { get { return PacketType.cancelledTransfer } }
+    static var length: Int { get { return MemoryLayout<Int32>.size + MemoryLayout<UUID>.size } }
     
     let transferIdentifier: UUID
     
-    static func deserialize(data: DataReader) -> CancelledTransferPacket? {
+    static func deserialize(_ data: DataReader) -> CancelledTransferPacket? {
         if !Packets.check(data: data, expectedType: type, minimumLength: length) { return nil }
         return CancelledTransferPacket(transferIdentifier: data.getUUID())
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.length)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).length)
+        data.add(type(of: self).type.rawValue)
         data.add(self.transferIdentifier)
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -195,21 +195,21 @@ struct CancelledTransferPacket: Packet {
 * A DataPacket sends the payload data of a transfer.
 */
 struct DataPacket: Packet {
-    static var type: PacketType { get { return PacketType.DataPacket } }
-    static var minimumLength: Int { get { return sizeof(Int32) } }
+    static var type: PacketType { get { return PacketType.dataPacket } }
+    static var minimumLength: Int { get { return MemoryLayout<Int32>.size } }
     
-    let data: NSData
+    let data: Data
     
-    static func deserialize(data: DataReader) -> DataPacket? {
+    static func deserialize(_ data: DataReader) -> DataPacket? {
         if !Packets.check(data: data, expectedType: type, minimumLength: minimumLength) { return nil }
-        return DataPacket(data: data.getData())
+        return DataPacket(data: data.getData() as Data)
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.minimumLength + self.data.length)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).minimumLength + self.data.count)
+        data.add(type(of: self).type.rawValue)
         data.add(self.data)
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -217,18 +217,18 @@ struct DataPacket: Packet {
 * This packet is sent when a transfer was interrupted and can be resumed to ensure that any data that went missing is resent.
 */
 struct ProgressInformation {
-    static var minimumLength: Int { get { return sizeof(UUID) + sizeof(Int32) } }
+    static var minimumLength: Int { get { return MemoryLayout<UUID>.size + MemoryLayout<Int32>.size } }
     let transferIdentifier: UUID
     let progress: Int32
 }
 
 struct ProgressInformationPacket: Packet {
-    static var type: PacketType { get { return PacketType.ProgressInformation } }
-    static var minimumLength: Int { get { return sizeof(Int32) } }
+    static var type: PacketType { get { return PacketType.progressInformation } }
+    static var minimumLength: Int { get { return MemoryLayout<Int32>.size } }
     
     let information: [ProgressInformation]
     
-    static func deserialize(data: DataReader) -> ProgressInformationPacket? {
+    static func deserialize(_ data: DataReader) -> ProgressInformationPacket? {
         if !Packets.check(data: data, expectedType: type, minimumLength: minimumLength) { return nil }
         
         return ProgressInformationPacket(
@@ -238,9 +238,9 @@ struct ProgressInformationPacket: Packet {
         )
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.minimumLength + ProgressInformation.minimumLength * self.information.count)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).minimumLength + ProgressInformation.minimumLength * self.information.count)
+        data.add(type(of: self).type.rawValue)
         data.add(Int32(self.information.count))
         
         for progressInfo in self.information {
@@ -248,7 +248,7 @@ struct ProgressInformationPacket: Packet {
             data.add(progressInfo.progress)
         }
         
-        return data.getData()
+        return data.getData() as Data
     }
 }
 
@@ -256,22 +256,22 @@ struct ProgressInformationPacket: Packet {
 * Sent when a new transfer is started.
 */
 struct StartedTransferPacket: Packet {
-    static var type: PacketType { get { return PacketType.TransferStarted } }
-    static var minimumLength: Int { get { return sizeof(Int32)*2 + sizeof(UUID) } }
+    static var type: PacketType { get { return PacketType.transferStarted } }
+    static var minimumLength: Int { get { return MemoryLayout<Int32>.size*2 + MemoryLayout<UUID>.size } }
     
     let transferIdentifier: UUID
     let transferLength: Int32
     
-    static func deserialize(data: DataReader) -> StartedTransferPacket? {
+    static func deserialize(_ data: DataReader) -> StartedTransferPacket? {
         if !Packets.check(data: data, expectedType: type, minimumLength: minimumLength) { return nil }
         return StartedTransferPacket(transferIdentifier: data.getUUID(), transferLength: data.getInteger())
     }
     
-    func serialize() -> NSData {
-        let data = DataWriter(length: self.dynamicType.minimumLength)
-        data.add(self.dynamicType.type.rawValue)
+    func serialize() -> Data {
+        let data = DataWriter(length: type(of: self).minimumLength)
+        data.add(type(of: self).type.rawValue)
         data.add(self.transferIdentifier)
         data.add(self.transferLength)
-        return data.getData()
+        return data.getData() as Data
     }
 }

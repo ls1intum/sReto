@@ -28,26 +28,26 @@ import SocketRocket
 *
 * Besides that, if you wish to use the RemoteP2P module, all you need to do is construct an instance and pass it to the LocalPeer either in the constructor or using the addModule method.
 * */
-public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
+open class RemoteP2PModule: Module, Advertiser, Browser {
     
-    public var browserDelegate: BrowserDelegate?
-    public var advertiserDelegate: AdvertiserDelegate?
-    public var isBrowsing: Bool { get { return self.wantsToBrowse && self.isConnected } }
-    public var isAdvertising: Bool { get { return self.wantsToAdvertise && self.isConnected } }
-    public var isConnected: Bool = false
+    open var browserDelegate: BrowserDelegate?
+    open var advertiserDelegate: AdvertiserDelegate?
+    open var isBrowsing: Bool { get { return self.wantsToBrowse && self.isConnected } }
+    open var isAdvertising: Bool { get { return self.wantsToAdvertise && self.isConnected } }
+    open var isConnected: Bool = false
     
     var wantsToAdvertise: Bool = false
     var wantsToBrowse: Bool = false
     var localPeerIdentifier: UUID = UUID_ZERO
-    let discoveryUrl: NSURL
-    let requestConnectionUrl: NSURL
-    let acceptConnectionUrl: NSURL
+    let discoveryUrl: URL
+    let requestConnectionUrl: URL
+    let acceptConnectionUrl: URL
     var discoverySocket: SRWebSocket?
     var addresses: [UUID: RemoteP2PAddress] = [:]
     // Temporary storage to keep the handlers from being deallocated
     var acceptSocketHandlers: Set<AcceptingConnectionSocketDelegate> = []
     
-    override public var description: String {
+    override open var description: String {
         return "RemoteP2PModule: {" +
             "isAdvertising: \(self.isAdvertising), " +
             "isBrowsing: \(self.isBrowsing), " +
@@ -55,10 +55,10 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
             "addresses: \(self.addresses)}"
     }
     
-    public init(baseUrl: NSURL, dispatchQueue: dispatch_queue_t) {
-        self.discoveryUrl = baseUrl.URLByAppendingPathComponent("RemoteP2P/discovery")
-        self.requestConnectionUrl = baseUrl.URLByAppendingPathComponent("RemoteP2P/connection/request/")
-        self.acceptConnectionUrl = baseUrl.URLByAppendingPathComponent("RemoteP2P/connection/accept/")
+    public init(baseUrl: URL, dispatchQueue: DispatchQueue) {
+        self.discoveryUrl = baseUrl.appendingPathComponent("RemoteP2P/discovery")
+        self.requestConnectionUrl = baseUrl.appendingPathComponent("RemoteP2P/connection/request/")
+        self.acceptConnectionUrl = baseUrl.appendingPathComponent("RemoteP2P/connection/accept/")
         super.init(dispatchQueue: dispatchQueue)
         super.advertiser = self
         super.browser = self
@@ -73,10 +73,10 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
     func startDiscoverySocket() {
         if self.discoverySocket != nil { return }
         
-        let socket = SRWebSocket(URLRequest: NSURLRequest(URL: self.discoveryUrl))
-        socket.setDelegateDispatchQueue(self.dispatchQueue)
-        socket.delegate = self
-        socket.open()
+        let socket = SRWebSocket(urlRequest: URLRequest(url: self.discoveryUrl))
+        socket?.setDelegateDispatchQueue(self.dispatchQueue)
+        socket?.delegate = self
+        socket?.open()
         self.discoverySocket = socket
     }
     
@@ -88,32 +88,32 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
         }
     }
 
-    public func startBrowsing() {
+    open func startBrowsing() {
         startDiscoverySocket()
         self.wantsToBrowse = true
-        self.sendRemotePacket(.StartBrowsing)
+        self.sendRemotePacket(.startBrowsing)
     }
     
-    public func stopBrowsing() {
+    open func stopBrowsing() {
         stopDiscoverySocket()
         self.wantsToBrowse = false
-        self.sendRemotePacket(.StopBrowsing)
+        self.sendRemotePacket(.stopBrowsing)
     }
   
-    public func startAdvertising(identifier: UUID) {
+    open func startAdvertising(_ identifier: UUID) {
         self.localPeerIdentifier = identifier
         self.wantsToAdvertise = true
         startDiscoverySocket()
-        self.sendRemotePacket(.StartAdvertisement)
+        self.sendRemotePacket(.startAdvertisement)
     }
     
-    public func stopAdvertising() {
+    open func stopAdvertising() {
         self.wantsToAdvertise = false
         stopDiscoverySocket()
-        self.sendRemotePacket(.StopAdvertisement)
+        self.sendRemotePacket(.stopAdvertisement)
     }
     
-    func sendRemotePacket(type: RemoteP2PPacketType) {
+    func sendRemotePacket(_ type: RemoteP2PPacketType) {
         if let socket = self.discoverySocket {
             if !self.isConnected { return }
             let packet = RemoteP2PPacket(type: type, identifier: self.localPeerIdentifier)
@@ -121,27 +121,27 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
         }
     }
     
-    func addPeer(identifier: UUID) {
-        log(.Low, info: "discovered peer: \(identifier.UUIDString)")
+    func addPeer(_ identifier: UUID) {
+        log(.low, info: "discovered peer: \(identifier.UUIDString)")
         
         if (self.isBrowsing) {
             let connectionRequestUrl = self.requestConnectionUrl
-                .URLByAppendingPathComponent(self.localPeerIdentifier.UUIDString)
-                .URLByAppendingPathComponent(identifier.UUIDString)
+                .appendingPathComponent(self.localPeerIdentifier.UUIDString)
+                .appendingPathComponent(identifier.UUIDString)
             let address = RemoteP2PAddress(serverUrl: connectionRequestUrl, dispatchQueue: self.dispatchQueue)
             self.addresses[identifier] = address
             self.browserDelegate?.didDiscoverAddress(self, address: address, identifier: identifier)
         }
     }
     
-    func removePeer(identifier: UUID) {
+    func removePeer(_ identifier: UUID) {
         if (self.isBrowsing) {
             let address = self.addresses[identifier]
             self.addresses[identifier] = nil
             if let address = address {
                 self.browserDelegate?.didRemoveAddress(self, address: address, identifier: identifier)
             } else {
-                log(.Low, warning: "attempted to remove an address for which no address exists.")
+                log(.low, warning: "attempted to remove an address for which no address exists.")
             }
         }
     }
@@ -150,27 +150,29 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
         let openBlock: (AcceptingConnectionSocketDelegate) -> ()
         let failBlock: (AcceptingConnectionSocketDelegate) -> ()
         
-        init(openBlock: (AcceptingConnectionSocketDelegate) -> (), failBlock: (AcceptingConnectionSocketDelegate) -> ()) {
+        init(openBlock: @escaping (AcceptingConnectionSocketDelegate) -> (), failBlock: @escaping (AcceptingConnectionSocketDelegate) -> ()) {
             self.openBlock = openBlock
             self.failBlock = failBlock
         }
         
-        func webSocketDidOpen(webSocket: SRWebSocket!) { openBlock(self) }
-        func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {}
-        func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) { failBlock(self) }
-        func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) { failBlock(self) }
+        func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+            openBlock(self)
+        }
+        func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {}
+        func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) { failBlock(self) }
+        func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) { failBlock(self) }
     }
     
-    func respondToConnectionRequest(identifier: UUID) {
+    func respondToConnectionRequest(_ identifier: UUID) {
         let acceptConnectionUrl = self.acceptConnectionUrl
-            .URLByAppendingPathComponent(self.localPeerIdentifier.UUIDString)
-            .URLByAppendingPathComponent(identifier.UUIDString)
-        let socket = SRWebSocket(URL: acceptConnectionUrl)
-        socket.setDelegateDispatchQueue(self.dispatchQueue)
+            .appendingPathComponent(self.localPeerIdentifier.UUIDString)
+            .appendingPathComponent(identifier.UUIDString)
+        let socket = SRWebSocket(url: acceptConnectionUrl)
+        socket?.setDelegateDispatchQueue(self.dispatchQueue)
         let socketHandler = AcceptingConnectionSocketDelegate(
             openBlock: {
                 socketHandler in
-                self.advertiserDelegate?.handleConnection(self, connection: RemoteP2PConnection(socket: socket, dispatchQueue: self.dispatchQueue))
+                self.advertiserDelegate?.handleConnection(self, connection: RemoteP2PConnection(socket: socket!, dispatchQueue: self.dispatchQueue))
                 self.acceptSocketHandlers -= socketHandler
                 return ()
             },
@@ -181,52 +183,55 @@ public class RemoteP2PModule: Module, Advertiser, Browser, SRWebSocketDelegate {
             }
         )
         acceptSocketHandlers += socketHandler
-        socket.delegate = socketHandler
-        socket.open()
+        socket?.delegate = socketHandler
+        socket?.open()
     }
-    
-    @objc public func webSocketDidOpen(webSocket: SRWebSocket!) {
+}
+
+extension RemoteP2PModule: SRWebSocketDelegate {
+
+    public func webSocketDidOpen(_ webSocket: SRWebSocket!) {
         self.isConnected = true
         if self.wantsToAdvertise {
-            self.sendRemotePacket(.StartAdvertisement)
+            self.sendRemotePacket(.startAdvertisement)
             self.advertiserDelegate?.didStartAdvertising(self)
         }
         if self.isBrowsing {
-            self.sendRemotePacket(.StartBrowsing)
+            self.sendRemotePacket(.startBrowsing)
             self.browserDelegate?.didStartBrowsing(self)
         }
     }
     
-    @objc public func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        log(.Medium, info: "Closed discovery websocket with close code: \(code), reason: \(reason), wasCLean: \(wasClean)")
+    public func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        log(.medium, info: "Closed discovery websocket with close code: \(code), reason: \(reason), wasCLean: \(wasClean)")
         self.isConnected = false
         self.discoverySocket = nil
         self.browserDelegate?.didStopBrowsing(self)
         self.advertiserDelegate?.didStopAdvertising(self)
     }
     
-    @objc public func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
-        log(.Medium, info: "Discovery WebSocket failed with error: \(error)")
+    public func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
+        log(.medium, info: "Discovery WebSocket failed with error: \(error)")
         self.isConnected = false
         self.discoverySocket = nil
         self.browserDelegate?.didStopBrowsing(self)
         self.advertiserDelegate?.didStopAdvertising(self)
     }
     
-    @objc public func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
-        if let data = message as? NSData {
+    public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+        if let data = message as? Data {
             if let packet = RemoteP2PPacket.fromData(DataReader(data)) {
                 switch packet.type {
-                    case .PeerAdded: self.addPeer(packet.identifier)
-                    case .PeerRemoved: self.removePeer(packet.identifier)
-                    case .ConnectionRequest: self.respondToConnectionRequest(packet.identifier)
-                    default: log(.High, error: "Received unexpected packet type: \(packet.type.rawValue)")
+                    case .peerAdded: self.addPeer(packet.identifier)
+                    case .peerRemoved: self.removePeer(packet.identifier)
+                    case .connectionRequest: self.respondToConnectionRequest(packet.identifier)
+                    default: log(.high, error: "Received unexpected packet type: \(packet.type.rawValue)")
                 }
             } else {
-                log(.High, error: "discovery packet could not be parsed.")
+                log(.high, error: "discovery packet could not be parsed.")
             }
         } else {
-            log(.High, error: "message is not data.")
+            log(.high, error: "message is not data.")
         }
     }
 }

@@ -22,20 +22,20 @@ import Foundation
 
 
 enum RemoteP2PPacketType: Int32 {
-    case StartAdvertisement = 1
-    case StopAdvertisement = 2
-    case StartBrowsing = 3
-    case StopBrowsing = 4
-    case PeerAdded = 5
-    case PeerRemoved = 6
-    case ConnectionRequest = 7
+    case startAdvertisement = 1
+    case stopAdvertisement = 2
+    case startBrowsing = 3
+    case stopBrowsing = 4
+    case peerAdded = 5
+    case peerRemoved = 6
+    case connectionRequest = 7
 }
 
 struct RemoteP2PPacket {
     let type: RemoteP2PPacketType
     let identifier: UUID
     
-    static func fromData(data: DataReader) -> RemoteP2PPacket? {
+    static func fromData(_ data: DataReader) -> RemoteP2PPacket? {
         let type = RemoteP2PPacketType(rawValue: data.getInteger())
         if type == nil { return nil }
         if !data.checkRemaining(16) { return nil }
@@ -43,10 +43,10 @@ struct RemoteP2PPacket {
         return RemoteP2PPacket(type: type!, identifier: data.getUUID())
     }
     
-    func serialize() -> NSData {
+    func serialize() -> Data {
         let data = DataWriter(length: 20)
         data.add(self.type.rawValue)
         data.add(self.identifier)
-        return data.getData()
+        return data.getData() as Data
     }
 }

@@ -35,23 +35,23 @@ class TransferDataIntegrityTest: XCTestCase {
     var connection: Connection? = nil
     
     func testTransferDataIntegrityWithDirectConfiguration() {
-        self.testTransferDataIntegrity(PeerConfiguration.directNeighborConfiguration())
+        self.testTransferDataIntegrity(configuration: PeerConfiguration.directNeighborConfiguration())
     }
     
     func testTransferDataIntegrityWith2HopConfiguration() {
-        self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedConfiguration())
+        self.testTransferDataIntegrity(configuration: PeerConfiguration.twoHopRoutedConfiguration())
     }
     
     func testTransferDataIntegrityWith2HopMulticastConfiguration() {
-        self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedMulticastConfiguration())
+        self.testTransferDataIntegrity(configuration: PeerConfiguration.twoHopRoutedMulticastConfiguration())
     }
     
     func testTransferDataIntegrityWith2HopMulticastConfiguration2() {
-        self.testTransferDataIntegrity(PeerConfiguration.twoHopRoutedMulticastConfiguration2())
+        self.testTransferDataIntegrity(configuration: PeerConfiguration.twoHopRoutedMulticastConfiguration2())
     }
     
     func testTransferDataIntegrityWith4HopConfiguration() {
-        self.testTransferDataIntegrity(PeerConfiguration.fourHopRoutedConfiguration())
+        self.testTransferDataIntegrity(configuration: PeerConfiguration.fourHopRoutedConfiguration())
     }
 
     func testTransferDataIntegrity(configuration: PeerConfiguration) {
@@ -59,7 +59,7 @@ class TransferDataIntegrityTest: XCTestCase {
         
         var receivedDataExpectations: [UUID: XCTestExpectation] = [:]
         for peer in configuration.destinations {
-            receivedDataExpectations[peer.identifier] = self.expectationWithDescription("\(peer.identifier) received correct data")
+            receivedDataExpectations[peer.identifier] = self.expectation(description: "\(peer.identifier) received correct data")
         }
         
         configuration.executeAfterDiscovery {
@@ -70,7 +70,7 @@ class TransferDataIntegrityTest: XCTestCase {
                         connection, transfer in
                         transfer.onCompleteData = {
                             transfer, data in
-                            if TestData.verify(data, expectedLength: dataLength) {
+                            if TestData.verify(data: data, expectedLength: dataLength) {
                                 receivedDataExpectations[peer.identifier]!.fulfill()
                             }
                         }
@@ -82,11 +82,11 @@ class TransferDataIntegrityTest: XCTestCase {
             
             let destinations = Set(configuration.primaryPeer.peers.filter({ configuration.destinationIdentifiers.contains($0.identifier) }))
             self.connection = configuration.primaryPeer.connect(destinations)
-            let data = TestData.generate(dataLength)
+            let data = TestData.generate(length: dataLength)
             self.connection!.send(data)
         }
         
-        self.waitForExpectationsWithTimeout(60, handler: { (error) -> Void in
+        self.waitForExpectations(timeout: 60, handler: { (error) -> Void in
             print("success!")
         })
     }

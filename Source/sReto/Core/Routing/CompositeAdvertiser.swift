@@ -34,7 +34,7 @@ class CompositeAdvertiser: Advertiser, AdvertiserDelegate {
         }
     }
     
-    func startAdvertising(identifier: UUID) {
+    func startAdvertising(_ identifier: UUID) {
         self.localPeerIdentifier = identifier
         
         for advertiser in advertisers { advertiser.startAdvertising(identifier) }
@@ -45,29 +45,29 @@ class CompositeAdvertiser: Advertiser, AdvertiserDelegate {
         for advertiser in advertisers { advertiser.stopAdvertising() }
     }
     
-    func addAdvertiser(advertiser: Advertiser) {
+    func addAdvertiser(_ advertiser: Advertiser) {
         self.advertisers.append(advertiser)
         if self.isAdvertising { advertiser.startAdvertising(self.localPeerIdentifier!) }
     }
     
-    func removeAdvertiser(advertiser: Advertiser) {
+    func removeAdvertiser(_ advertiser: Advertiser) {
         self.advertisers = self.advertisers.filter({ $0 === advertiser} )
         advertiser.stopAdvertising()
     }
     
-    func didStartAdvertising(advertiser: Advertiser) {
-        if self.advertisers.map({ $0.isAdvertising }).reduce(true, combine: { $0 && $1 }) {
+    func didStartAdvertising(_ advertiser: Advertiser) {
+        if self.advertisers.map({ $0.isAdvertising }).reduce(true, { $0 && $1 }) {
             self.advertiserDelegate?.didStartAdvertising(self)
         }
     }
     
-    func didStopAdvertising(advertiser: Advertiser) {
-        if self.advertisers.map({ !$0.isAdvertising }).reduce(true, combine: { $0 && $1 }) {
+    func didStopAdvertising(_ advertiser: Advertiser) {
+        if self.advertisers.map({ !$0.isAdvertising }).reduce(true, { $0 && $1 }) {
             self.advertiserDelegate?.didStopAdvertising(self)
         }
     }
     
-    func handleConnection(advertiser: Advertiser, connection underlyingConnection: UnderlyingConnection) {
+    func handleConnection(_ advertiser: Advertiser, connection underlyingConnection: UnderlyingConnection) {
         self.advertiserDelegate?.handleConnection(self, connection: underlyingConnection)
     }
 }

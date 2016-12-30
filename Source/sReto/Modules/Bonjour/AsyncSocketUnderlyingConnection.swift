@@ -22,11 +22,11 @@ import Foundation
 import CocoaAsyncSocket
 
 enum AddressInformation {
-    case AddressAsData(NSData, String, Int)
-    case HostName(String, Int)
+    case addressAsData(Data, String, Int)
+    case hostName(String, Int)
 }
 
-class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncSocketDelegate {
+class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection {
     let HEADER_TAG = 1
     let BODY_TAG = 2
     
@@ -55,7 +55,7 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
         }
     }
     
-    init(dispatchQueue: dispatch_queue_t, recommendedPacketSize: Int, addressInformation: AddressInformation) {
+    init(dispatchQueue: DispatchQueue, recommendedPacketSize: Int, addressInformation: AddressInformation) {
         self.socket = GCDAsyncSocket(delegate: nil, delegateQueue: dispatchQueue, socketQueue: dispatchQueue)
         self.recommendedPacketSize = recommendedPacketSize
         self.addressInformation = addressInformation
@@ -78,18 +78,18 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
             var error : NSError?
             
             switch addressInformation {
-                case .AddressAsData(let data, let hostName, let port):
-                    log(.Low, info: "try to connect to address data: \(data), hostName: \(hostName), port: \(port)")
+                case .addressAsData(let data, let hostName, let port):
+                    log(.low, info: "try to connect to address data: \(data), hostName: \(hostName), port: \(port)")
                     do {
-                        try socket.connectToAddress(data)
+                        try socket.connect(toAddress: data)
                     } catch let error1 as NSError {
                         error = error1
                     }
                     break
-                case .HostName(let hostName, let port):
-                    log(.Low, info: "try to connect to: \(hostName), port: \(port)")
+                case .hostName(let hostName, let port):
+                    log(.low, info: "try to connect to: \(hostName), port: \(port)")
                     do {
-                        try socket.connectToHost(hostName, onPort: UInt16(port))
+                        try socket.connect(toHost: hostName, onPort: UInt16(port))
                     } catch let error1 as NSError {
                         error = error1
                     }
@@ -97,13 +97,13 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
             }
             
             if let error = error {
-                log(.Medium, error: "Error occured when trying to connect: \(error)")
+                log(.medium, error: "Error occured when trying to connect: \(error)")
                 self.delegate?.didClose(self, error: error)
             }
             
         }
         else {
-            log(.Medium, error: "Could not connect. This connection has no address information.")
+            log(.medium, error: "Could not connect. This connection has no address information.")
         }
     }
     
@@ -111,43 +111,47 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection, GCDAsyncS
         self.socket.disconnectAfterReadingAndWriting()
     }
     
-    func socket(socket: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
-        log(.Low, info: "socket connected to: \(host), port: \(port)")
+}
+
+extension AsyncSocketUnderlyingConnection: GCDAsyncSocketDelegate {
+
+    func socket(_ socket: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
+        log(.low, info: "socket connected to: \(host), port: \(port)")
         self.delegate?.didConnect(self)
         self.readHeader()
     }
     
-    func socketDidDisconnect(sock: GCDAsyncSocket!, withError error: NSError!) {
-        log(.Medium, info: "socket disconnect, error: \(error)")
-        self.delegate?.didClose(self, error: error)
+    func socketDidDisconnect(_ sock: GCDAsyncSocket!, withError err: Error!) {
+        log(.medium, info: "socket disconnect, error: \(err)")
+        self.delegate?.didClose(self, error: err as AnyObject?)
     }
     
     func readHeader() {
-        self.socket.readDataToLength(UInt(sizeof(Int32)), withTimeout: -1, tag: HEADER_TAG)
+        self.socket.readData(toLength: UInt(MemoryLayout<Int32>.size), withTimeout: -1, tag: HEADER_TAG)
     }
     
-    func writeData(data: NSData) {
+    func writeData(_ data: Data) {
         if (self.socket.isConnected) {
-            let writer = DataWriter(length: sizeof(Int32))
-            writer.add(Int32(data.length))
+            let writer = DataWriter(length: MemoryLayout<Int32>.size)
+            writer.add(Int32(data.count))
             
-            self.socket.writeData(writer.getData(), withTimeout: -1, tag: HEADER_TAG)
-            self.socket.writeData(data, withTimeout: -1, tag: BODY_TAG)
+            self.socket.write(writer.getData() as Data, withTimeout: -1, tag: HEADER_TAG)
+            self.socket.write(data, withTimeout: -1, tag: BODY_TAG)
         } else {
-            log(.Low, error: "attempted to write before connected.")
+            log(.low, error: "attempted to write before connected.")
         }
     }
     
-    func socket(socket: GCDAsyncSocket!, didWriteDataWithTag tag: Int) {
+    func socket(_ socket: GCDAsyncSocket!, didWriteDataWithTag tag: Int) {
         if tag == BODY_TAG {
             self.delegate?.didSendData(self)
         }
     }
     
-    func socket(socket: GCDAsyncSocket!, didReadData data: NSData!, withTag tag: Int) {
+    func socket(_ socket: GCDAsyncSocket!, didRead data: Data!, withTag tag: Int) {
         if (tag == HEADER_TAG) {
             let length = DataReader(data).getInteger()
-            socket.readDataToLength(UInt(length), withTimeout: -1, tag: BODY_TAG)
+            socket.readData(toLength: UInt(length), withTimeout: -1, tag: BODY_TAG)
         } else {
             self.delegate?.didReceiveData(self, data: data)
             self.readHeader()

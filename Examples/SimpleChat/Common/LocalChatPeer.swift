@@ -23,35 +23,35 @@ class LocalChatPeer: NSObject {
     * Starts the local peer. 
     * When a peer is discovered, a ChatRoom with that peer is created, when one is lost, the corresponding ChatRoom is removed.
     */
-    func start(displayName: String) {
+    func start(_ displayName: String) {
         self.displayName = displayName
         
         /**
          * Create a local peer with a WlanModule. To use the RemoteP2PModule, the RemoteP2P server needs to be deployed locally.
          */
-        let wlanModule = WlanModule(type: "SimpleP2PChat", dispatchQueue: dispatch_get_main_queue())
+        let wlanModule = WlanModule(type: "SimpleP2PChat", dispatchQueue: DispatchQueue.main)
         //let blueetoothModule = BluetoothModule(type: "SimpleP2PChat", dispatchQueue: dispatch_get_main_queue())
         //let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080/")!)
-        localPeer = LocalPeer(name: displayName, modules: [wlanModule], dispatchQueue: dispatch_get_main_queue())
+        localPeer = LocalPeer(name: displayName, modules: [wlanModule], dispatchQueue: DispatchQueue.main)
         localPeer.start(onPeerDiscovered: createChatPeer, onPeerRemoved: removeChatPeer)
     }
     
-    func createChatPeer(remotePeer: RemotePeer) {
+    func createChatPeer(_ remotePeer: RemotePeer) {
         print("createChatPeer")
         let chatRoom = ChatRoom(localDisplayName: displayName, remotePeer: remotePeer)
         chatRoom.delegate = self.chatRoomDelegate
         
         // For KVO compliance
-        self.willChangeValueForKey("chatPeers")
+        self.willChangeValue(forKey: "chatPeers")
         self.chatRooms.append(chatRoom)
-        self.didChangeValueForKey("chatPeers")
+        self.didChangeValue(forKey: "chatPeers")
     }
     
-    func removeChatPeer(remotePeer: RemotePeer) {
+    func removeChatPeer(_ remotePeer: RemotePeer) {
         print("removeChatPeer")
         // For KVO compliance
-        self.willChangeValueForKey("chatPeers")
+        self.willChangeValue(forKey: "chatPeers")
         self.chatRooms = self.chatRooms.filter { $0.remotePeer === remotePeer }
-        self.didChangeValueForKey("chatPeers")
+        self.didChangeValue(forKey: "chatPeers")
     }
 }

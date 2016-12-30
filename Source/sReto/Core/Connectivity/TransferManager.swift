@@ -25,7 +25,7 @@ import Foundation
 */
 protocol TransferManagerDelegate: class {
     /** Called when an incoming transfer starts. */
-    func notifyTransferStarted(transfer: InTransfer)
+    func notifyTransferStarted(_ transfer: InTransfer)
 }
 
 /**
@@ -71,7 +71,7 @@ class TransferManager: PacketHandler {
     * @param dataProvider A function that returns data for a given range.
     * @return An OutTransfer object.
     */
-    func startTransfer(dataLength: Int, dataProvider: (range: NSRange) -> NSData) -> OutTransfer {
+    func startTransfer(_ dataLength: Int, dataProvider: @escaping (_ range: Range<Data.Index>) -> Data) -> OutTransfer {
         let outTransfer = OutTransfer(manager: self, dataLength: dataLength, dataProvider: dataProvider, identifier: randomUUID())
         self.outTransferQueue.enqueue(outTransfer)
         self.packetConnection.write()
@@ -80,15 +80,15 @@ class TransferManager: PacketHandler {
     }
     
     /** Cancels an incoming transfer. */
-    func cancel(transfer: InTransfer) {
+    func cancel(_ transfer: InTransfer) {
         if (transfer === self.currentInTransfer) { self.packetConnection.write(CancelledTransferPacket(transferIdentifier: transfer.identifier)) }
-        else { log(.High, error: "Could not cancel unknown in transfer.") }
+        else { log(.high, error: "Could not cancel unknown in transfer.") }
         
         self.packetConnection.write()
     }
     
     /** Cancels an outgoing transfer. */
-    func cancel(transfer: OutTransfer) {
+    func cancel(_ transfer: OutTransfer) {
         let isCurrentTransfer: (OutTransfer) -> Bool = { queuedTransfer in transfer === queuedTransfer }
         
         if self.outTransferQueue.anyMatch(isCurrentTransfer) {
@@ -105,7 +105,7 @@ class TransferManager: PacketHandler {
     
     // MARK: PacketHandler protocol
     
-    func underlyingConnectionDidClose(error: AnyObject?) {
+    func underlyingConnectionDidClose(_ error: AnyObject?) {
     }
     
     func willSwapUnderlyingConnection() {
@@ -151,39 +151,39 @@ class TransferManager: PacketHandler {
     }
     
     let handledPacketTypes = [
-        PacketType.ProgressInformation,
-        PacketType.TransferStarted,
-        PacketType.CancelledTransfer,
-        PacketType.DataPacket
+        PacketType.progressInformation,
+        PacketType.transferStarted,
+        PacketType.cancelledTransfer,
+        PacketType.dataPacket
     ]
     
-    func handlePacket(data: DataReader, type: PacketType) {
+    func handlePacket(_ data: DataReader, type: PacketType) {
         switch type {
-        case .ProgressInformation:
+        case .progressInformation:
             if let packet = ProgressInformationPacket.deserialize(data) { self.handleProgressInformation(packet) }
-        case .TransferStarted:
+        case .transferStarted:
             if let packet = StartedTransferPacket.deserialize(data) { self.handleStartedTransfer(packet) }
-        case .CancelledTransfer:
+        case .cancelledTransfer:
             if let packet = CancelledTransferPacket.deserialize(data) { self.handleCancelledTransfer(packet) }
-        case .DataPacket:
+        case .dataPacket:
             if let packet = DataPacket.deserialize(data) { self.handleData(packet) }
-        default: log(.High, error: "Packet of type \(type) cannot be handled by TransferManager.")
+        default: log(.high, error: "Packet of type \(type) cannot be handled by TransferManager.")
         }
     }
 
     // MARK: Private
     /** Called when progress information about a transfer is received. The affected transfer's progress is set according to the information received. */
-    private func handleProgressInformation(packet: ProgressInformationPacket) {
+    fileprivate func handleProgressInformation(_ packet: ProgressInformationPacket) {
         for progressInfo in packet.information {
             if let outTransfer = self.currentOutTransfer {
                 if outTransfer.identifier == progressInfo.transferIdentifier {
                     outTransfer.progress = Int(progressInfo.progress)
                     outTransfer.isInterrupted = false
                 } else {
-                    log(.Medium, error: "received progress information identifier did not match current transfer identifier")
+                    log(.medium, error: "received progress information identifier did not match current transfer identifier")
                 }
             } else {
-                log(.Medium, error: "received progress information, but there is no current out transfer")
+                log(.medium, error: "received progress information, but there is no current out transfer")
             }
         }
         
@@ -199,7 +199,7 @@ class TransferManager: PacketHandler {
     }
     
     /** Called when a transfer is started. */
-    private func handleStartedTransfer(packet: StartedTransferPacket) {
+    fileprivate func handleStartedTransfer(_ packet: StartedTransferPacket) {
         assert(self.currentInTransfer == nil, "Received started transfer packet, but there is still an active in tansfer")
         self.currentInTransfer = InTransfer(manager: self, length: Int(packet.transferLength), identifier: packet.transferIdentifier)
         self.delegate?.notifyTransferStarted(self.currentInTransfer!)
@@ -207,7 +207,7 @@ class TransferManager: PacketHandler {
     }
     
     /** Handles a cancelled transfer packet. */
-    private func handleCancelledTransfer(packet: CancelledTransferPacket) {
+    fileprivate func handleCancelledTransfer(_ packet: CancelledTransferPacket) {
         if let transfer = self.currentOutTransfer {
             if transfer.identifier == packet.transferIdentifier {
                 self.cancel(transfer)
@@ -223,7 +223,7 @@ class TransferManager: PacketHandler {
     }
     
     /** Handles a data packet. */
-    private func handleData(packet: DataPacket) {
+    fileprivate func handleData(_ packet: DataPacket) {
         assert(self.currentInTransfer != nil, "Received data, but there is no incoming transfer")
         
         if let transfer = self.currentInTransfer {

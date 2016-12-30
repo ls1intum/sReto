@@ -69,11 +69,11 @@ class ChatRoom: NSObject {
         remotePeer.onConnection = { [unowned self] in self.acceptConnection($0, connection: $1) }
         
         // The first message sent through the outgoing connection contains the display name that should be used, so it is sent here.
-        let data = self.localDisplayName.dataUsingEncoding(NSUTF8StringEncoding)!
-        self.outgoingConnection.send(data: data)
+        let data = self.localDisplayName.data(using: String.Encoding.utf8)!
+        _ = self.outgoingConnection.send(data: data)
     }
     
-    func acceptConnection(peer: RemotePeer, connection: Connection) {
+    func acceptConnection(_ peer: RemotePeer, connection: Connection) {
         if !didAcceptMessageConnection {
             // If this is the first connection, we use it to receive message data. Therefore we call handleChatMessageData when data was received.
             connection.onData = { [unowned self] in self.handleChatMessageData($0) }
@@ -84,17 +84,17 @@ class ChatRoom: NSObject {
         }
     }
     
-    func sendMessage(message: String) {
+    func sendMessage(_ message: String) {
         // Append the message to the local chatText
         appendChatMessage(message, displayName: localDisplayName)
 
         // Serialize & send the chat message
-        let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
-        self.outgoingConnection.send(data: data)
+        let data = message.data(using: String.Encoding.utf8)!
+        _ = self.outgoingConnection.send(data: data)
     }
     
-    func handleChatMessageData(data: NSData) {
-        if let message = String(data: data, encoding: NSUTF8StringEncoding) {
+    func handleChatMessageData(_ data: Data) {
+        if let message = String(data: data, encoding: String.Encoding.utf8) {
             // The first message is the remote display name. If we don't know it yet, that means that we received the display name. Otherwise, append the chat message.
             if remoteDisplayName == nil {
                 remoteDisplayName = message
@@ -104,29 +104,23 @@ class ChatRoom: NSObject {
         }
     }
     
-    func appendChatMessage(message: String, displayName: String) {
+    func appendChatMessage(_ message: String, displayName: String) {
         chatText = "\(chatText)\(displayName): \(message)\n"
     }
     
-    func sendFile(path: String) {
+    func sendFile(_ path: String) {
         // Get some properties of the file
-        let fileHandle = NSFileHandle(forReadingAtPath: path)!
-        let fileAttributes: NSDictionary = try! NSFileManager.defaultManager().attributesOfItemAtPath(path)
-        let fileLength = Int(fileAttributes.fileSize())
+        let fileHandle = FileHandle(forReadingAtPath: path)!
         
         // Establish a new connection to transmit the file.
         let connection = self.remotePeer.connect()
         
         // Send the file name
-        let fileName: String = NSURL(fileURLWithPath: path).lastPathComponent!
-        connection.send(data: fileName.dataUsingEncoding(NSUTF8StringEncoding)!)
+        let fileName: String = URL(fileURLWithPath: path).lastPathComponent
+        _ = connection.send(data: fileName.data(using: String.Encoding.utf8)!)
         
         // Send the file itself. Data will be read as the file is being sent.
-        let transfer = connection.send(
-            dataLength: fileLength,
-            // The data provider returns data for a given range as required by the send method.
-            dataProvider: self.readData(fileHandle)
-        )
+        let transfer = connection.send(data: self.readData(fileHandle))
     
         // When progress is made, we update the file progress property.
         transfer.onProgress = self.updateProgress
@@ -137,15 +131,15 @@ class ChatRoom: NSObject {
         }
     }
     
-    func receiveFile(connection: Connection, transfer: InTransfer) {
+    func receiveFile(_ connection: Connection, transfer: InTransfer) {
         // receiveFile will be called twice; once for the transfer that contains the fileName only, and once for the actual file.
         // If we already have a filePath, we can receive the file.
         if let filePath = filePath {
-            NSFileManager.defaultManager().createFileAtPath(filePath, contents: nil, attributes: nil)
-            let fileHandle = NSFileHandle(forWritingAtPath: filePath)!
+            FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
+            let fileHandle = FileHandle(forWritingAtPath: filePath)!
             
             // Whenever data is received, we write data to the file handle.
-            transfer.onPartialData = { _, data in self.writeData(fileHandle)(data: data) }
+            transfer.onPartialData = { _, data in self.writeData(fileHandle, data) }
             // When progress is made, update the progress property
             transfer.onProgress = self.updateProgress
             // When everything is received, close the connection, close the file handle, and inform the delegate that a file was received.
@@ -166,10 +160,10 @@ class ChatRoom: NSObject {
         } else {
             // Otherwise, we need to receive the fileName, and create a path by requesting a save directory from the delegate.
             transfer.onCompleteData = {
-                t, data in
-                let fileName = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                transfer, data in
+                let fileName = String(data: data, encoding: String.Encoding.utf8)
                 do {
-                    if let saveFileName = try self.delegate?.chatRoom(self, pathForSavingFileWithName: fileName as String) {
+                    if let fileName = fileName, let saveFileName = try self.delegate?.chatRoom(self, pathForSavingFileWithName: fileName as String) {
                         self.filePath = saveFileName
                     } else {
                         // If the delegate doesn't return a save path (e.g. because the user cancelled the save file dialogue, we close the connection early.
@@ -183,20 +177,19 @@ class ChatRoom: NSObject {
         }
     }
     
-    func readData(fileHandle: NSFileHandle)(range: NSRange) -> NSData {
-        fileHandle.seekToFileOffset(UInt64(range.location))
-        return fileHandle.readDataOfLength(range.length)
+    func readData(_ fileHandle: FileHandle) -> Data {
+        return fileHandle.readDataToEndOfFile()
     }
     
-    func writeData(fileHandle: NSFileHandle)(data: NSData) {
-        fileHandle.writeData(data)
+    func writeData(_ fileHandle: FileHandle, _ data: Data) {
+        fileHandle.write(data)
     }
     
-    func updateProgress(transfer: Transfer) {
+    func updateProgress(_ transfer: Transfer) {
         self.fileProgress = (transfer.progress * 100)/transfer.length
     }
     
-    func endTransfer(fileHandle: NSFileHandle) {
+    func endTransfer(_ fileHandle: FileHandle) {
         fileHandle.closeFile()
     }
 }

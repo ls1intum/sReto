@@ -30,7 +30,7 @@ class Tree<T: Hashable> {
     /** The tree's subtrees */
     var subtrees: Set<Tree<T>> = []
     /** The tree's size */
-    var size: Int { get { return subtrees.map({ $0.size }).reduce(1, combine: +) } }
+    var size: Int { get { return subtrees.map({ $0.size }).reduce(1, +) } }
     /** Whether the tree is a leaf */
     var isLeaf: Bool { get { return subtrees.count == 0 } }
     

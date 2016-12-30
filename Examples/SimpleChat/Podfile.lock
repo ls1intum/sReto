@@ -1,22 +1,24 @@
 PODS:
-  - CocoaAsyncSocket (7.4.2)
+  - CocoaAsyncSocket (7.5.1):
+    - CocoaAsyncSocket/GCD (= 7.5.1)
+  - CocoaAsyncSocket/GCD (7.5.1)
   - SocketRocket (0.4.2)
-  - sReto/AllModules (1.4.1):
+  - sReto/AllModules (2.0.0):
     - sReto/BluetoothModule
     - sReto/RemoteModule
     - sReto/WlanModule
-  - sReto/BluetoothModule (1.4.1):
+  - sReto/BluetoothModule (2.0.0):
     - sReto/Bonjour
     - sReto/no-arc
-  - sReto/Bonjour (1.4.1):
-    - CocoaAsyncSocket (= 7.4.2)
+  - sReto/Bonjour (2.0.0):
+    - CocoaAsyncSocket (= 7.5.1)
     - sReto/Core
-  - sReto/Core (1.4.1)
-  - sReto/no-arc (1.4.1)
-  - sReto/RemoteModule (1.4.1):
+  - sReto/Core (2.0.0)
+  - sReto/no-arc (2.0.0)
+  - sReto/RemoteModule (2.0.0):
     - SocketRocket (= 0.4.2)
     - sReto/Core
-  - sReto/WlanModule (1.4.1):
+  - sReto/WlanModule (2.0.0):
     - sReto/Bonjour
 
 DEPENDENCIES:
@@ -24,11 +26,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   sReto:
-    :path: "../../"
+    :path: ../../
 
 SPEC CHECKSUMS:
-  CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
+  CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   SocketRocket: ffe08119b00ef982f6c37052a4705a057c8494ad
-  sReto: 40e030643774394b35347489923e9fa41bf05da4
+  sReto: 3ed0b06de280de4a541ee45562d4e686911861f3
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 55eefa23fc832a974ee17966a905a97dcdea6f08
+
+COCOAPODS: 1.1.1

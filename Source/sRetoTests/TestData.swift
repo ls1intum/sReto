@@ -21,23 +21,25 @@
 import Foundation
 
 class TestData {
-    class func generate(length: Int) -> NSData {
+    class func generate(length: Int) -> Data {
         let data = DataWriter(length: length)
         
-        for i in 0..<length { data.add(UInt8(i%127)) }
+        for i in 0..<length {
+            data.add(UInt8(i%127))
+        }
         
         return data.getData()
     }
     
-    class func verify(data: NSData, expectedLength: Int) -> Bool {
+    class func verify(data: Data, expectedLength: Int) -> Bool {
         let reader = DataReader(data)
         
-        if data.length != expectedLength {
+        if data.count != expectedLength {
             print("Verifying test data failed: Incorrect length.")
             return false
         }
         
-        for i in 0..<data.length {
+        for i in 0..<data.count {
             if reader.getByte() != UInt8(i % 127) {
                 print("Data incorrect.")
                 return false

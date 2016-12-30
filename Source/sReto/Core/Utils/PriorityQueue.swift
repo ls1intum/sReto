@@ -30,7 +30,7 @@ struct SortedListPriorityQueue<T: Hashable> {
     var elements: [(Double, T)] = []
     
     // Binary search for the appropiate index for the value
-    private func searchIndex(start: Int, end: Int, value: Double) -> Int {
+    fileprivate func searchIndex(_ start: Int, end: Int, value: Double) -> Int {
         if start == end {
             return start
         } else {
@@ -44,9 +44,9 @@ struct SortedListPriorityQueue<T: Hashable> {
         }
     }
     
-    mutating func insert(element: T, priority: Double) {
+    mutating func insert(_ element: T, priority: Double) {
         let index = searchIndex(0, end: self.elements.count, value: priority)
-        elements.insert( (priority, element), atIndex: index)
+        elements.insert( (priority, element), at: index)
     }
     mutating func removeMinimum() -> T? {
         if let result = elements.last {
@@ -57,10 +57,10 @@ struct SortedListPriorityQueue<T: Hashable> {
         return nil
     }
     // There's no faster way to do remove with this kind of implementation.
-    mutating func remove(element: T) {
+    mutating func remove(_ element: T) {
         elements = elements.filter({ $0.1 != element })
     }
-    mutating func updatePriority(element: T, priority: Double) {
+    mutating func updatePriority(_ element: T, priority: Double) {
         self.remove(element) // Oh noes.
         self.insert(element, priority: priority)
     }

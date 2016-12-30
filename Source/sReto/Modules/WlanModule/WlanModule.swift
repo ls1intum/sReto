@@ -24,7 +24,7 @@ import Foundation
 *
 * If you wish to use it, all you need to do is construct an instance and pass it to the LocalPeer either in the constructor or using the addModule method.
 * */
-public class WlanModule: Module {
+open class WlanModule: Module {
     let networkType: String
     let recommendedPacketSize = 32*1024
     
@@ -33,7 +33,7 @@ public class WlanModule: Module {
     * @param type: Any ASCII string used to identify the type of application in the network. Can be anything, but should be unique for the application.
     * @param dispatchQueue: The dispatch queue used with this module. Use the same one as you used with the LocalPeer.
     */
-    public init(type: String, dispatchQueue: dispatch_queue_t) {
+    public init(type: String, dispatchQueue: DispatchQueue) {
         self.networkType = "_\(type)wlan._tcp."
         super.init(dispatchQueue: dispatchQueue)
         

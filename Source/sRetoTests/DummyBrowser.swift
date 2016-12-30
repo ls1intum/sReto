@@ -31,20 +31,18 @@ class DummyBrowser: NSObject, Browser {
     }
     
     func startBrowsing() {
-        self.networkInterface.register(self)
+        self.networkInterface.register(browser: self)
         self.isBrowsing = true
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async {
              if let delegate = self.browserDelegate { delegate.didStartBrowsing(self) }
-        })
-        //DispatchQueue.main().dispatch({ if let delegate = self.browserDelegate { delegate.didStartBrowsing(self) } })
+        }
     }
     func stopBrowsing() {
-        self.networkInterface.unregister(self)
+        self.networkInterface.unregister(browser: self)
         self.isBrowsing = false
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async {
             if let delegate = self.browserDelegate { delegate.didStopBrowsing(self) }
-        })
-        //DispatchQueue.main().dispatch({ if let delegate = self.browserDelegate { delegate.didStopBrowsing(self) } })
+        }
     }
     func onAddPeer(identifier: UUID, address: DummyAddress) {
         addresses[identifier] = address

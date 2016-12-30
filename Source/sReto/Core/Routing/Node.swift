@@ -76,11 +76,11 @@ class Node: Hashable, PacketHandler {
         self.linkStatePacketManager = linkStatePacketManager
     }
     /** Adds a direct address to this node */
-    func addAddress(address: Address) {
+    func addAddress(_ address: Address) {
         self.directAddresses.append(address)
     }
     /** Removes a direct address from this node */
-    func removeAddress(address: Address) {
+    func removeAddress(_ address: Address) {
         self.directAddresses = self.directAddresses.filter { $0 !== address }
     }
     
@@ -95,7 +95,7 @@ class Node: Hashable, PacketHandler {
         
         self.router.establishDirectConnection(
             destination: self,
-            purpose: .RoutingConnection,
+            purpose: .routingConnection,
             onConnection: {
                 connection in
                 let connectionIdentifier = randomUUID()
@@ -109,36 +109,36 @@ class Node: Hashable, PacketHandler {
                 self.router.onNeighborReachable(self)
             },
             onFail: {
-                log(.High, info: "Failed to establish routing connection.")
+                log(.high, info: "Failed to establish routing connection.")
             }
         )
     }
     
-    func handleRoutingConnection(connection: UnderlyingConnection) {
+    func handleRoutingConnection(_ connection: UnderlyingConnection) {
         let packetConnection = PacketConnection(connection: connection, connectionIdentifier: UUID_ZERO, destinations: [])
         self.setupRoutingConnection(packetConnection)
         self.router.onNeighborReachable(self)
     }
     
-    func setupRoutingConnection(connection: PacketConnection) {
+    func setupRoutingConnection(_ connection: PacketConnection) {
         self.routingConnection = connection
         connection.addDelegate(self)
         if connection.isConnected { self.underlyingConnectionDidConnect() }
     }
     
-    func sendPacket(packet: Packet) {
+    func sendPacket(_ packet: Packet) {
         self.routingConnection?.write(packet)
     }
 
     // MARK: PacketConnection delegate
-    let handledPacketTypes = [PacketType.FloodPacket]
-    func underlyingConnectionDidClose(error: AnyObject?) {
+    let handledPacketTypes = [PacketType.floodPacket]
+    func underlyingConnectionDidClose(_ error: AnyObject?) {
         self.router.onNeighborLost(self)
     }
     func willSwapUnderlyingConnection() {}
     func underlyingConnectionDidConnect() {}
     func didWriteAllPackets() {}
-    func handlePacket(data: DataReader, type: PacketType) {
+    func handlePacket(_ data: DataReader, type: PacketType) {
         self.linkStatePacketManager?.handlePacket(self.identifier, data: data, packetType: type)
     }
 }
