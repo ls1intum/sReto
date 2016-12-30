@@ -62,7 +62,7 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         
         var error : NSError? = nil
         do {
-            try acceptingSocket?.accept(onPort: 0)
+            try acceptingSocket.accept(onPort: 0)
         } catch let error1 as NSError {
             error = error1
             log(.high, error: "An error occured when trying to listen for incoming connections: \(error)")
@@ -70,7 +70,7 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         }
         
         self.advertiser.delegate = self
-        self.advertiser.startAdvertising(identifier.UUIDString, type: self.networkType, port: UInt((acceptingSocket?.localPort)!))
+        self.advertiser.startAdvertising(identifier.UUIDString, type: self.networkType, port: UInt(acceptingSocket.localPort))
         self.isAdvertising = true
     }
     
@@ -81,7 +81,7 @@ class BonjourAdvertiser: NSObject, Advertiser, GCDAsyncSocketDelegate, BonjourSe
         self.connections.removeAll()
     }
     
-    func socket(_ sock: GCDAsyncSocket!, didAcceptNewSocket newSocket: GCDAsyncSocket!) {
+    func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         let connection = AsyncSocketUnderlyingConnection(socket: newSocket, recommendedPacketSize: 32*1024)
         connections.append(connection)
         if let delegate = self.advertiserDelegate {

@@ -115,13 +115,13 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection {
 
 extension AsyncSocketUnderlyingConnection: GCDAsyncSocketDelegate {
 
-    func socket(_ socket: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
+    func socket(_ socket: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         log(.low, info: "socket connected to: \(host), port: \(port)")
         self.delegate?.didConnect(self)
         self.readHeader()
     }
     
-    func socketDidDisconnect(_ sock: GCDAsyncSocket!, withError err: Error!) {
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
         log(.medium, info: "socket disconnect, error: \(err)")
         self.delegate?.didClose(self, error: err as AnyObject?)
     }
@@ -142,14 +142,14 @@ extension AsyncSocketUnderlyingConnection: GCDAsyncSocketDelegate {
         }
     }
     
-    func socket(_ socket: GCDAsyncSocket!, didWriteDataWithTag tag: Int) {
+    func socket(_ socket: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
         if tag == BODY_TAG {
             self.delegate?.didSendData(self)
         }
     }
     
-    func socket(_ socket: GCDAsyncSocket!, didRead data: Data!, withTag tag: Int) {
-        if (tag == HEADER_TAG) {
+    func socket(_ socket: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
+        if tag == HEADER_TAG {
             let length = DataReader(data).getInteger()
             socket.readData(toLength: UInt(length), withTimeout: -1, tag: BODY_TAG)
         } else {
