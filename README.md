@@ -98,15 +98,23 @@ Advertisement and discovery is managed by the `LocalPeer` class. A `LocalPeer` r
 *Swift*
 
 ```swift
-// 1. Create the WlanModule
+// 1. Create the modules for the communication mechanisms to be used
 let wlanModule = WlanModule(type: "ExampleType", dispatchQueue: DispatchQueue.main)
-// 2. Create the LocalPeer
+let bluetoothModule = BluetoothModule(type: "ExampleType", dispatchQueue: DispatchQueue.main)
+let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "http://www.example.com")!, dispatchQueue: DispatchQueue.main)
+// 2. Create a LocalPeer and pass an array of modules
 let localPeer = LocalPeer(modules: [wlanModule], dispatchQueue: DispatchQueue.main)
-// 3. Starting the LocalPeer
+// 3. Start the LocalPeer
 localPeer.start(
-  onPeerDiscovered: { peer in print("Discovered peer: \(peer)") },
-  onPeerRemoved: { peer in print("Removed peer: \(peer)") },
-  onIncomingConnection: { peer, connection in print("Received incoming connection: \(connection) from peer: \(peer)"") },
+  onPeerDiscovered: { peer in 
+    print("Discovered peer: \(peer)") 
+  },
+  onPeerRemoved: { peer in 
+    print("Removed peer: \(peer)") 
+  },
+  onIncomingConnection: { peer, connection in 
+    print("Received incoming connection: \(connection) from peer: \(peer)") 
+  },
   displayName: "MyLocalPeer"
 )
 ```
@@ -114,11 +122,11 @@ localPeer.start(
 *Objective C*
 
 ```objc
-// 1. Create the WlanModule
+// 1. Create the modules for the communication mechanisms to be used
 WlanModule* wlanModule = [[WlanModule alloc] initWithType: "ExampleType" dispatchQueue: dispatch_get_main_queue()];
-// 2. Create the LocalPeer
+// 2. Create a LocalPeer and pass an array of modules
 LocalPeer* localPeer = [[LocalPeer alloc] initWithModules: @[wlanModule] dispatchQueue: dispatch_get_main_queue())
-// 3. Starting the LocalPeer
+// 3. Start the LocalPeer
 [localPeer startOnPeerDiscovered:^(RemotePeer *peer) {
   NSLog(@"Found peer: %@", peer);
 } onPeerRemoved:^(RemotePeer *peer) {
@@ -152,10 +160,15 @@ The first closure gives you access to `RemotePeer` objects, which can be used to
 // 1. Establishing a connection
 let connection = someRemotePeer.connect()
 // 2. Registering a callback the onClose event
-connection.onClose = { connection in print("Connection closed.") }
+connection.onClose = { connection in 
+  print("Connection closed.") 
+}
 // 3. Receiving data
-connection.onData = { data in print("Received data!") }
+connection.onData = { data in 
+  print("Received data!") 
+}
 // 4. Sending data
+let someData = Data()
 connection.send(data: someData)
 ```
 
@@ -194,15 +207,21 @@ While the above techniques can be used to send data, you may want access about m
 someConnection.onTransfer = { 
   connection, transfer in 
   // 2. Configuring a transfer to let you handle data as it is received, instead of letting the transfer buffer all data
-  transfer.onPartialData = { transfer, data in print("Received a chunk of data!") }
+  transfer.onPartialData = { transfer, data in 
+    print("Received a chunk of data!") 
+  }
   // 3. Registering for progress updates
-  transfer.onProgress = { transfer in print("Current progress: \(transfer.progress) of \(transfer.length)") }
+  transfer.onProgress = { transfer in 
+    print("Current progress: \(transfer.progress) of \(transfer.length)") 
+  }
 }
  
 // 4. Sending a transfer example with a data provider
-let transfer = someConnection.send(dataLength: someData.length, dataProvider: { range in return someData })
+let transfer = someConnection.send(dataLength: someData.count, dataProvider: { range in return someData })
 // 5. Registering for progress updates
-transfer.onProgress = { transfer in print("Current progress: \(transfer.progress) of \(transfer.length)") }
+transfer.onProgress = { transfer in 
+  print("Current progress: \(transfer.progress) of \(transfer.length)") 
+}
 ```
 
 *Objective C*
