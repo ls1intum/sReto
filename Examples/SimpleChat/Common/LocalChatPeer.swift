@@ -11,7 +11,7 @@ import sReto
 
 class LocalChatPeer: NSObject {
     var displayName: String!
-    dynamic var chatRooms: [ChatRoom] = []
+    @objc dynamic var chatRooms: [ChatRoom] = []
     weak var chatRoomDelegate: ChatRoomDelegate?
 
     var localPeer: LocalPeer!
@@ -33,7 +33,9 @@ class LocalChatPeer: NSObject {
         //let blueetoothModule = BluetoothModule(type: "SimpleP2PChat", dispatchQueue: dispatch_get_main_queue())
         //let remoteModule = RemoteP2PModule(baseUrl: NSURL(string: "ws://localhost:8080/")!)
         localPeer = LocalPeer(name: displayName, modules: [wlanModule], dispatchQueue: DispatchQueue.main)
-        localPeer.start(onPeerDiscovered: createChatPeer, onPeerRemoved: removeChatPeer)
+        localPeer.start(onPeerDiscovered: createChatPeer, onPeerRemoved: removeChatPeer, onIncomingConnection: { peer, connection in
+            print("Received incoming connection: \(connection) from peer: \(peer)")
+        }, displayName: displayName)
     }
     
     func createChatPeer(_ remotePeer: RemotePeer) {

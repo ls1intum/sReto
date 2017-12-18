@@ -51,7 +51,7 @@ open class RemoteP2PModule: Module, Advertiser, Browser {
         return "RemoteP2PModule: {" +
             "isAdvertising: \(self.isAdvertising), " +
             "isBrowsing: \(self.isBrowsing), " +
-            "discoverySocket: \(self.discoverySocket), " +
+            "discoverySocket: \(String(describing: self.discoverySocket)), " +
             "addresses: \(self.addresses)}"
     }
     

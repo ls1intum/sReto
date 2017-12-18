@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.subspec 'Bonjour' do |b|
   	b.source_files     = 'Source/sReto/Modules/Bonjour/**/*.swift'
   	b.dependency         'sReto/Core'
-  	b.dependency         'CocoaAsyncSocket', '7.5.1'
+  	b.dependency         'CocoaAsyncSocket', '7.6.2'
   end
   
   s.subspec 'WlanModule' do |wm|
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   s.subspec 'RemoteModule' do |rm|
     rm.source_files    = 'Source/sReto/Modules/RemoteModule/**/*.swift'
   	rm.dependency        'sReto/Core'
-    rm.dependency        'SocketRocket', '0.4.2'
+    rm.dependency        'SocketRocket', '0.5.1'
   end
   
   s.subspec 'AllModules' do |am|

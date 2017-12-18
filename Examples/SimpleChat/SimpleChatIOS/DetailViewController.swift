@@ -57,7 +57,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         } else {
             self.navigationItem.title = "Loading display name..."
         }
-        self.chatView.chatText.scrollRangeToVisible(NSMakeRange(self.chatView.chatText.text.characters.count - 1, 0))
+        self.chatView.chatText.scrollRangeToVisible(NSMakeRange(self.chatView.chatText.text.count - 1, 0))
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -86,7 +86,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         self.configureView()
     }
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo = notification.userInfo!
         let duration: Double = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
         let curve = (userInfo[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
@@ -105,7 +105,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         )
     }
     
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         let userInfo = notification.userInfo!
         let duration: Double = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
         let curve = (userInfo[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uintValue
@@ -122,7 +122,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         )
     }
     
-    func hideKeyboard() {
+    @objc func hideKeyboard() {
         self.chatView.typedTextField.resignFirstResponder()
     }
 

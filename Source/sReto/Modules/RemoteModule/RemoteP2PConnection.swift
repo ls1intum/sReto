@@ -33,7 +33,7 @@ class RemoteP2PConnection: NSObject, UnderlyingConnection {
     var socket: SRWebSocket?
     
     override var description: String {
-        return "RemoteP2PConnection: {url: \(self.serverUrl), isConnected: \(self.isConnected), webSocket: \(self.socket)}"
+        return "RemoteP2PConnection: {url: \(String(describing: self.serverUrl)), isConnected: \(self.isConnected), webSocket: \(String(describing: self.socket))}"
     }
     
     init(serverUrl: URL, dispatchQueue: DispatchQueue) {

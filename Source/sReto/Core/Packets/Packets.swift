@@ -101,8 +101,8 @@ struct ManagedConnectionHandshake: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).length)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).length)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(self.connectionIdentifier)
         return data.getData() as Data
     }
@@ -122,8 +122,8 @@ struct CloseRequest: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).length)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).length)
+        data.add(Swift.type(of: self).type.rawValue)
         return data.getData() as Data
     }
 }
@@ -140,8 +140,8 @@ struct CloseAnnounce: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).length)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).length)
+        data.add(Swift.type(of: self).type.rawValue)
         return data.getData() as Data
     }
 }
@@ -162,8 +162,8 @@ struct CloseAcknowledge: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).length)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).length)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(source)
         return data.getData() as Data
     }
@@ -184,8 +184,8 @@ struct CancelledTransferPacket: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).length)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).length)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(self.transferIdentifier)
         return data.getData() as Data
     }
@@ -206,8 +206,8 @@ struct DataPacket: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).minimumLength + self.data.count)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).minimumLength + self.data.count)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(self.data)
         return data.getData() as Data
     }
@@ -239,8 +239,8 @@ struct ProgressInformationPacket: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).minimumLength + ProgressInformation.minimumLength * self.information.count)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).minimumLength + ProgressInformation.minimumLength * self.information.count)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(Int32(self.information.count))
         
         for progressInfo in self.information {
@@ -268,8 +268,8 @@ struct StartedTransferPacket: Packet {
     }
     
     func serialize() -> Data {
-        let data = DataWriter(length: type(of: self).minimumLength)
-        data.add(type(of: self).type.rawValue)
+        let data = DataWriter(length: Swift.type(of: self).minimumLength)
+        data.add(Swift.type(of: self).type.rawValue)
         data.add(self.transferIdentifier)
         data.add(self.transferLength)
         return data.getData() as Data

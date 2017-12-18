@@ -47,10 +47,10 @@ class DiscoveryTest: XCTestCase {
             if reachablePeerIdentifiers.count == 0 {
                 allPeersDiscoveredExpectation.fulfill()
             }
-        }, onPeerRemoved: { _ in ()}, onIncomingConnection: {_ in ()}, displayName: nil)
+        }, onPeerRemoved: { _ in ()}, onIncomingConnection: {_,_  in ()}, displayName: nil)
         
         for peer in configuration.participatingPeers - [configuration.primaryPeer] {
-            peer.start(onPeerDiscovered: {_ in ()}, onPeerRemoved: {_ in ()}, onIncomingConnection: {_ in ()}, displayName: nil)
+            peer.start(onPeerDiscovered: {_ in ()}, onPeerRemoved: {_ in ()}, onIncomingConnection: {_,_  in ()}, displayName: nil)
         }
         
         self.waitForExpectations(timeout: 30, handler: { error in () })

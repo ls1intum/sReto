@@ -40,7 +40,7 @@ class GraphTests: XCTestCase {
         
         XCTAssert(graph.allVertices.contains(["A"]), "Vertex removed")
         XCTAssert(!graph.allVertices.contains(["B"]), "Vertex not removed")
-        XCTAssert((graph.getEdges(startingAtVertex: "A")?.count ?? 0) == 0, "Edge not removed: edges \(graph.getEdges(startingAtVertex: a))")
+        XCTAssert((graph.getEdges(startingAtVertex: "A")?.count ?? 0) == 0, "Edge not removed: edges \(String(describing: graph.getEdges(startingAtVertex: a)))")
         XCTAssert(graph.getEdges(startingAtVertex: "B") == nil, "Edges not nil")
         
         graph.addEdge("A", "B", DefaultEdge(weight: 1))

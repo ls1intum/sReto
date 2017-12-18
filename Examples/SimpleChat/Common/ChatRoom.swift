@@ -32,15 +32,15 @@ class ChatRoom: NSObject {
     weak var delegate: ChatRoomDelegate?
     
     /** The display name of the local peer in the chat */
-    dynamic var localDisplayName: String
+    @objc dynamic var localDisplayName: String
     /** The display name of the remote peer in the chat */
-    dynamic var remoteDisplayName: String?
+    @objc dynamic var remoteDisplayName: String?
     /** The initial display name of the remote peer in the chat */
-    dynamic var initialRemoteDisplayName: String?
+    @objc dynamic var initialRemoteDisplayName: String?
     /** The full text in the chat room; contains all messages. */
-    dynamic var chatText = ""
+    @objc dynamic var chatText = ""
     /** The progress of a file if it one is being transmitted. */
-    dynamic var fileProgress: Int = 0
+    @objc dynamic var fileProgress: Int = 0
     /** Whether a file is currently being transmitted. */
     var isFileTransferActive: Bool {
         return self.fileProgress != 0
@@ -66,7 +66,9 @@ class ChatRoom: NSObject {
         super.init()
         
         // When an incoming connection is available, call acceptConnection.
-        remotePeer.onConnection = { [unowned self] in self.acceptConnection($0, connection: $1) }
+        remotePeer.onConnection = { [unowned self] in
+            self.acceptConnection($0, connection: $1)
+        }
         
         // The first message sent through the outgoing connection contains the display name that should be used, so it is sent here.
         let data = self.localDisplayName.data(using: String.Encoding.utf8)!

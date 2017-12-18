@@ -79,7 +79,7 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection {
             
             switch addressInformation {
                 case .addressAsData(let data, let hostName, let port):
-                    log(.low, info: "try to connect to address data: \(data), hostName: \(hostName), port: \(port)")
+                    log(.medium, info: "try to connect to address data: \(data), hostName: \(hostName), port: \(port)")
                     do {
                         try socket.connect(toAddress: data)
                     } catch let error1 as NSError {
@@ -87,7 +87,7 @@ class AsyncSocketUnderlyingConnection: NSObject, UnderlyingConnection {
                     }
                     break
                 case .hostName(let hostName, let port):
-                    log(.low, info: "try to connect to: \(hostName), port: \(port)")
+                    log(.medium, info: "try to connect to: \(hostName), port: \(port)")
                     do {
                         try socket.connect(toHost: hostName, onPort: UInt16(port))
                     } catch let error1 as NSError {
@@ -122,7 +122,7 @@ extension AsyncSocketUnderlyingConnection: GCDAsyncSocketDelegate {
     }
     
     func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        log(.medium, info: "socket disconnect, error: \(err)")
+        log(.medium, info: "socket disconnect, error: \(String(describing: err))")
         self.delegate?.didClose(self, error: err as AnyObject?)
     }
     

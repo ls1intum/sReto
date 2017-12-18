@@ -79,7 +79,7 @@ class ModuleTest: XCTestCase {
                 connection.writeData(TestData.generate(length: 100))
             }
             func didClose(_ connection: UnderlyingConnection, error: AnyObject?) {
-                print("error: \(error)")
+                print("error: \(String(describing: error))")
                 connectionClosedExpectation.fulfill()
             }
             func didReceiveData(_ connection: UnderlyingConnection, data: Data) {}
@@ -191,7 +191,7 @@ class ModuleTest: XCTestCase {
         
         self.waitForExpectations(timeout: 20, handler: {
             error in
-            print("Finished waiting, error: \(error)")
+            print("Finished waiting, error: \(String(describing: error))")
         })
     }
 }

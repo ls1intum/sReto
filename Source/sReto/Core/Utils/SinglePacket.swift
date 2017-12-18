@@ -119,7 +119,7 @@ class SinglePacketWriter: NSObject, UnderlyingConnectionDelegate {
             self.underlyingConnection?.writeData(packet.serialize())
         }
         else {
-            log(.low, info: "Attempt to write before connected")
+            log(.medium, info: "Attempt to write before connected")
         }
     }
     

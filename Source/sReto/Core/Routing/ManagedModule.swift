@@ -52,7 +52,7 @@ class ManagedAdvertiser: NSObject, Advertiser, AdvertiserDelegate {
     var isAdvertising: Bool { get { return self.advertiser.isAdvertising } }
     
     override var description: String {
-        return "ManagedAdvertiser: {isStarted: \(self.startStopManager?.isStarted), advertiser: \(advertiser)}"
+        return "ManagedAdvertiser: {isStarted: \(String(describing: self.startStopManager?.isStarted)), advertiser: \(advertiser)}"
     }
     
     init(advertiser: Advertiser, dispatchQueue: DispatchQueue) {
@@ -120,7 +120,7 @@ class ManagedBrowser: NSObject, Browser, BrowserDelegate {
     var isBrowsing: Bool { get { return self.browser.isBrowsing } }
     
     override var description: String {
-        return "ManagedBrowser: {isStarted: \(self.startStopManager?.isStarted), browser: \(self.browser)"
+        return "ManagedBrowser: {isStarted: \(String(describing: self.startStopManager?.isStarted)), browser: \(self.browser)"
     }
 
     init(browser: Browser, dispatchQueue: DispatchQueue) {
