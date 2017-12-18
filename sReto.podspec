@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name               = 'sReto'
-  s.version            = '2.0.0'
+  s.version            = '3.0.0'
   s.summary            = 'P2P Framework for realtime collaboration in Swift with independent modules for WLAN, Bluetooth and Remote support'
   s.homepage           = 'https://github.com/ls1intum/sReto'
   s.license            = 'MIT'
