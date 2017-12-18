@@ -29,6 +29,11 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NetServiceBrow
         let browser = NetServiceBrowser()
         self.browser = browser
         browser.delegate = self
+        if #available(OSX 10.10, *) {
+            browser.includesPeerToPeer = true
+        } else {
+            // Fallback on earlier versions
+        }
         browser.searchForServices(ofType: networkType, inDomain: "")
     }
     
@@ -46,7 +51,7 @@ class WlanBonjourServiceBrowser: NSObject, BonjourServiceBrowser, NetServiceBrow
         if let addresses = netService.addresses {
            log(.low, info: "found address for: \(netService.name), there are \(addresses.count) addresses available.")
             if let uuid = UUIDfromString(netService.name) {
-                let addressInformation = AddressInformation.addressAsData(addresses[0] as Data, netService.hostName!, netService.port)
+                let addressInformation = AddressInformation.hostName(netService.hostName!, netService.port)
                 self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
             }
         }

@@ -29,6 +29,11 @@ class WlanBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, NetServi
         self.netService = netService
         
         netService.delegate = self
+        if #available(OSX 10.10, *) {
+            netService.includesPeerToPeer = true
+        } else {
+            // Fallback on earlier versions
+        }
         netService.publish()
     }
     
