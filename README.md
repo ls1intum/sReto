@@ -7,10 +7,11 @@ sReto
 ========
 Reto: P2P Framework for realtime collaboration in Swift.
 
-sReto 2.0 is compatible with Swift 3!
-If you want to support Swift 2, please use older versions, e.g. 1.4.1.
+**Pelase notice:** 
 
-Notice: There is also a Java version for the use of Reto on Windows and Unix: [jReto](https://github.com/ls1intum/jReto)
+- sReto 3.0 is compatible with Swift 4
+- sReto 2.0 is compatible with Swift 3
+- There is also a Java version for the use of Reto on Windows and Unix: [jReto](https://github.com/ls1intum/jReto)
 
 About
 -----
@@ -35,7 +36,7 @@ Installation
 
 The recommended approach for installing sReto is via the [CocoaPods](http://cocoapods.org) package manager, as it provides flexible dependency management.
 
-sReto 2.0 can be integrated as framework on iOS 9.0+ and OS X 10.9+. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto using CocoaPods.
+sReto can be integrated as framework on iOS 9.0+ and OS X 10.9+. Even though it is implemented in Swift, it can be used in both Objective C and Swift projects. Here are the steps required to include Reto using CocoaPods.
 
 ### via CocoaPods
 
@@ -52,7 +53,7 @@ Change to the directory of your Xcode project, and Create and Edit your Podfile 
 $ cd /path/to/MyProject
 $ pod init
 $ edit Podfile
-platform :ios, '8.0'
+platform :ios, '9.0'
 # Or platform :osx, '10.9'
 
 use_frameworks!
