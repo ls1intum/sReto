@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name               = 'sReto'
-  s.version            = '3.0.0'
+  s.version            = '3.0.1'
   s.summary            = 'P2P Framework for realtime collaboration in Swift with independent modules for WLAN, Bluetooth and Remote support'
   s.homepage           = 'https://github.com/ls1intum/sReto'
   s.license            = 'MIT'
@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc          = true
   s.ios.deployment_target = '9.0'
+  s.tvos.deployment_target = '9.0'
   s.osx.deployment_target = '10.9'
 
   s.source             = { :git => 'https://github.com/ls1intum/sReto.git', :tag => s.version }

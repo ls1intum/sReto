@@ -11,6 +11,12 @@ target :sRetoIOS do
     
 end
 
+target :sRetoTVOS do
+  platform :tvos, '9.0'
+  pod 'CocoaAsyncSocket', '7.6.2'
+  pod 'SocketRocket', '0.5.1'
+end
+
 target :sRetoMac do
   platform :osx, '10.9'
   pod 'CocoaAsyncSocket', '7.6.2'
