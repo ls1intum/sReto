@@ -37,14 +37,7 @@ let UUID_ZERO: UUID = fromUUID_T(UUID_T_ZERO)
 public struct UUID: Comparable, Hashable, CustomStringConvertible {
     /** Stores the UUID as a 16 byte array */
     let uuid: [UInt8]
-    public var hashValue: Int {
-        return uuid.map { $0.hashValue }.enumerated().reduce(0,
-            {
-                let (index, hash) = $1
-                return $0 ^ (hash << index * 2)
-            }
-        )
-    }
+
     /** Returns the UUID as a uuid_t as defined by the Foundation framework */
     public var uuidt: uuid_t {
         return (

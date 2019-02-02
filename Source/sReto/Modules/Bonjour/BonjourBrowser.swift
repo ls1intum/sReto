@@ -28,7 +28,7 @@ protocol BonjourServiceBrowserDelegate : class {
 }
 
 protocol BonjourServiceBrowser : class {
-    weak var delegate: BonjourServiceBrowserDelegate? { get set }
+    var delegate: BonjourServiceBrowserDelegate? { get set }
     
     func startBrowsing(_ networkType: String)
     func stopBrowsing()

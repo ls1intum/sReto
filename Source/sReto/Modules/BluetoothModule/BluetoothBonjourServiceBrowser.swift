@@ -43,7 +43,7 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
     }
     
     func addAddress(_ service: DNSSDService) {
-        log(.low, info: "found address for: \(service.name)")
+        log(.low, info: "found address for: \(String(describing: service.name))")
         if let uuid = UUIDfromString(service.name) {
             let addressInformation = AddressInformation.hostName(service.resolvedHost, Int(service.resolvedPort))
             self.delegate?.foundAddress(uuid, addressInformation: addressInformation)
@@ -80,7 +80,7 @@ class BluetoothBonjourServiceBrowser: NSObject, BonjourServiceBrowser, DNSSDBrow
     }
     
     func dnssdService(_ service: DNSSDService!, didNotResolve error: Error!) {
-        log(.medium, error: "Could not resolve service. \(error)")
+        log(.medium, error: "Could not resolve service. \(String(describing: error))")
     }
 
     func dnssdServiceDidStop(_ service: DNSSDService!) {

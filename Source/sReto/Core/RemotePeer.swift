@@ -29,10 +29,10 @@ import Foundation
 * */
 open class RemotePeer: NSObject {
     /** This peer's unique identifier. */
-    open let identifier: UUID
+    public let identifier: UUID
     
     /** This peer's name. */
-    open let name: String?
+    public let name: String?
      
     /**
     * Set this property if you want to handle incoming connections on a per-peer basis.

@@ -27,7 +27,7 @@ class ManagedModule: Module {
     let module: Module
 
     override var description: String {
-        return "ManagedModule: {\n\tadvertiser: \(self.advertiser), \n\tbrowser: \(self.browser)"
+        return "ManagedModule: {\n\tadvertiser: \(String(describing: self.advertiser)), \n\tbrowser: \(String(describing: self.browser))"
     }
     
     init(module: Module, dispatchQueue: DispatchQueue) {

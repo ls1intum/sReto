@@ -40,11 +40,11 @@ public typealias ConnectionClosure = (_ peer: RemotePeer, _ connection: Connecti
 */
 open class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     /** This peer's name. If not specified in the constructor, it has a the device name. */
-    open let name: String
+    public let name: String
     /** This peer's unique identifier. If not specified in the constructor, it has a random value. */
-    open let identifier: UUID
+    public let identifier: UUID
     /** The dispatch queue used to execute all networking operations and callbacks */
-    open let dispatchQueue: DispatchQueue
+    public let dispatchQueue: DispatchQueue
     /** The set of peers currently reachable */
     open var peers: Set<RemotePeer> {
         return Set(knownPeers.values)

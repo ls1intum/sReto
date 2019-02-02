@@ -203,7 +203,7 @@ extension RemoteP2PModule: SRWebSocketDelegate {
     }
     
     public func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        log(.medium, info: "Closed discovery websocket with close code: \(code), reason: \(reason), wasCLean: \(wasClean)")
+        log(.medium, info: "Closed discovery websocket with close code: \(code), reason: \(String(describing: reason)), wasCLean: \(wasClean)")
         self.isConnected = false
         self.discoverySocket = nil
         self.browserDelegate?.didStopBrowsing(self)
@@ -211,7 +211,7 @@ extension RemoteP2PModule: SRWebSocketDelegate {
     }
     
     public func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
-        log(.medium, info: "Discovery WebSocket failed with error: \(error)")
+        log(.medium, info: "Discovery WebSocket failed with error: \(String(describing: error))")
         self.isConnected = false
         self.discoverySocket = nil
         self.browserDelegate?.didStopBrowsing(self)

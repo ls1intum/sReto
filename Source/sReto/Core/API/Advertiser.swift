@@ -37,7 +37,7 @@ public protocol Advertiser: class {
     /** Whether the advertiser is currently active. */
     var isAdvertising: Bool { get }
     /** The Advertiser's delegate. */
-    weak var advertiserDelegate: AdvertiserDelegate? { get set }
+    var advertiserDelegate: AdvertiserDelegate? { get set }
 
     /** 
     * Starts advertising.

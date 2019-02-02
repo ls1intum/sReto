@@ -24,7 +24,7 @@ import Foundation
 * An OutTransfer represents a data transfer from the local peer to a remote peer. You can obtain one by calling the connection's send method.
 */
 open class OutTransfer: Transfer {
-    open let dataProvider: (_ range: Range<Data.Index>) -> Data
+    public let dataProvider: (_ range: Range<Data.Index>) -> Data
     
     init(manager: TransferManager, dataLength: Int, dataProvider: @escaping (_ range: Range<Data.Index>) -> Data, identifier: UUID) {
         self.dataProvider = dataProvider

@@ -28,7 +28,7 @@ protocol BonjourServiceAdvertiserDelegate : class {
 }
 
 protocol BonjourServiceAdvertiser : class {
-    weak var delegate: BonjourServiceAdvertiserDelegate? { get set }
+    var delegate: BonjourServiceAdvertiserDelegate? { get set }
     
     func startAdvertising(_ name: String, type: String, port: UInt)
     func stopAdvertising()

@@ -47,7 +47,7 @@ class BluetoothBonjourServiceAdvertiser: NSObject, BonjourServiceAdvertiser, DNS
     }
     
     func dnssdRegistration(_ sender: DNSSDRegistration!, didNotRegister error: Error!) {
-        log(.medium, error: "failed to publish on bluetooth: \(error)")
+        log(.medium, error: "failed to publish on bluetooth: \(String(describing: error))")
         self.delegate?.didNotPublish()
     }
     func dnssdRegistrationDidStop(_ sender: DNSSDRegistration!) {

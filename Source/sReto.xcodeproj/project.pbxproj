@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2AF7E514D1648B8FB5CB53BB /* Pods_sRetoTVOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA9707D654D1565871B17F60 /* Pods_sRetoTVOS.framework */; };
+		3601CE5E583AE13F3BB137ED /* Pods_sRetoIOS_sRetoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D2EBD8CFB8C4D2553EE57D /* Pods_sRetoIOS_sRetoTests.framework */; };
 		44A63D0A59BC1235A97EC5BE /* Pods_sRetoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1AA6A7C67DA2865C81E234 /* Pods_sRetoIOS.framework */; };
 		5E0BAA091C3367BE002CF93A /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A51C331632000A9BD5 /* Graph.swift */; };
 		5E0BAA0A1C3367BE002CF93A /* MinimumSteinerTreeApproximation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32A61C331632000A9BD5 /* MinimumSteinerTreeApproximation.swift */; };
@@ -194,7 +195,6 @@
 		5EAB33821C331632000A9BD5 /* WlanBonjourServiceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */; };
 		5EAB33831C331632000A9BD5 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F81C331632000A9BD5 /* WlanModule.swift */; };
 		5EAB33841C331632000A9BD5 /* WlanModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32F81C331632000A9BD5 /* WlanModule.swift */; };
-		A92D10F97693C60BF3C3CCB6 /* Pods_sRetoIOS_sRetoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D2EBD8CFB8C4D2553EE57D /* Pods_sRetoIOS_sRetoTests.framework */; };
 		B35157D221FEAE95009CA0CC /* BluetoothBonjourServiceAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32D71C331632000A9BD5 /* BluetoothBonjourServiceAdvertiser.swift */; };
 		B35157D321FEAE95009CA0CC /* CompositeAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32BA1C331632000A9BD5 /* CompositeAdvertiser.swift */; };
 		B35157D421FEAE95009CA0CC /* PipeForward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAB32CB1C331632000A9BD5 /* PipeForward.swift */; };
@@ -345,14 +345,13 @@
 		5EAB32F71C331632000A9BD5 /* WlanBonjourServiceBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanBonjourServiceBrowser.swift; sourceTree = "<group>"; };
 		5EAB32F81C331632000A9BD5 /* WlanModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WlanModule.swift; sourceTree = "<group>"; };
 		6C1AA6A7C67DA2865C81E234 /* Pods_sRetoIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F134ACA1ABC5BA6345C107B /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS-sRetoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		798CFFD0B2E9E7EC76257373 /* Pods_sRetoMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0461F121231832942A6E3B /* Pods-sRetoMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoMac/Pods-sRetoMac.debug.xcconfig"; sourceTree = "<group>"; };
 		887FA41D5BFB23E41539B808 /* Pods-sRetoIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS/Pods-sRetoIOS.debug.xcconfig"; sourceTree = "<group>"; };
 		91D2EBD8CFB8C4D2553EE57D /* Pods_sRetoIOS_sRetoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoIOS_sRetoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9707D654D1565871B17F60 /* Pods_sRetoTVOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sRetoTVOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B351581821FEAE95009CA0CC /* sReto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = sReto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB92D04A7BA0B7E8FF94490C /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS-sRetoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		CB8EC485F66003C6015F6F7E /* Pods-sRetoIOS-sRetoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS-sRetoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CD1814121A79B6850027BB09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = sReto/Info.plist; sourceTree = SOURCE_ROOT; };
 		CD39158819CA25E900459AA8 /* TestMulticastHandshakePacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestMulticastHandshakePacket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD3915BB19CA28A700459AA8 /* DummyNetworkInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DummyNetworkInterface.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -375,6 +374,7 @@
 		CDD98EE31980510600C69036 /* sRetoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sRetoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD98EE91980510600C69036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CDFD74BB19A4BFC800F66620 /* RoutingTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RoutingTableTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E3E2F7CD01A3F85EC66CDA7F /* Pods-sRetoIOS-sRetoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoIOS-sRetoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E56B5CA2361A782454F7260F /* Pods-sRetoTVOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoTVOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoTVOS/Pods-sRetoTVOS.release.xcconfig"; sourceTree = "<group>"; };
 		E9418B4DE6283D31BDDC6163 /* Pods-sRetoTVOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sRetoTVOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sRetoTVOS/Pods-sRetoTVOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -408,7 +408,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A92D10F97693C60BF3C3CCB6 /* Pods_sRetoIOS_sRetoTests.framework in Frameworks */,
+				3601CE5E583AE13F3BB137ED /* Pods_sRetoIOS_sRetoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,12 +695,12 @@
 			children = (
 				887FA41D5BFB23E41539B808 /* Pods-sRetoIOS.debug.xcconfig */,
 				47EF74D440D6EC7B9BC18E81 /* Pods-sRetoIOS.release.xcconfig */,
-				BB92D04A7BA0B7E8FF94490C /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */,
-				CB8EC485F66003C6015F6F7E /* Pods-sRetoIOS-sRetoTests.release.xcconfig */,
 				7C0461F121231832942A6E3B /* Pods-sRetoMac.debug.xcconfig */,
 				4288A0229C0E4F97C1BB8E11 /* Pods-sRetoMac.release.xcconfig */,
 				E9418B4DE6283D31BDDC6163 /* Pods-sRetoTVOS.debug.xcconfig */,
 				E56B5CA2361A782454F7260F /* Pods-sRetoTVOS.release.xcconfig */,
+				6F134ACA1ABC5BA6345C107B /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */,
+				E3E2F7CD01A3F85EC66CDA7F /* Pods-sRetoIOS-sRetoTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -805,11 +805,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDD98EF11980510600C69036 /* Build configuration list for PBXNativeTarget "sRetoTests" */;
 			buildPhases = (
-				BC417224047CDBC0717C07D0 /* [CP] Check Pods Manifest.lock */,
+				CB0104D289D15C1B4EB0D60A /* [CP] Check Pods Manifest.lock */,
 				CDD98EDF1980510600C69036 /* Sources */,
 				CDD98EE01980510600C69036 /* Frameworks */,
 				CDD98EE11980510600C69036 /* Resources */,
-				EEC2D4DAF55AE3399BDBB4B7 /* [CP] Embed Pods Frameworks */,
+				2C7C16F8EDE360D62E5BD91D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -914,6 +914,30 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2C7C16F8EDE360D62E5BD91D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket-iOS/SocketRocket.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B35157D021FEAE95009CA0CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -926,24 +950,6 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-sRetoTVOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BC417224047CDBC0717C07D0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sRetoIOS-sRetoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -968,24 +974,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EEC2D4DAF55AE3399BDBB4B7 /* [CP] Embed Pods Frameworks */ = {
+		CB0104D289D15C1B4EB0D60A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/SocketRocket-iOS/SocketRocket.framework",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"$(DERIVED_FILE_DIR)/Pods-sRetoIOS-sRetoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sRetoIOS-sRetoTests/Pods-sRetoIOS-sRetoTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1297,7 +1305,6 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -1324,7 +1331,6 @@
 				PRODUCT_NAME = sReto;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -1351,7 +1357,6 @@
 				PRODUCT_NAME = sReto;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1375,7 +1380,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tum.in.www1.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sReto;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1481,6 +1485,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1530,6 +1535,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1539,7 +1545,7 @@
 		};
 		CDD98EF21980510600C69036 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB92D04A7BA0B7E8FF94490C /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */;
+			baseConfigurationReference = 6F134ACA1ABC5BA6345C107B /* Pods-sRetoIOS-sRetoTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1556,14 +1562,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = sRetoTests/sRetoTests.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		CDD98EF31980510600C69036 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB8EC485F66003C6015F6F7E /* Pods-sRetoIOS-sRetoTests.release.xcconfig */;
+			baseConfigurationReference = E3E2F7CD01A3F85EC66CDA7F /* Pods-sRetoIOS-sRetoTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1575,8 +1579,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jasamer.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = sRetoTests/sRetoTests.h;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

@@ -50,7 +50,7 @@ open class Transfer {
     
     // MARK: Properties
     /** The transfer's length in bytes*/
-    open let length: Int
+    public let length: Int
     /** Whether the transfer was been started */
     open internal(set) var isStarted: Bool = false
     /** Whether the transfer was completed successfully */

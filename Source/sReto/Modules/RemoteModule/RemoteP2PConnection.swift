@@ -86,19 +86,19 @@ extension RemoteP2PConnection: SRWebSocketDelegate {
     func webSocketDidOpen(_ webSocket: SRWebSocket!) {}
     
     func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        log(.low, info: "closed web socket. Code: \(code), reason: \(reason), wasClean: \(wasClean)")
+        log(.low, info: "closed web socket. Code: \(code), reason: \(String(describing: reason)), wasClean: \(wasClean)")
     
         if wasClean == true {
             self.delegate?.didClose(self, error: nil)
         }
         else {
-            self.delegate?.didClose(self, error: "Code: \(code), reason: \(reason), wasClean: \(wasClean)" as AnyObject)
+            self.delegate?.didClose(self, error: "Code: \(code), reason: \(String(describing: reason)), wasClean: \(wasClean)" as AnyObject)
         }
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
 
-        log(.low, info: "closed with error: \(error)")
+        log(.low, info: "closed with error: \(String(describing: error))")
         
         self.delegate?.didClose(self, error: error as AnyObject?)
     }
