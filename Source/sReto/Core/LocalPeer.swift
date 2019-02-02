@@ -20,7 +20,7 @@
 
 import Foundation
 
-#if os( iOS)
+#if os(iOS) || os(tvOS)
     import UIKit
 #endif
 
@@ -51,7 +51,7 @@ open class LocalPeer: NSObject, ConnectionManager, RouterHandler {
     }
     
     static var deviceName: String {
-        #if os( iOS)
+        #if os(iOS) || os(tvOS)
             return UIDevice.current.name
         #else
             return Host.current().localizedName!
